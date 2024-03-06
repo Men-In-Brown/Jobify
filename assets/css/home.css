@@ -1,0 +1,25 @@
+.btn {
+    background: linear-gradient(to bottom, #673ab7, #8e44ad);
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 300px;
+    max-width: 80%;
+    text-align: center;
+}
+
+.container {
+    opacity: 0;
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+}
