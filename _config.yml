@@ -1,9 +1,9 @@
-title: Linkr
+title: Jobify
 description: "Find ideas fast"
 owner_name: Men In Brown
 github_username: Men-In-Brown
-github_repo: "Linkr-Frontend"
-baseurl: "/Linkr-Frontend"
+github_repo: "Jobify"
+baseurl: "/Jobify"
 remote_theme: jekyll/minima
 minima:
   social_links:
