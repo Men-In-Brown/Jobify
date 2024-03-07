@@ -4,7 +4,7 @@ owner_name: Men In Brown
 github_username: Men-In-Brown
 github_repo: "Jobify"
 baseurl: "/Jobify"
-remote_theme: jekyll/minima
+remote_theme: chrisbobbe/jekyll-theme-prologue
 minima:
   social_links:
     - { platform: github, user_url: "https://github.com/Men-In-Brown"}
@@ -16,3 +16,4 @@ minima:
 plugins:
 - jekyll-remote-theme
 future: true
+avatar: assets/images/avatar.jpg
