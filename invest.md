@@ -1,6 +1,4 @@
 ---
-toc: true
-comments: false
 layout: page
 title: Invest in an Company
 permalink: /invest

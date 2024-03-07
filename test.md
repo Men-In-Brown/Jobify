@@ -1,8 +1,6 @@
 ---
 layout: page
 title: Test
-units: "1,2,3,4,5,6,7,8,9"
-course: csa
 permalink: /test
 ---
 <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/assets/css/test.css">
