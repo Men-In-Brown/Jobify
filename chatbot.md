@@ -45,25 +45,27 @@ permalink: /chatbot
         overflow-wrap: break-word;
     }
 
+
     .user1 {
         background-color: #a0c4ff;
         text-align: left;
         padding: 10px;
-        max-width: 70%;
+        max-width: 55%;
         border-radius: 16px;
         box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         backdrop-filter: blur(5px);
         -webkit-backdrop-filter: blur(5px);
         border: 1px solid rgba(255, 255, 255, 0.3);
+        margin-top: 50px;
     }
 
     .user2 {
         background-color: #ffc0cb;
         text-align: right;
-        max-width: 70%;
+        max-width: auto;
         margin-top: 50px;
         padding: 10px;
-        margin-left: 400px;
+        margin-left: 600px;
         border-radius: 16px;
         box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         backdrop-filter: blur(5px);
@@ -72,7 +74,7 @@ permalink: /chatbot
     }
 
     #message-input {
-        width: 95%;
+        width: 100%;
         padding: 8px;
         margin-right: 9px;
         margin-top: 100px;
@@ -84,20 +86,6 @@ permalink: /chatbot
         border: 1px solid rgba(255, 255, 255, 0.3);
     }
 
-    #send-button {
-        padding: 8px;
-        cursor: pointer;
-        border-radius: 16px;
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        padding-left: 10px;
-        padding-top: 30px;
-        margin-top: 100px;
-
-    }
-
     h6 {
         margin-left: 700px;
         color: #d3d3d3;
@@ -107,10 +95,11 @@ permalink: /chatbot
     <ul id="messages"></ul>
     <div>
         <input type="text" id="message-input" onkeypress="sendMessage()" placeholder="Type your message...">
-        <button onclick="sendMessage()" id="send-button">Send</button>
+       <!-- <button onclick="sendMessage()" id="send-button">Send</button> -->
     </div>
 </div>
-<h6> you need install ollama model `llama2` to make this work </h6>
+<h6> you need install ollama model `llama2` to make this work. only works in localhost, for now.  </h6>
+
 <script>
     var currentUser = 'user1';
 
@@ -161,7 +150,7 @@ permalink: /chatbot
         generating = true;
         const url = 'http://127.0.0.1:11434/api/generate';
 
-        const system = "Act like a assistent that is willing to help the user.";
+        const system = "Act normal, do not roleplay.";
         const data = {
             model: 'llama2',
             context: memory,
