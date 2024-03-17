@@ -87,7 +87,7 @@ permalink: /chatbot
     }
 
     h6 {
-        margin-left: 700px;
+        margin-left: 400px;
         color: #d3d3d3;
     }
 </style>
@@ -98,7 +98,7 @@ permalink: /chatbot
        <!-- <button onclick="sendMessage()" id="send-button">Send</button> -->
     </div>
 </div>
-<h6> you need install ollama model `llama2` to make this work. only works in localhost, for now.  </h6>
+<h6> you need install ollama model `llama2:13b` to make this work. only works in localhost, for now. `ollama install`, `ollama run llama2:13b`. </h6>
 
 <script>
     var currentUser = 'user1';
@@ -150,9 +150,10 @@ permalink: /chatbot
         generating = true;
         const url = 'http://127.0.0.1:11434/api/generate';
 
-        const system = "Act normal, do not roleplay.";
+        const system = "act like a cowboy ";
         const data = {
-            model: 'llama2',
+            // change the model to regular `llama2` if you don't have 16gb of ram for `llama2:13b` 
+            model: 'llama2:13b',
             context: memory,
             system,
             prompt,
