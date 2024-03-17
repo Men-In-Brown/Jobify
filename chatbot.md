@@ -17,11 +17,17 @@ permalink: /chatbot
     }
 
     #chat-container {
-        max-width: 600px;
+        max-width: 1400px;
         margin: 20px auto;
         border: 1px solid #ccc;
         padding: 20px;
-        height: 100vh;
+        height: 90vh;
+        margin-right: 50px;
+        border-radius: 16px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
     }
 
     #messages {
@@ -33,8 +39,8 @@ permalink: /chatbot
     }
 
     .message {
-        padding: 8px;
-        margin-bottom: 8px;
+        padding: 1px;
+        margin-bottom: 1px;
         border-radius: 8px;
         overflow-wrap: break-word;
     }
@@ -42,22 +48,59 @@ permalink: /chatbot
     .user1 {
         background-color: #a0c4ff;
         text-align: left;
+        padding: 10px;
+        max-width: 70%;
+        border-radius: 16px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
     }
 
     .user2 {
         background-color: #ffc0cb;
         text-align: right;
+        max-width: 70%;
+        margin-top: 50px;
+        padding: 10px;
+        margin-left: 400px;
+        border-radius: 16px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
     }
 
     #message-input {
-        width: 80%;
+        width: 95%;
         padding: 8px;
-        margin-right: 8px;
+        margin-right: 9px;
+        margin-top: 100px;
+        max-hight: 20px;
+        border-radius: 16px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
     }
 
     #send-button {
         padding: 8px;
         cursor: pointer;
+        border-radius: 16px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        padding-left: 10px;
+        padding-top: 30px;
+        margin-top: 100px;
+
+    }
+
+    h6 {
+        margin-left: 700px;
+        color: #d3d3d3;
     }
 </style>
 <div id="chat-container">
@@ -67,7 +110,7 @@ permalink: /chatbot
         <button onclick="sendMessage()" id="send-button">Send</button>
     </div>
 </div>
-
+<h6> you need install ollama model `llama2` to make this work </h6>
 <script>
     var currentUser = 'user1';
 
@@ -118,9 +161,9 @@ permalink: /chatbot
         generating = true;
         const url = 'http://127.0.0.1:11434/api/generate';
 
-        const system = "talk in a heavy southern accent and uses the words like howdy and other old time stuff, you are still a bot.";
+        const system = "Act like a assistent that is willing to help the user.";
         const data = {
-            model: 'mistral',
+            model: 'llama2',
             context: memory,
             system,
             prompt,
