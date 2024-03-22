@@ -42,7 +42,7 @@ title: Grades
     <p>Selected Student Email: <span id="selectedStudentEmail"></span></p>
     <p>Selected Assignment Name: <span id="selectedAssignmentName"></span></p>
     <p>Selected Assignment Name: <span id="selectedAssignmentMaxPoints" type="hidden"></span></p>
-    <button onclick="searchGrade()">Search</button>
+    <!-- <button onclick="searchName()">Search</button> -->
     <div id="result"></div>
     <div id="resultTable"></div>
     <script>
@@ -55,17 +55,13 @@ title: Grades
                     data.forEach(student => {
                         const option = document.createElement('option');
                         option.value = student.email;
-                        option.textContent = student.name;
+                        option.textContent = student.email;
                         dropdown.appendChild(option);
                     });
                 })
                 .catch(error => {
                     console.error('Error fetching student data:', error);
                 });
-            document.getElementById('studentDropdown').addEventListener('change', function () {
-                const selectedStudentEmail = this.value;
-                document.getElementById('selectedStudentEmail').textContent = selectedStudentEmail;
-            });
             // Fetch assignment data from server
             fetch('http://localhost:8087/api/assignments/') 
                 .then(response => response.json())
@@ -73,6 +69,7 @@ title: Grades
                     const dropdown = document.getElementById('assignmentDropdown');
                     data.forEach(assignment => {
                         const option = document.createElement('option');
+                        option.value = assignment.id;
                         option.textContent = assignment.title;
                         dropdown.appendChild(option);
                     });
@@ -80,29 +77,46 @@ title: Grades
                 .catch(error => {
                     console.error('Error fetching assignment data:', error);
                 });
-            document.getElementById('assignmentDropdown').addEventListener('change', function () {
-                const selectedAssignmentName = this.textContent;
-                const maxScore = this.value;
-                document.getElementById('selectedAssignmentName').textContent = selectedAssignmentName;
-                document.getElementById('selectedAssignmentMaxPoints').textContent = maxScore;
-            });
         });
-        function searchGrade() {
+        document.getElementById('studentDropdown').addEventListener('change', function () { // detects change in studentDropdown (selection of item)
+            const selectedStudentEmail = this.value;
+            document.getElementById('selectedStudentEmail').textContent = selectedStudentEmail;
+            searchName();
+        });
+        document.getElementById('assignmentDropdown').addEventListener('change', function () { // detects change in assignmentDropdown (selection of item)
+            const selectedAssignmentName = this.textContent;
+            const maxScore = this.value;
+            document.getElementById('selectedAssignmentName').textContent = selectedAssignmentName;
+            document.getElementById('selectedAssignmentMaxPoints').textContent = maxScore;
+            searchAssignment();
+        });
+        function searchName() {
             const studentEmail = document.getElementById('selectedStudentEmail').textContent;
             fetch(`http://localhost:8087/api/grade/email/${studentEmail}`)
-            .then(response => response.json())
-            .then(data => {
-                displayResults(data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+                .then(response => response.json())
+                .then(data => {
+                    displayStudentResults(data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         }
-        function displayResults(data) {
+        function searchAssignment() {
+            const assignmentId = document.getElementById('assignmentDropdown').value; // Get selected assignment ID
+            fetch(`http://localhost:8087/api/assignments/${assignmentId}`) // Use assignmentId in the URL
+                .then(response => response.json())
+                .then(data => {
+                    displayAssignmentResults(data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+        function displayStudentResults(data) {
             var resultDiv = document.getElementById("result");
             resultDiv.innerHTML = '';
             if (data.length === 0) {
-                resultDiv.innerHTML = 'No grades found with the given name.';
+                resultDiv.innerHTML = 'No grades found with the given selection.';
             } else {
                 const resultContainer = document.getElementById("resultTable");
                 resultContainer.innerHTML = ''; // Clear previous table data
@@ -146,19 +160,91 @@ title: Grades
                             },
                         };
                         fetch(`http://localhost:8087/api/grade/update/${student.id}?newEmail=${student.email}&newAssignment=${student.assignment}&newMaxPoints=${student.maxPoints}&newScore=${student.score}`, requestOptions)
-                        .then(response => {
-                            // trap error response from Web API
-                            if (response.status !== 200) {
-                                const errorMsg = 'Invalid Input - Database Update error: ' + response.status;
-                                console.log(errorMsg);
-                                alert(errorMsg);
-                                return;
-                            }
-                            // response contains valid result
-                            response.json().then(data => {
-                                resultDiv.innerHTML = response.status;
+                            .then(response => {
+                                // trap error response from Web API
+                                if (response.status !== 200) {
+                                    const errorMsg = 'Invalid Input - Database Update error: ' + response.status;
+                                    console.log(errorMsg);
+                                    alert(errorMsg);
+                                    return;
+                                }
+                                // response contains valid result
+                                response.json().then(data => {
+                                    resultDiv.innerHTML = response.status;
+                                })
                             })
-                        })
+                    });
+                    updateCell.appendChild(updateButton);
+                    row.appendChild(emailCell);
+                    row.appendChild(assignmentCell);
+                    row.appendChild(maxscoreCell);
+                    row.appendChild(gradeCell);
+                    row.appendChild(updateCell);
+                    resultContainer.appendChild(row);
+                });
+            }
+        }
+        function displayAssignmentResults(data) {
+            var resultDiv = document.getElementById("result");
+            resultDiv.innerHTML = '';
+            if (data.length === 0) {
+                resultDiv.innerHTML = 'No grades found with the given selection.';
+            } else {
+                const resultContainer = document.getElementById("resultTable");
+                resultContainer.innerHTML = ''; // Clear previous table data
+                // Construct Table header
+                const headerRow = document.createElement("tr");
+                const headers = ["Email", "Assignment", "Max Score","Grade", "Update"];
+                headers.forEach(headerText => {
+                    const th = document.createElement("th");
+                    th.textContent = headerText;
+                    headerRow.appendChild(th);
+                });
+                resultContainer.appendChild(headerRow);
+                // Add data rows
+                data.forEach(student => {
+                    const row = document.createElement("tr");
+                    const emailCell = document.createElement("td");
+                    emailCell.textContent = student.email;
+                    const assignmentCell = document.createElement("td");
+                    assignmentCell.textContent = student.assignment;
+                    const maxscoreCell = document.createElement("td");
+                    maxscoreCell.textContent = student.maxPoints; // Set maxPoints
+                    const gradeCell = document.createElement("td");
+                    const gradeInput = document.createElement("input");
+                    gradeInput.type = "text";
+                    gradeInput.value = student.score;
+                    gradeInput.addEventListener('input', function() {
+                        student.score = this.value;
+                    });
+                    gradeCell.appendChild(gradeInput);
+                    const updateCell = document.createElement("td"); // Changed from button to td
+                    const updateButton = document.createElement("button");
+                    updateButton.textContent = "Update";
+                    updateButton.addEventListener('click', function() {
+                        // alert(student.id + student.email + student.assignment + student.score);
+                        const requestOptions = {
+                            method: ['PUT'],
+                            // body: JSON.stringify(body),
+                            headers: {
+                                "content-type": "application/json",
+                                'Authorization': 'Bearer my-token',
+                            },
+                        };
+                        fetch(`http://localhost:8087/api/grade/update/${student.id}?newEmail=${student.email}&newAssignment=${student.assignment}&newMaxPoints=${student.maxPoints}&newScore=${student.score}`, requestOptions)
+                            .then(response => {
+                                // trap error response from Web API
+                                if (response.status !== 200) {
+                                    const errorMsg = 'Invalid Input - Database Update error: ' + response.status;
+                                    console.log(errorMsg);
+                                    alert(errorMsg);
+                                    return;
+                                }
+                                // response contains valid result
+                                response.json().then(data => {
+                                    resultDiv.innerHTML = response.status;
+                                })
+                            })
                     });
                     updateCell.appendChild(updateButton);
                     row.appendChild(emailCell);
