@@ -24,7 +24,7 @@ title: Assignment
 </head>
 
 <body>
-  <a href="https://men-in-brown.github.io/whiskered-tangerine/dashboard.html">
+  <a href="/Jobify/dashboard.html">
     <button>Back</button>
   </a>
 
@@ -51,7 +51,7 @@ title: Assignment
   <script>
     var url = new URL(window.location.href);
     var id = url.searchParams.get("id");
-    $.get("http://localhost:8087/api/assignments/" + id , function(data) {
+    $.get("http://localhost:8091/api/assignments/" + id , function(data) {
     // The data from the server is now the assignment
         var html;
         var html2;
@@ -112,7 +112,7 @@ title: Assignment
       "link": link
     };
   
-    fetch('http://localhost:8087/api/assignments/submit', {
+    fetch('http://localhost:8091/api/assignments/submit', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
