@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat App</title>
+    <style>
+
+      #sidebar {
+        height: 100vh;
+        width: 7%;
+        background-color: #f0f0f0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 20px;
+        font-family: Arial, sans-serif;
+      }
+    
+      #sidebar a {
+          text-decoration: none;
+          color: #333;
+          margin-bottom: 10px;
+          padding: 10px;
+          border-radius: 5px;
+          transition: background-color 0.3s ease;
+          font-family: Arial, sans-serif;
+      }
+    
+      #sidebar a:hover {
+          background-color: #ccc;
+      }
+
+      #content {
+        margin-left: 7.5%;
+        padding: 10px;
+    }
+
+        #messages {
+          height: 81vh;
+          overflow-y: auto;
+          border-radius: 10px;
+          border: 3px solid #ccc;
+          padding: 10px;
+          margin-bottom: 10px;
+          width: 98%;
+          font-family: Arial, sans-serif;
+        }
+      
+        #settings {
+          position: absolute;
+          top: 25px;
+          right: 25px;
+          cursor: pointer;
+          font-family: Arial, sans-serif;
+        }
+      
+        #messageInput {
+          position: center;
+          height: 30px;
+          width: 90%;
+          border-radius: 10px;
+          border: 3px solid #ccc;
+          padding: 5px;
+          font-family: Arial, sans-serif;
+        }
+      
+        #sendButton {
+          left: 1px;
+          height: 41px;
+          width: 8.5%;
+          border-radius: 10px;
+          border: 3px solid #ccc;
+          background-color: #f0f0f0;
+          font-family: Arial, sans-serif;
+          cursor: pointer;
+        }
+      
+        #channelSelect {
+          border-radius: 10px;
+          border: 3px solid #ccc;
+          padding: 5px;
+          font-family: Arial, sans-serif;
+          width: 10%;
+        }
+      
+        /* Dark mode styles */
+        body.dark-mode {
+          background-color: #333;
+          color: #fff;
+        }
+      
+        body.dark-mode #messageInput,
+        body.dark-mode #sendButton,
+        body.dark-mode #channelSelect {
+          background-color: #444;
+          border-color: #888;
+          color: #fff;
+        }
+      
+        body.dark-mode #sendButton {
+          background-color: #888;
+        }
+      </style>
+      
+      </head>
+      
+      <body>
+        <div id="sidebar">
+          <a href="cc-home.html">Home</a>
+          <a href="cc-message.html">Message</a>
+          <a href="cc-assistant.html">Assistant</a>
+          <a href="cc-channel.html">Channel</a>
+          <a href="cc-account.html">Account</a>
+          <a href="cc-image.html">Image</a>
+      </div>
+      <div id="content">
+        <div id="settings">Settings ⚙️</div>
+        <select id="channelSelect">
+            <!-- Populate with your channels -->
+        </select>
+        <div id="messages">
+            <!-- Messages will be displayed here -->
+        </div>
+        <input type="text" id="messageInput" placeholder="Type your message here...">
+        <button id="sendButton">Send</button>
+    </div>
+      
+        <script>
+fetch('http://localhost:8765/channel')
+.then(response => response.json())
+.then(data => {
+    const channelSelect = document.getElementById('channelSelect');
+    data.forEach(channel => {
+        const option = document.createElement('option');
+        option.value = channel.id;
+        option.textContent = channel.name;
+        channelSelect.appendChild(option);
+    });
+})
+.catch(error => {
+    console.error('Error fetching channels:', error);
+});
+
+document.getElementById('channelSelect').addEventListener('change', function() {
+  const channelId = this.value;
+  const messagesDiv = document.getElementById('messages');
+  messagesDiv.innerHTML = '';
+
+  fetch(`http://localhost:8765/message?channelId=${channelId}`)
+  .then(response => response.json())
+  .then(messages => {
+      const messagesDiv = document.getElementById('messages');
+      messagesDiv.innerHTML = '';
+      messages.forEach(message => {
+          const messageElement = document.createElement('p');
+          messageElement.textContent = `${message.time} - ${message.writer}: ${message.text}`;
+          messagesDiv.appendChild(messageElement);
+      });
+  })
+  .catch(error => {
+      console.error('Error fetching messages:', error);
+  });
+});
+
+document.getElementById('sendButton').addEventListener('click', function() {
+  const messageInput = document.getElementById('messageInput');
+  const text = messageInput.value;
+  const channelName = document.getElementById('channelSelect').value;
+  const time = new Date().toISOString();
+  const writer = localStorage.getItem('writer');
+
+  if (text) {
+      fetch('http://localhost:8765/message', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            channelName: channelName,
+            text: text,
+            writer: writer,
+            time: time
+          })
+      })
+      .then(response => {
+          if (response.ok) {
+              // Clear the message input field
+              messageInput.value = '';
+          } else {
+              console.error('Error sending message:', response.status);
+          }
+      })
+      .catch(error => {
+          console.error('Error sending message:', error);
+      });
+  }
+});
+
+document.getElementById('settings').addEventListener('click', function() {
+    var bgColor = prompt("Enter a background color:");
+    var msgColor = prompt("Enter a message color:");
+    var darkMode = confirm("Enable dark mode?");
+    
+    if (bgColor) {
+        document.body.style.backgroundColor = bgColor;
+        localStorage.setItem('bgColor', bgColor);
+    }
+    
+    if (msgColor) {
+        document.getElementById('messages').style.color = msgColor;
+        localStorage.setItem('msgColor', msgColor);
+    }
+    
+    if (darkMode) {
+        document.body.classList.add('dark-mode');
+        localStorage.setItem('darkMode', true);
+    } else {
+        document.body.classList.remove('dark-mode');
+        localStorage.removeItem('darkMode');
+    }
+});    
+
+    window.onload = function() {
+        var savedBgColor = localStorage.getItem('bgColor');
+        var savedMsgColor = localStorage.getItem('msgColor');
+        var isDarkMode = localStorage.getItem('darkMode');
+
+        if (savedBgColor) {
+            document.body.style.backgroundColor = savedBgColor;
+        }
+
+        if (savedMsgColor) {
+            document.getElementById('messages').style.color = savedMsgColor;
+        }
+
+        if (isDarkMode) {
+            document.body.classList.add('dark-mode');
+        }
+};
+    </script>
+</body>
+</html>
+
+<!-- document.getElementById('channelSelect').addEventListener('change', function() {
+    const channelId = this.value;
+    const messagesDiv = document.getElementById('messages');
+    messagesDiv.innerHTML = '';
+
+    fetch(`http://localhost:8765/message?channelId=${channelId}`)
+    .then(response => response.json())
+    .then(messages => {
+        const messagesDiv = document.getElementById('messages');
+        messagesDiv.innerHTML = '';
+        messages.forEach(message => {
+            const messageElement = document.createElement('p');
+            messageElement.textContent = `${message.time} - ${message.writer}: ${message.text}`;
+            messagesDiv.appendChild(messageElement);
+        });
+    })
+    .catch(error => {
+        console.error('Error fetching messages:', error);
+    });
+});
+-->
