@@ -3,9 +3,17 @@ window.onload = function() {
 }
 
 function loginRedirect() {
-    location.href = "login.html";
+    location.href = "new-login.html";
 }
 
 function companyFindrRedirect() {
     location.href = "companyfindr.html";
+}
+
+function assignmentsRedirect() {
+    location.href = "assignments.html";
+}
+
+function gradesRedirect() {
+    location.href = "grades.html";
 }
