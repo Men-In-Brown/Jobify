@@ -51,7 +51,7 @@ title: Assignment
   <script>
     var url = new URL(window.location.href);
     var id = url.searchParams.get("id");
-    $.get("http://localhost:8087/api/assignments/" + id , function(data) {
+    $.get("https://schaal.stu.nighthawkcodingsociety.com/api/assignments/" + id , function(data) {
     // The data from the server is now the assignment
         var html;
         var html2;
@@ -112,7 +112,7 @@ title: Assignment
       "link": link
     };
   
-    fetch('http://localhost:8087/api/assignments/submit', {
+    fetch('https://schaal.stu.nighthawkcodingsociety.com/api/assignments/submit', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
