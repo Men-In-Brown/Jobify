@@ -48,14 +48,14 @@ title: Grades
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Fetch student data from your server
-            fetch('http://localhost:8087/api/grade/')
+            fetch('http://localhost:8091/api/grade/')
                 .then(response => response.json())
                 .then(data => {
                     const dropdown = document.getElementById('studentDropdown');
                     data.forEach(student => {
                         const option = document.createElement('option');
                         option.value = student.email;
-                        option.textContent = student.email;
+                        option.textContent = student.name;
                         dropdown.appendChild(option);
                     });
                 })
@@ -63,7 +63,7 @@ title: Grades
                     console.error('Error fetching student data:', error);
                 });
             // Fetch assignment data from server
-            fetch('http://localhost:8087/api/assignments/') 
+            fetch('http://localhost:8091/api/assignments/') 
                 .then(response => response.json())
                 .then(data => {
                     const dropdown = document.getElementById('assignmentDropdown');
@@ -92,7 +92,7 @@ title: Grades
         });
         function searchName() {
             const studentEmail = document.getElementById('selectedStudentEmail').textContent;
-            fetch(`http://localhost:8087/api/grade/email/${studentEmail}`)
+            fetch(`http://localhost:8091/api/grade/email/${studentEmail}`)
                 .then(response => response.json())
                 .then(data => {
                     displayStudentResults(data);
@@ -103,9 +103,10 @@ title: Grades
         }
         function searchAssignment() {
             const assignmentId = document.getElementById('assignmentDropdown').value; // Get selected assignment ID
-            fetch(`http://localhost:8087/api/assignments/${assignmentId}`) // Use assignmentId in the URL
+            fetch(`http://localhost:8091/api/assignments/${assignmentId}`) // Use assignmentId in the URL
                 .then(response => response.json())
                 .then(data => {
+                    alert(assignmentId);
                     displayAssignmentResults(data);
                 })
                 .catch(error => {
@@ -159,7 +160,7 @@ title: Grades
                                 'Authorization': 'Bearer my-token',
                             },
                         };
-                        fetch(`http://localhost:8087/api/grade/update/${student.id}?newEmail=${student.email}&newAssignment=${student.assignment}&newMaxPoints=${student.maxPoints}&newScore=${student.score}`, requestOptions)
+                        fetch(`http://localhost:8091/api/grade/update/${student.id}?newEmail=${student.email}&newAssignment=${student.assignment}&newMaxPoints=${student.maxPoints}&newScore=${student.score}`, requestOptions)
                             .then(response => {
                                 // trap error response from Web API
                                 if (response.status !== 200) {
@@ -231,7 +232,7 @@ title: Grades
                                 'Authorization': 'Bearer my-token',
                             },
                         };
-                        fetch(`http://localhost:8087/api/grade/update/${student.id}?newEmail=${student.email}&newAssignment=${student.assignment}&newMaxPoints=${student.maxPoints}&newScore=${student.score}`, requestOptions)
+                        fetch(`http://localhost:8091/api/grade/update/${student.id}?newEmail=${student.email}&newAssignment=${student.assignment}&newMaxPoints=${student.maxPoints}&newScore=${student.score}`, requestOptions)
                             .then(response => {
                                 // trap error response from Web API
                                 if (response.status !== 200) {
