@@ -63,9 +63,9 @@ function swipeCard() {
 }
 
 function invest() {
-    console.log("Investing in company:", _companyName);
+    console.log("Applying to ", _companyName);
     storecompaniesLocal(_companyName, _companyMission);
-    window.location.href = "invest";
+    window.location.href = "apply";
 }
 
 function join() {
