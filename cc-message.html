@@ -128,7 +128,7 @@
     </div>
       
         <script>
-fetch('http://localhost:8765/channel')
+fetch('https://schaal.stu.nighthawkcodingsociety.com/channel')
 .then(response => response.json())
 .then(data => {
     const channelSelect = document.getElementById('channelSelect');
@@ -148,7 +148,7 @@ document.getElementById('channelSelect').addEventListener('change', function() {
   const messagesDiv = document.getElementById('messages');
   messagesDiv.innerHTML = '';
 
-  fetch(`http://localhost:8765/message?channelId=${channelId}`)
+  fetch(`https://schaal.stu.nighthawkcodingsociety.com/message?channelId=${channelId}`)
   .then(response => response.json())
   .then(messages => {
       const messagesDiv = document.getElementById('messages');
@@ -172,7 +172,7 @@ document.getElementById('sendButton').addEventListener('click', function() {
   const writer = localStorage.getItem('writer');
 
   if (text) {
-      fetch('http://localhost:8765/message', {
+      fetch('https://schaal.stu.nighthawkcodingsociety.com/message', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'
