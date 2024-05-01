@@ -1,9 +1,9 @@
 ---
 layout: page
-title: Company Findr
+title: Company Finder
 ---
 
-<link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/assets/css/companyfindr.css">
+<!--<link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/assets/css/companyfindr.css">-->
 
 <div id="companyCard">
   <h2 id="companyName"></h2>

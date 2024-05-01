@@ -2,15 +2,17 @@
 layout: page
 ---
 
+<link href="https://fonts.googleapis.com/css?family=Oxygen&display=swap" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/assets/css/home.css">
 
 <div class="container">
     <div class="landing-header">
-        <h1 class="title"><strong>Linkr</strong></h1>
-        <h3 class="subtitle">Find Ideas Fast</h3>
+        <h3 class="title"><strong>Jobify</strong></h3>
+        <h1 class="subtitle">Find opportunities fast</h1>
     </div>
     <br>
-    <a href="{{ site.baseurl }}/AA_login.html" class="btn">Log In</a>
+    <button onclick="loginRedirect()">Company Findr</button>
     <br><br>
-    <a href="{{ site.baseurl }}/AB_companyfindr.html" class="btn">Idea Findr</a>   
+    <button onclick="companyFindrRedirect()">Login</button>
+    <script src="{{ site.baseurl }}/assets/js/home.js">
 </div>
