@@ -28,7 +28,7 @@ permalink: /signup_employer
         document.getElementById("employerSignupForm").addEventListener("submit", function(event) {
             event.preventDefault();
             const formData = new FormData(this);
-            fetch('https://localhost:8091/api/employer/signup', {
+            fetch('https://localhost:8091/api/person/signup', {
                 method: 'POST',
                 body: formData
             })

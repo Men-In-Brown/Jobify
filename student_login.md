@@ -24,7 +24,7 @@ permalink: /login_student
         document.getElementById("studentLoginForm").addEventListener("submit", function(event) {
             event.preventDefault();
             const formData = new FormData(this);
-            fetch('https://localhost:8091/api/student/login', {
+            fetch('https://localhost:8091/api/person/login', {
                 method: 'POST',
                 body: formData
             })
