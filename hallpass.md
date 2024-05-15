@@ -84,7 +84,7 @@
     </div>
 
     <script>
-        const apiUrl = 'http://localhost:8080/api/hallpass';
+        const apiUrl = 'http://172.27.30.9:8091/api/hallpass';
 
         document.addEventListener('DOMContentLoaded', () => {
             fetchHallPasses();
