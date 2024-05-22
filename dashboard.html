@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Oxygen&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="general.css">
+</head>
+<body>
+    <!-- Header from home.html -->
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Assignment</a></li>
+                <li><a href="#">Issues</a></li>
+                <li class="profile-pic"><a href="#"><img src="profile.jpg" alt="Profile Picture"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <!-- End of Header -->
+
+    <main class="container">
+        <h1>Dashboard</h1>
+        <p>Welcome to your dashboard! Here you can view all your assignments at a glance.</p>
+        <div id="assignments"></div>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $.ajax({
+            url: "http://localhost:8091/api/assignments/",
+            type: "GET",
+            success: function(data) {
+                var assignments = data; 
+                var html = '';
+                var currentDate = new Date();
+                var dueSoonCount = 0;
+                html += '<h2>To Do</h2>';
+                for (var i = 0; i < assignments.length; i++) {
+                    var assignment = assignments[i];
+                    var dueDate = new Date(assignment.due);
+                    if (dueDate > currentDate) {
+                        dueSoonCount++;
+                        html += '<div class="assignment-card">';
+                        html += '<h3><a href="/Jobify/assignments.html?id=' + assignment.id + '">' + assignment.title + '</a></h3>';
+                        html += '<p>Due: ' + dueDate.toLocaleDateString() + ' ' + dueDate.toLocaleTimeString() + '</p>';
+                        var desc = assignment.desc;
+                        if (desc.length > 100) {
+                            desc = desc.substring(0, 100) + '...';
+                        }
+                        html += '<p>' + desc + '</p>';
+                        html += '</div>';
+                    }
+                }
+                if (dueSoonCount === 0) {
+                    html += '<p style="margin-bottom: 20px;">Nothing to do!</p>';
+                }
+                html += '<h2>Past Assignments</h2>';
+                for (var i = 0; i < assignments.length; i++) {
+                    var assignment = assignments[i];
+                    var dueDate = new Date(assignment.due);
+                    if (dueDate <= currentDate) {
+                        html += '<div class="assignment-card">';
+                        html += '<h3><a href="/Jobify/assignments.html?id=' + assignment.id + '">' + assignment.title + '</a></h3>';
+                        html += '<p>Due: ' + dueDate.toLocaleDateString() + ' ' + dueDate.toLocaleTimeString() + '</p>';
+                        var desc = assignment.desc;
+                        if (desc.length > 100) {
+                            desc = desc.substring(0, 100) + '...';
+                        }
+                        html += '<p>' + desc + '</p>';
+                        html += '</div>';
+                    }
+                }
+                $('#assignments').html(html);
+            }
+        });
+    </script>
+</body>
+</html>
