@@ -13,7 +13,7 @@ layout: page
     <br>
     <button onclick="loginRedirect()">Login</button>
     <br><br>
-    <button onclick="companyFindrRedirect()">Company Findr</button>
+    <button onclick="companyFindrRedirect()">Internship Finder</button>
     <br><br>
     <button onclick="assignmentsRedirect()">Assignments</button>
     <br><br>
