@@ -12,7 +12,7 @@ title: Grades
     <style>
         table {
             border-collapse: collapse;
-            width: 100%;
+            width: 50%;
         }
         th, td {
             border: 1px solid black;
