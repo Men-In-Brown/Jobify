@@ -32,7 +32,7 @@
                     if (dueDate > currentDate) {
                         dueSoonCount++;
                         html += '<div class="assignment-card">';
-                        html += '<h3><a href="/Jobify/assignments.html?id=' + assignment.id + '">' + assignment.title + '</a></h3>';
+                        html += '<h3><a href="/Jobify/assignments.html?id=' + assignment.jointId + '">' + assignment.title + '</a></h3>';
                         html += '<p>Due: ' + dueDate.toLocaleDateString() + ' ' + dueDate.toLocaleTimeString() + '</p>';
                         var desc = assignment.desc;
                         if (desc.length > 100) {

@@ -22,7 +22,7 @@ body {
 
 /* Navigation */
 nav {
-  background-color: #333;
+  background-color: #24475b;
   color: #fff;
   padding: 1em;
   position: relative;
@@ -121,4 +121,91 @@ nav a:hover {
   nav, footer {
       text-align: center;
   }
+}
+
+button {
+  background-color: #808080; /* Green */
+  border: none;
+  color: white;
+  padding: 5px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 8px;
+  font-family: Oxygen, sans-serif;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #457fa0;
+}
+
+button {
+  background-color: #808080; /* Green */
+  border: none;
+  color: white;
+  padding: 5px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 8px;
+  font-family: Oxygen, sans-serif;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #457fa0;
+}
+
+.flashcard-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+button.submit-button {
+  background-color: #808080; /* Green */
+  border: none;
+  color: white;
+  padding: 5px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 8px;
+  font-family: Oxygen, sans-serif;
+  transition: background-color 0.3s;
+}
+
+button.submit-button:hover {
+  background-color: #457fa0;
+}
+
+input[type=submit] {
+  background-color: #808080; /* Green */
+  border: none;
+  color: white;
+  padding: 5px 28px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 8px;
+  font-family: Oxygen, sans-serif;
+  transition: background-color 0.3s;
+}
+
+input[type=submit]:hover {
+  background-color: #457fa0;
 }
