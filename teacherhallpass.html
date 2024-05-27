@@ -59,6 +59,7 @@
                     <th>Teacher ID</th>
                     <th>Reason</th>
                     <th>Expiry Time</th>
+                    <th>Status</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -88,8 +89,10 @@
                     <td>${hallPass.teacherId}</td>
                     <td>${hallPass.reason}</td>
                     <td>${new Date(hallPass.expiryTime).toLocaleString()}</td>
+                    <td>${hallPass.status}</td>
                     <td class="actions">
-                        <button onclick="acceptHallPass(${hallPass.id})">Accept</button>
+                        <button onclick="updateHallPassStatus(${hallPass.id}, 'Accepted')">Accept</button>
+                        <button onclick="updateHallPassStatus(${hallPass.id}, 'Rejected')">Reject</button>
                         <button onclick="deleteHallPass(${hallPass.id})">Delete</button>
                     </td>
                 `;
@@ -97,17 +100,12 @@
             });
         }
 
-        async function acceptHallPass(id) {
-            const response = await fetch(`${apiUrl}/${id}`);
-            const hallPass = await response.json();
-            hallPass.accepted = true;  // assuming you add an 'accepted' field to the HallPass entity
-
-            await fetch(`${apiUrl}/${id}`, {
+        async function updateHallPassStatus(id, status) {
+            await fetch(`${apiUrl}/${id}/status`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(hallPass)
+                body: JSON.stringify(status)
             });
-
             fetchHallPasses();
         }
 
