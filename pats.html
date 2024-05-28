@@ -1,0 +1,88 @@
+---
+---
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Oxygen&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="general.css">
+</head>
+<script>
+
+</script>
+
+{% include header2.html %}
+
+<body>
+    <div id="tableContainer">
+        <!-- Table will be inserted here -->
+    </div>
+    <button onclick="fetchAndReplace()">Fetch and Replace</button>
+
+    <script>
+        function fetchAndReplace() {
+            window.addEventListener("load", (event) => {
+                console.log("die");
+            });
+            console.log("Suffer");
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'https://schaal.stu.nighthawkcodingsociety.com/api/pat', true); // Replace with your API endpoint
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var responseData = JSON.parse(xhr.responseText);
+                    createTable(responseData);
+                } else if (xhr.readyState === 4) {
+                    console.error('Error fetching data:', xhr.statusText);
+                }
+            };
+            xhr.send();
+        }
+
+        function createTable(data) {
+            var tableContainer = document.getElementById('tableContainer');
+            var table = document.createElement('table');
+
+            // Assuming data is an array of objects where each object represents a row
+            // and keys represent column names
+            if (data.length > 0) {
+                // Create table header
+                var thead = document.createElement('thead');
+                var tr = document.createElement('tr');
+                for (var key in data[0]) {
+                    var th = document.createElement('th');
+                    th.textContent = key;
+                    tr.appendChild(th);
+                }
+                thead.appendChild(tr);
+                table.appendChild(thead);
+
+                // Create table body
+                var tbody = document.createElement('tbody');
+                data.forEach(function (row) {
+                    var tr = document.createElement('tr');
+                    for (var key in row) {
+                        var td = document.createElement('td');
+                        td.textContent = row[key];
+                        tr.appendChild(td);
+                    }
+                    tbody.appendChild(tr);
+                });
+                table.appendChild(tbody);
+            } else {
+                // No data available
+                var message = document.createElement('p');
+                message.textContent = 'No data available.';
+                tableContainer.appendChild(message);
+                return;
+            }
+
+            // Replace existing content with the table
+            tableContainer.innerHTML = ''; // Clear existing content
+            tableContainer.appendChild(table);
+        }
+
+        // Call fetchAndReplace initially
+        fetchAndReplace();
+
+        // Call fetchAndReplace every 10 seconds (adjust the interval as needed)
+        setInterval(fetchAndReplace, 10000); // 10000 milliseconds = 10 seconds
+    </script>
+</body>

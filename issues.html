@@ -1,0 +1,100 @@
+---
+---
+
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Oxygen&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="general.css">
+</head>
+<body>
+  {% include header2.html %}
+
+    <main class="container">
+        <div id="issue-form">
+            <h2>Create a new issue</h2>
+            <form id="new-issue-form">
+                <label for="title">Title:</label><br>
+                <input type="text" id="title2" name="title" placeholder="Title" style="width: 100%;"><br>
+                <label for="desc">Description:</label><br>
+                <textarea id="desc" name="desc" placeholder="Description" rows="4" cols="50" style="width: 100%;"></textarea><br>
+                <label for="username">Username:</label><br>
+                <input type="text" id="username" name="username" placeholder="Username" style="width: 100%;"><br>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+
+        <br><br><br>
+        <div id="issuesDiv"></div>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#new-issue-form').on('submit', function(e) {
+                e.preventDefault();
+                var title = $('#title2').val();
+                var desc = $('#desc').val();
+                var username = $('#username').val();
+                $.post('https://schaal.stu.nighthawkcodingsociety.com/api/issues/post', { title: title, desc: desc, username: username });
+            }); 
+            $.ajax({
+                url: "https://schaal.stu.nighthawkcodingsociety.com/api/issues/",
+                type: "GET",
+                success: function(data) {
+                    var issues = data;
+                    var html = '';
+                    for (var i = 0; i < issues.length; i++) {
+                        var issue = issues[i];
+                        html += '<div class="assignment-card">';
+                        html += '<h3><a " style="text-decoration: underline;">' + issue.title + '</a></h3>';
+                        var desc = issue.desc;
+                        html += '<p>' + desc + '</p>';
+                        // Display replies
+                        var replies = issue.replies;
+                        for (var j in replies) {
+                            var reply = replies[j];
+                            var replyStyle = reply.bot ? 'style="background-color: #f0f0f0; border-radius: 10px;"' : '';
+                            html += '<div ' + replyStyle + '>';
+                            html += '<p>' + reply.desc + '</p>';
+                            html += '<p style="font-style: italic;">- By: ' + reply.username + '</p>';
+                            html += '</div>';
+                        }
+                        html += '<button class="reply-button" data-id="' + issue.id + '">Reply</button>';
+                        html += '<div id="reply-form-' + issue.id + '" style="display: none;">';
+                        html += '<form class="reply-form" data-id="' + issue.id + '">';
+                        html += '<input type="text" name="username" placeholder="Your username">';
+                        html += '<textarea name="reply" placeholder="Your reply"></textarea>';
+                        html += '<button type="submit">Submit reply</button>';
+                        html += '</form>';
+                        html += '</div>';
+                        html += '</div>';
+                    }
+                    $('#issuesDiv').html(html);
+                }
+            });
+            $(document).on('click', '.reply-button', function() {
+                var id = $(this).data('id');
+                $('#reply-form-' + id).show();
+            });
+            $(document).on('submit', '.reply-form', function(e) {
+                e.preventDefault();
+                var id = $(this).data('id');
+                var username = $(this).find('input[name="username"]').val();
+                var reply = $(this).find('textarea[name="reply"]').val();
+                $.ajax({
+                    url: 'https://schaal.stu.nighthawkcodingsociety.com/api/issues/comment',
+                    type: 'POST',
+                    data: JSON.stringify({ id: id.toString(), username: username, desc: reply }),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    async: false,
+                    success: function(msg) {
+
+                    }
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>

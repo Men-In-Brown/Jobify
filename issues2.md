@@ -28,10 +28,10 @@ title: Issues
       var title = $('#title2').val();
       var desc = $('#desc').val();
       var username = $('#username').val();
-      $.post('http://localhost:8087/api/issues/post', { title: title, desc: desc, username: username });
+      $.post('https://schaal.stu.nighthawkcodingsociety.com/api/issues/post', { title: title, desc: desc, username: username });
     }); 
     $.ajax({
-      url: "http://localhost:8087/api/issues/",
+      url: "https://schaal.stu.nighthawkcodingsociety.com/api/issues/",
       type: "GET",
       success: function(data) {
         var issues = data;
@@ -75,7 +75,7 @@ title: Issues
     var username = $(this).find('input[name="username"]').val();
     var reply = $(this).find('textarea[name="reply"]').val();
     $.ajax({
-        url: 'http://localhost:8087/api/issues/comment',
+        url: 'https://schaal.stu.nighthawkcodingsociety.com/api/issues/comment',
         type: 'POST',
         data: JSON.stringify({ id: id.toString(), username: username, desc: reply }),
         contentType: 'application/json; charset=utf-8',
