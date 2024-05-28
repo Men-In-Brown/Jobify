@@ -4,117 +4,117 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flashcards App</title>
     <link href="https://fonts.googleapis.com/css?family=Oxygen&display=swap" rel="stylesheet">
-            <style>
-                body {
-                    font-family: 'Oxygen', sans-serif;
-                    margin: 0;
-                    padding: 0;
-                    box-sizing: border-box;
-                }
-                
-                #flashcard-container {
-                    max-width: 1400px;
-                    margin: 20px auto;
-                    border: 1px solid #ccc;
-                    padding: 20px;
-                    border-radius: 16px;
-                    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-                    backdrop-filter: blur(5px);
-                    -webkit-backdrop-filter: blur(5px);
-                    border: 1px solid rgba(255, 255, 255, 0.3);
-                }
+    <style>
+        body {
+            font-family: 'Oxygen', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         
-                #topic-buttons {
-                    display: flex;
-                    flex-wrap: wrap;
-                    gap: 10px;
-                    margin-bottom: 20px;
-                }
-                
-                #topic-buttons button {
-                    background-color: #4CAF50;
-                    color: white;
-                    border: none;
-                    border-radius: 4px;
-                    padding: 10px 20px;
-                    cursor: pointer;
-                    transition: background-color 0.3s ease;
-                }
-                
-                #topic-buttons button:hover {
-                    background-color: #45a049;
-                }
-                
-                #flashcard-form {
-                    margin-top: 20px;
-                }
+        #flashcard-container {
+            max-width: 1400px;
+            margin: 20px auto;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        #topic-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
         
-                #flashcard-form label {
-                    display: block;
-                    margin-top: 10px;
-                }
-                
-                #flashcard-form input {
-                    width: 100%;
-                    padding: 8px;
-                    margin: 5px 0;
-                    box-sizing: border-box;
-                }
-                
-                #flashcard-form button {
-                    background-color: #4CAF50;
-                    color: white;
-                    border: none;
-                    border-radius: 4px;
-                    padding: 10px 20px;
-                    cursor: pointer;
-                    transition: background-color 0.3s ease;
-                    margin-top: 10px;
-                }
-                
-                #flashcard-form button:hover {
-                    background-color: #45a049;
-                }
-                
-                .flashcard {
-                    border: 1px solid #ccc;
-                    border-radius: 8px;
-                    padding: 10px;
-                    margin-bottom: 10px;
-                    cursor: pointer;
-                    transition: transform 0.5s;
-                    perspective: 1000px;
-                    max-width: 600px;
-                    margin: 10px auto;
-                }
-                
-                .flashcard:hover .flashcard-inner {
-                    transform: rotateY(180deg);
-                }
-                
-                .flashcard-inner {
-                    transform-style: preserve-3d;
-                    transition: transform 0.5s;
-                    position: relative;
-                }
-                
-                .flashcard .question,
-                .flashcard .answer {
-                    backface-visibility: hidden;
-                    position: absolute;
-                    width: 100%;
-                    height: 100%;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    padding: 10px;
-                    box-sizing: border-box;
-                }
-                
-                .flashcard .answer {
-                    transform: rotateY(180deg);
-                }
-            </style>
+        #topic-buttons button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        #topic-buttons button:hover {
+            background-color: #45a049;
+        }
+        
+        #flashcard-form {
+            margin-top: 20px;
+        }
+
+        #flashcard-form label {
+            display: block;
+            margin-top: 10px;
+        }
+        
+        #flashcard-form input {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            box-sizing: border-box;
+        }
+        
+        #flashcard-form button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        #flashcard-form button:hover {
+            background-color: #45a049;
+        }
+        
+        .flashcard {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: transform 0.5s;
+            perspective: 1000px;
+            max-width: 600px;
+            margin: 10px auto;
+        }
+        
+        .flashcard:hover .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .flashcard-inner {
+            transform-style: preserve-3d;
+            transition: transform 0.5s;
+            position: relative;
+        }
+        
+        .flashcard .question,
+        .flashcard .answer {
+            backface-visibility: hidden;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        
+        .flashcard .answer {
+            transform: rotateY(180deg);
+        }
+    </style>
 </head>
 <body>
     <div id="topic-buttons">
@@ -145,6 +145,7 @@
             fetch('https://schaal.stu.nighthawkcodingsociety.com/api/flashcards/topics')
                 .then(response => response.json())
                 .then(data => {
+                    console.log('Topics fetched:', data);
                     topicButtons.innerHTML = '';
                     data.forEach(topic => {
                         const button = document.createElement('button');
@@ -167,6 +168,7 @@
             fetch('https://schaal.stu.nighthawkcodingsociety.com/api/flashcards/')
                 .then(response => response.json())
                 .then(data => {
+                    console.log('Existing flashcards fetched:', data);
                     existingFlashcardsContainer.innerHTML = '';
                     data.forEach(flashcard => {
                         const flashcardItem = document.createElement('div');
@@ -187,6 +189,7 @@
             fetch(`https://schaal.stu.nighthawkcodingsociety.com/api/flashcards?topic=${selectedTopic}`)
                 .then(response => response.json())
                 .then(data => {
+                    console.log(`Flashcards for topic "${selectedTopic}" fetched:`, data);
                     flashcardList.innerHTML = '';
                     data.forEach(flashcard => {
                         const listItem = document.createElement('li');
@@ -242,8 +245,8 @@
             .then(response => response.json())
             .then(data => {
                 console.log('Flashcard created successfully:', data);
-                loadExistingFlashcards();
-                loadTopicsAndCreateButtons();
+                loadExistingFlashcards();  // Load all existing flashcards
+                loadTopicsAndCreateButtons();  // Refresh the topics and flashcards under the selected topic
             })
             .catch(error => {
                 console.error('Error creating flashcard:', error);
