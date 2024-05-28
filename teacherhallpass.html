@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teacher Hall Pass Management</title>
+    <title>Hall Pass Management - Teacher</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -49,7 +49,16 @@
 </head>
 <body>
     <div class="container">
-        <h1>Teacher Hall Pass Management</h1>
+        <h1>Hall Pass Management - Teacher</h1>
+        <select id="teacherId" required>
+            <option value="1">Teacher1</option>
+            <option value="2">Teacher2</option>
+            <option value="3">Teacher3</option>
+            <option value="4">Teacher4</option>
+        </select>
+        <code>Temporary since the teacher is not logging in. 
+            Once the teacher is logged in, then this drop down is not needed. 
+            This is to show only those hall passes that belong to the logged in teacher.</code>
 
         <table>
             <thead>
@@ -59,7 +68,14 @@
                     <th>Teacher ID</th>
                     <th>Reason</th>
                     <th>Expiry Time</th>
-                    <th>Status</th>
+                    <th>
+                        <select id="status" required>
+                            <option value="All">All</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Rejected">Rejected</option>
+                        </select>
+                    </th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -70,14 +86,28 @@
     </div>
 
     <script>
-        const apiUrl = 'http://172.27.30.9:8091/api/hallpass';
+        const apiUrl = 'http://localhost:8091/api/hallpass';
+        const teacherSelect = document.getElementById("teacherId");
+        const statusSelect = document.getElementById("status");
+        let teacherId = teacherSelect.value;
+        let status = statusSelect.value;
 
-        document.addEventListener('DOMContentLoaded', () => {
-            fetchHallPasses();
+        teacherSelect.addEventListener("change", (event) => {
+            teacherId = event.target.value;
+            fetchHallPasses(`${teacherId}`, `${status}`);
         });
 
-        async function fetchHallPasses() {
-            const response = await fetch(apiUrl);
+        statusSelect.addEventListener("change", (event) => {
+            status = event.target.value;
+            fetchHallPasses(`${teacherId}`, `${status}`);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchHallPasses(teacherSelect.value, statusSelect.value);
+        });
+
+        async function fetchHallPasses(teacherId, status) {
+            const response = await fetch(`${apiUrl}/teacher/${teacherId}/status/${status}`);
             const hallPasses = await response.json();
             const tableBody = document.getElementById('hallPassTableBody');
             tableBody.innerHTML = '';
@@ -91,7 +121,7 @@
                     <td>${new Date(hallPass.expiryTime).toLocaleString()}</td>
                     <td>${hallPass.status}</td>
                     <td class="actions">
-                        <button onclick="updateHallPassStatus(${hallPass.id}, 'Accepted')">Accept</button>
+                        <button onclick="updateHallPassStatus(${hallPass.id}, 'Approved')">Approve</button>
                         <button onclick="updateHallPassStatus(${hallPass.id}, 'Rejected')">Reject</button>
                         <button onclick="deleteHallPass(${hallPass.id})">Delete</button>
                     </td>
@@ -101,17 +131,16 @@
         }
 
         async function updateHallPassStatus(id, status) {
-            await fetch(`${apiUrl}/${id}/status`, {
+            await fetch(`${apiUrl}/${id}/${status}`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(status)
+                headers: { 'Content-Type': 'application/json' }
             });
-            fetchHallPasses();
+            fetchHallPasses(teacherSelect.value, statusSelect.value);
         }
 
         async function deleteHallPass(id) {
             await fetch(`${apiUrl}/${id}`, { method: 'DELETE' });
-            fetchHallPasses();
+            fetchHallPasses(teacherSelect.value, statusSelect.value);
         }
     </script>
 </body>

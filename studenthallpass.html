@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hall Pass Management</title>
+    <title>Hall Pass Management - Student</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -56,11 +56,31 @@
 </head>
 <body>
     <div class="container">
-        <h1>Hall Pass Management</h1>
+        <h1>Hall Pass Management - Student</h1>
         <form id="hallPassForm">
-            <input type="text" id="studentId" placeholder="Student ID" required>
-            <input type="text" id="teacherId" placeholder="Teacher ID" required>
-            <input type="text" id="reason" placeholder="Reason" required>
+            <!--<input type="text" id="studentId" placeholder="Student ID" required>-->
+            <select id="studentId" required>
+                <option value="1">Shaurya G</option>
+                <option value="2">Varlu V</option>
+                <option value="3">Parav S</option>
+                <option value="4">Kolin W</option>
+            </select>
+            <!--<input type="text" id="teacherId" placeholder="Teacher ID" required>-->
+            <select id="teacherId" required>
+                <option value="1">Teacher1</option>
+                <option value="2">Teacher2</option>
+                <option value="3">Teacher3</option>
+                <option value="4">Teacher4</option>
+            </select>
+            <!--<input type="text" id="reason" placeholder="Reason" required>-->
+            <input list="reasons" name="reason" id="reason">
+            <datalist id="reasons">
+                <option value="Office Hours">
+                <option value="Exam">
+                <option value="Sports">
+                <option value="Library">
+                <option value="Medical Office">
+            </datalist>
             <input type="datetime-local" id="expiryTime" required>
             <button type="submit">Create Hall Pass</button>
         </form>
@@ -69,10 +89,11 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Student ID</th>
+                    <!--<th>Student ID</th>-->
                     <th>Teacher ID</th>
                     <th>Reason</th>
                     <th>Expiry Time</th>
+                    <th>Status</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -83,10 +104,16 @@
     </div>
 
     <script>
-        const apiUrl = 'http://172.27.30.9:8091/api/hallpass';
+        const apiUrl = 'http://localhost:8091/api/hallpass';
+
+        const studentSelect = document.getElementById("studentId");
+        studentSelect.addEventListener("change", (event) => {
+            fetchHallPasses(`${event.target.value}`);
+        });
+
 
         document.addEventListener('DOMContentLoaded', () => {
-            fetchHallPasses();
+            fetchHallPasses(document.getElementById("studentId").value);
 
             document.getElementById('hallPassForm').addEventListener('submit', async (event) => {
                 event.preventDefault();
@@ -97,23 +124,24 @@
                     expiryTime: document.getElementById('expiryTime').value
                 };
                 await createHallPass(hallPass);
-                fetchHallPasses();
+                fetchHallPasses(document.getElementById("studentId").value);
             });
         });
 
-        async function fetchHallPasses() {
-            const response = await fetch(apiUrl);
+        async function fetchHallPasses(studentId) {
+            const response = await fetch(`${apiUrl}/student/${studentId}`);
             const hallPasses = await response.json();
             const tableBody = document.getElementById('hallPassTableBody');
             tableBody.innerHTML = '';
             hallPasses.forEach(hallPass => {
                 const row = document.createElement('tr');
+                //<td>${hallPass.studentId}</td>
                 row.innerHTML = `
                     <td>${hallPass.id}</td>
-                    <td>${hallPass.studentId}</td>
                     <td>${hallPass.teacherId}</td>
                     <td>${hallPass.reason}</td>
                     <td>${hallPass.expiryTime}</td>
+                    <td>${hallPass.status}</td>
                     <td class="actions">
                         <button onclick="deleteHallPass(${hallPass.id})">Delete</button>
                     </td>
@@ -132,7 +160,7 @@
 
         async function deleteHallPass(id) {
             await fetch(`${apiUrl}/${id}`, { method: 'DELETE' });
-            fetchHallPasses();
+            fetchHallPasses(document.getElementById("studentId").value);
         }
     </script>
 </body>
