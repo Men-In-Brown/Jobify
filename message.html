@@ -137,7 +137,7 @@
             return date.getHours() + ":" + date.getMinutes();
         }
 
-        fetch('http://localhost:8091/channel')
+        fetch('https://schaal.stu.nighthawkcodingsociety.com/channel')
             .then(response => response.json())
             .then(data => {
                 const channelSelect = document.getElementById('channelSelect');
@@ -157,7 +157,7 @@
             const messagesDiv = document.getElementById('messages');
             messagesDiv.innerHTML = '';
     
-            fetch(`http://localhost:8091/message?channelId=${channelId}`)
+            fetch(`http://schaal.stu.nighthawkcodingsociety.com/message?channelId=${channelId}`)
             .then(response => response.json())
             .then(messages => {
                 const messagesDiv = document.getElementById('messages');
@@ -184,7 +184,7 @@
             const writer = localStorage.getItem('writer');
     
             if (text) {
-                fetch('http://localhost:8091/message', {
+                fetch('http://schaal.stu.nighthawkcodingsociety.com/message', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
