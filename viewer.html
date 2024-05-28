@@ -1,11 +1,9 @@
 ---
-layout: page
-title: Assignment viewer
-permalink: /Viewer
 ---
 
 <html lang="en">
 <head>
+    <link rel="stylesheet" type="text/css" href="general.css">
     <meta charset="UTF-8">
     <title>Assignment viewer</title>
     <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
@@ -14,6 +12,7 @@ permalink: /Viewer
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf_viewer.min.js"></script>
 </head>
 <body>
+    {% include header2.html %}
     <h1>Uploaded Files</h1>
     <select id="fileDropdown">
         <option value="" disabled selected>Select File</option>
