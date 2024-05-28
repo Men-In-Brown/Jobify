@@ -182,15 +182,15 @@ document.getElementById('sendButton').addEventListener('click', function() {
               'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            channelName: channelName,
             text: text,
             writer: writer,
-            time: time
+            time: time,
+            recipient: recipient
           })
       })
       .then(response => {
           if (response.ok) {
-              // Clear the message input field
+              alert("hello");
               messageInput.value = '';
           } else {
               console.error('Error sending message:', response.status);
