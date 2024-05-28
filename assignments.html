@@ -164,8 +164,7 @@
         var flashcardCounter = 0;
         var requiredFlashcards = 0;
         var canMoveToNextFlashcard = false; // Boolean to control moving to next flashcard
-
-        $.get("http://localhost:8091/api/assignments/" + id, function(data) {
+        $.get("https://schaal.stu.nighthawkcodingsociety.com/api/assignments/" + id, function(data) {
             var html;
             var html2 = '';
 
@@ -241,7 +240,7 @@
                 document.getElementById('flashcard').classList.remove('is-flipped');
 
                 var username = document.getElementById('username3').value;
-                fetch(`http://localhost:8091/api/assignments/completeFlashcard/${id}?username=${username}`, {
+                fetch(`https://schaal.stu.nighthawkcodingsociety.com/api/assignments/completeFlashcard/${id}?username=${username}`, {
                     method: 'POST',
                 })
                 .then(response => response.json())
@@ -263,7 +262,7 @@
         }
 
         function fetchRequiredFlashcards() {
-            fetch(`http://localhost:8091/api/assignments/getReqFlashcards/${id}`, {
+            fetch(`https://schaal.stu.nighthawkcodingsociety.com/api/assignments/getReqFlashcards/${id}`, {
                 method: 'GET',
             })
             .then(response => response.json())
@@ -280,7 +279,7 @@
 
         function updateFlashcardCounter(username) {
             if (username) {
-                fetch(`http://localhost:8091/api/assignments/getCompletedFlashcards/${id}?username=${username}`, {
+                fetch(`https://schaal.stu.nighthawkcodingsociety.com/api/assignments/getCompletedFlashcards/${id}?username=${username}`, {
                     method: 'POST',
                 })
                 .then(response => response.json())
@@ -314,7 +313,7 @@
                     "link": document.getElementById('link').value
                 };
         
-                fetch('http://localhost:8091/api/assignments/submit', {
+                fetch('https://schaal.stu.nighthawkcodingsociety.com/api/assignments/submit', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -344,7 +343,7 @@
                     "username": document.getElementById('username2').value
                 };
         
-                fetch('http://localhost:8091/api/assignments/submit', {
+                fetch('https://schaal.stu.nighthawkcodingsociety.com/api/assignments/submit', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -369,7 +368,7 @@
                     "username": document.getElementById('username3').value
                 };
         
-                fetch('http://localhost:8091/api/assignments/submit', {
+                fetch('https://schaal.stu.nighthawkcodingsociety.com/api/assignments/submit', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
