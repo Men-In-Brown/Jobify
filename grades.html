@@ -1,5 +1,10 @@
+---
+---
+
 <html lang="en">
 <head>
+    <link href="https://fonts.googleapis.com/css?family=Oxygen&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="general.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grade Search</title>
@@ -20,24 +25,27 @@
             background-color: #4CAF50;
             color: white;
         }
-    </style>
+    </style>   
 </head>
 <body>
-    <h2>Select Student:</h2>
-    <!-- Dropdown to display student names -->
-    <select id="studentDropdown">
-        <option value="" disabled selected>Select Student</option>
-    </select>
-    <select id="assignmentDropdown">
-        <option value="" disabled selected>Select Assignment</option>
-    </select>
-    <!-- Display selected student ID -->
-    <p><span id="selectedStudentEmail" hidden></span></p>
-    <p><span id="selectedAssignmentName" hidden></span></p>
-    <p><span id="selectedAssignmentMaxPoints" hidden></span></p>
-    <div id="result"></div>
-    <div id="resultTable"></div>
-    <div id="totalGrade"></div> <!-- Container for displaying total grade -->
+    {% include header2.html %}
+    <main class="container">
+        <h1>Select Student:</h1>
+        <!-- Dropdown to display student names -->
+        <select id="studentDropdown">
+            <option value="" disabled selected>Select Student</option>
+        </select>
+        <select id="assignmentDropdown">
+            <option value="" disabled selected>Select Assignment</option>
+        </select>
+        <!-- Display selected student ID -->
+        <p><span id="selectedStudentEmail" hidden></span></p>
+        <p><span id="selectedAssignmentName" hidden></span></p>
+        <p><span id="selectedAssignmentMaxPoints" hidden></span></p>
+        <div id="result"></div>
+        <div id="resultTable"></div>
+        <div id="totalGrade"></div> <!-- Container for displaying total grade -->
+    </main>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const totalGradeElement = document.getElementById('totalGrade');
@@ -272,7 +280,6 @@
                             body: JSON.stringify({
                                 newEmail: username,
                                 newAssignment: data.title,
-                                newMaxPoints: data.maxPoints,
                                 newScore: submission.score
                             })
                         };
