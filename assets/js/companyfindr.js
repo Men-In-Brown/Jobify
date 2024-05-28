@@ -3,7 +3,7 @@ let currentcompanyIndex = -1;
 let _companyName, _companyMission;
 
 window.onload = function() {
-    const apiUrl = "http://localhost:8085/api/companies";
+    const apiUrl = "https://schaal.stu.nighthawkcodingsociety.com/api/internships";
 
     fetch(apiUrl)
       .then(response => {
@@ -63,9 +63,9 @@ function swipeCard() {
 }
 
 function invest() {
-    console.log("Investing in company:", _companyName);
+    console.log("Applying to ", _companyName);
     storecompaniesLocal(_companyName, _companyMission);
-    window.location.href = "invest";
+    window.location.href = "apply";
 }
 
 function join() {

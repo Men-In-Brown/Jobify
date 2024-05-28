@@ -1,10 +1,8 @@
 .btn {
-    background: linear-gradient(to bottom, #673ab7, #8e44ad);
+    background: linear-gradient(to bottom, #8CBCBA, #78A19F);
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    width: 300px;
-    max-width: 80%;
+    width: 150%;
     text-align: center;
 }
 
