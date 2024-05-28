@@ -105,7 +105,7 @@
         const flashcardForm = document.getElementById('flashcard-form');
 
         function loadTopicsAndCreateButtons() {
-            fetch('http://localhost:8087/api/flashcards/topics')
+            fetch('https://schaal.stu.nighthawkcodingsociety.com/api/flashcards/topics')
                 .then(response => response.json())
                 .then(data => {
                     topicButtons.innerHTML = '';
@@ -127,7 +127,7 @@
         }
 
         function loadExistingFlashcards() {
-            fetch('http://localhost:8087/api/flashcards/')
+            fetch('https://schaal.stu.nighthawkcodingsociety.com/api/flashcards/')
                 .then(response => response.json())
                 .then(data => {
                     existingFlashcardsContainer.innerHTML = '';
@@ -147,7 +147,7 @@
         }
 
         function loadFlashcardsByTopic(selectedTopic) {
-            fetch(`http://localhost:8087/api/flashcards?topic=${selectedTopic}`)
+            fetch(`https://schaal.stu.nighthawkcodingsociety.com/api/flashcards?topic=${selectedTopic}`)
                 .then(response => response.json())
                 .then(data => {
                     flashcardList.innerHTML = '';
@@ -173,7 +173,7 @@
         }
 
         function deleteFlashcard(id) {
-            fetch(`http://localhost:8087/api/flashcards/${id}`, {
+            fetch(`https://schaal.stu.nighthawkcodingsociety.com/api/flashcards/${id}`, {
                 method: 'DELETE'
             })
             .then(response => {
@@ -195,7 +195,7 @@
             const topic = document.getElementById('topic').value;
             const question = document.getElementById('question').value;
             const answer = document.getElementById('answer').value;
-            fetch('http://localhost:8087/api/flashcards/add', {
+            fetch('https://schaal.stu.nighthawkcodingsociety.com/api/flashcards/add', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
