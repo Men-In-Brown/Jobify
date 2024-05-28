@@ -1,14 +1,26 @@
 ---
 layout: page
-title: Company Finder
+title: Internship Finder
 ---
 
 <!--<link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/assets/css/companyfindr.css">-->
 
-<div id="companyCard">
-  <h2 id="companyName"></h2>
-  <p id="companyMission"></p>
-  <button type="button" class="submit-btn" onclick="window.location.href = '{{ site.baseurl }}/'">Return to Home</button>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/assets/css/companyfindr.css">
+
+<br>
+
+<div class="container">
+    <div class="card">
+        <h2>Loading...</h2>
+    </div>
 </div>
 
-<script src="{{ site.baseurl }}/assets/js/companyfindr.js"></script>
+<br>
+
+<div class="navigation">
+    <i class="fas fa-arrow-left"></i> Left Arrow to Redirect <br>|<br> Right Arrow to Skip <i class="fas fa-arrow-right"></i>
+</div>
+
+<script src="{{ site.baseurl }}/assets/js/internships.js"></script>
