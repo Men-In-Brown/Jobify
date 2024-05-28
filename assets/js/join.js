@@ -46,3 +46,15 @@ function displayInternship(internship) {
         <p><strong>CEO:</strong> ${internship.ceo}</p>
     `;
 }
+
+document.getElementById('send-application').addEventListener('click', function() {
+    var coverLetter = document.getElementById('cover-letter').files.length;
+    var resume = document.getElementById('resume').files.length;
+    console.log("Pressed");
+    if (coverLetter === 0 || resume === 0) {
+        console.log("no uploads");
+        alert('Please upload both your cover letter and resume.');
+    } else {
+        window.location.href = 'sent';
+    }
+});

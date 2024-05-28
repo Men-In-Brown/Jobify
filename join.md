@@ -12,5 +12,20 @@ permalink: /join
         <h2>Loading...</h2>
     </div>
 </div>
+<div class="container">
+    <div class="card">
+        <form id="application-form">
+            <div class="form-group">
+                <label for="cover-letter">Upload Cover Letter:</label>
+                <input type="file" id="cover-letter" name="cover-letter" accept=".pdf,.doc,.docx">
+            </div>
+            <div class="form-group">
+                <label for="resume">Upload Resume:</label>
+                <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx">
+            </div>
+            <button type="button" id="send-application">Send Application</button>
+        </form>
+    </div>
+</div>
 
 <script src="{{ site.baseurl }}/assets/js/join.js">
