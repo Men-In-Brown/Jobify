@@ -1,15 +1,14 @@
 ---
-layout: page
-title: Assignment viewer
-permalink: /Viewer
 ---
 
 <html lang="en">
 <head>
+    <link rel="stylesheet" type="text/css" href="general.css">
     <meta charset="UTF-8">
     <title>File Upload</title>
 </head>
 <body>
+    {% include header2.html %}
     <form id="uploadForm">
         <input type="text" id="uname" name="uname"><br>
         <input type="text" id="assignment" name="assignment">
@@ -25,36 +24,6 @@ permalink: /Viewer
 </body>
 
 <script>
-    // document.addEventListener('DOMContentLoaded', function () {
-    //     fetch('http://localhost:8091/api/assignments/') 
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             const dropdown = document.getElementById('assignmentDropdown');
-    //             data.forEach(assignment => {
-    //                 const option = document.createElement('option');
-    //                 option.textContent = assignment.title;
-    //                 dropdown.appendChild(option);
-    //             });
-    //         })
-    //         .catch(error => {
-    //             console.error('Error fetching assignment data:', error);
-    //         });
-    //     document.getElementById('assignmentDropdown').addEventListener('change', function () {
-    //         const selectedAssignmentName = this.textContent;
-    //         const maxScore = this.value;
-    //         document.getElementById('selectedAssignmentName').textContent = selectedAssignmentName;
-    //         document.getElementById('selectedAssignmentMaxPoints').textContent = maxScore;
-    //     });
-    // });
-
-    // fetch('/files/soham')
-    //     .then(response => response.json())
-    //     .then(files => {
-    //         // Handle the list of files (e.g., display them in a list)
-    //         console.log(files);
-    //     })
-    //     .catch(error => console.error('Error fetching files:', error));
-
     async function uploadFile() {
         const fileInput = document.getElementById('fileInput');
         const nameInput = document.getElementById('uname').value;
@@ -69,7 +38,7 @@ permalink: /Viewer
         formData.append('assignment', assignmentInput);
 
         try {
-            const response = await fetch('http://localhost:8091/upload', {
+            const response = await fetch('http://localhost:8091/api/fileupload/upload', {
                 method: 'POST',
                 body: formData
             });

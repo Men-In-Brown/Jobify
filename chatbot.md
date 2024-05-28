@@ -194,6 +194,6 @@ permalink: /chatbot
             }
         }
 
-        generating = false;
+        generating = false; 
     }
 </script>

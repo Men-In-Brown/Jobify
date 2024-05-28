@@ -1,50 +1,14 @@
-<html lang="en">
+---
+layout: page
+title: Flashcards Test
+permalink: /flashcards2
+---
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flashcards App</title>
     <link href="https://fonts.googleapis.com/css?family=Oxygen&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Oxygen', sans-serif;
-            margin: 20px;
-        }
-        #topic-buttons button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            padding: 10px 20px;
-            margin: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        #topic-buttons button:hover {
-            background-color: #45a049;
-        }
-        #flashcard-form label {
-            display: block;
-            margin-top: 10px;
-        }
-        #flashcard-form input {
-            width: 100%;
-            padding: 8px;
-            margin: 5px 0;
-            box-sizing: border-box;
-        }
-        #flashcard-form button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            padding: 10px 20px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            margin-top: 10px;
-        }
-        #flashcard-form button:hover {
-            background-color: #45a049;
-        }
         .flashcard {
             border: 1px solid #ccc;
             border-radius: 8px;
@@ -52,7 +16,6 @@
             margin-bottom: 10px;
             cursor: pointer;
             transition: transform 0.5s;
-            perspective: 1000px;
         }
         .flashcard:hover .flashcard-inner {
             transform: rotateY(180deg);
@@ -60,19 +23,10 @@
         .flashcard-inner {
             transform-style: preserve-3d;
             transition: transform 0.5s;
-            position: relative;
         }
         .flashcard .question,
         .flashcard .answer {
             backface-visibility: hidden;
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 10px;
-            box-sizing: border-box;
         }
         .flashcard .answer {
             transform: rotateY(180deg);
@@ -103,12 +57,14 @@
         const topicButtons = document.getElementById('topic-buttons');
         const flashcardList = document.getElementById('flashcard-list');
         const flashcardForm = document.getElementById('flashcard-form');
-
         function loadTopicsAndCreateButtons() {
-            fetch('http://localhost:8087/api/flashcards/topics')
+            // You can replace this URL with the actual backend API endpoint
+            post('http://localhost:8087/api/flashcards/add')
                 .then(response => response.json())
                 .then(data => {
+                    // Clear existing buttons
                     topicButtons.innerHTML = '';
+                    // Populate buttons based on available topics
                     data.forEach(topic => {
                         const button = document.createElement('button');
                         button.textContent = topic;
@@ -117,6 +73,7 @@
                         };
                         topicButtons.appendChild(button);
                     });
+                    // Trigger loading flashcards based on the initial selected topic (first button)
                     if (data.length > 0) {
                         loadFlashcardsByTopic(data[0]);
                     }
@@ -125,12 +82,14 @@
                     console.error('Error fetching topics:', error);
                 });
         }
-
         function loadExistingFlashcards() {
+            // Fetch existing flashcards from the backend
             fetch('http://localhost:8087/api/flashcards/')
                 .then(response => response.json())
                 .then(data => {
+                    // Clear existing flashcards
                     existingFlashcardsContainer.innerHTML = '';
+                    // Populate existing flashcards section with the fetched data
                     data.forEach(flashcard => {
                         const flashcardItem = document.createElement('div');
                         flashcardItem.className = 'flashcard';
@@ -145,25 +104,24 @@
                     console.error('Error fetching existing flashcards:', error);
                 });
         }
-
         function loadFlashcardsByTopic(selectedTopic) {
+            // You can replace this URL with the actual backend API endpoint
             fetch(`http://localhost:8087/api/flashcards?topic=${selectedTopic}`)
                 .then(response => response.json())
                 .then(data => {
+                    // Clear the flashcard list
                     flashcardList.innerHTML = '';
+                    // Populate the flashcard list with the fetched data
                     data.forEach(flashcard => {
                         const listItem = document.createElement('li');
                         listItem.innerHTML = `<strong>Topic:</strong> ${flashcard.topic}<br><strong>Question:</strong>
-                                             <div class="flashcard">
+                                             <div class="flashcard" onmouseenter="this.classList.add('flip')" onmouseleave="this.classList.remove('flip')">
                                                  <div class="flashcard-inner">
                                                      <div class="question">${flashcard.question}</div>
                                                      <div class="answer">${flashcard.answer}</div>
                                                  </div>
                                              </div>
                                              <button data-flashcard-id="${flashcard.id}">Delete</button>`;
-                        listItem.querySelector('button').addEventListener('click', function () {
-                            deleteFlashcard(flashcard.id);
-                        });
                         flashcardList.appendChild(listItem);
                     });
                 })
@@ -171,50 +129,28 @@
                     console.error('Error fetching flashcards:', error);
                 });
         }
-
-        function deleteFlashcard(id) {
-            fetch(`http://localhost:8087/api/flashcards/${id}`, {
-                method: 'DELETE'
-            })
-            .then(response => {
-                if (response.ok) {
-                    console.log('Flashcard deleted successfully');
-                    loadExistingFlashcards();
-                    loadTopicsAndCreateButtons();
-                } else {
-                    console.error('Error deleting flashcard');
-                }
-            })
-            .catch(error => {
-                console.error('Error deleting flashcard:', error);
-            });
-        }
-
         flashcardForm.addEventListener('submit', function (event) {
             event.preventDefault();
             const topic = document.getElementById('topic').value;
             const question = document.getElementById('question').value;
             const answer = document.getElementById('answer').value;
-            fetch('http://localhost:8087/api/flashcards/add', {
+            // You can replace this URL with the actual backend API endpoint
+            fetch('http://localhost:8087/api/flashcards/add?topic=' + topic + '&question=' + question + '&answer=' + answer, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ topic, question, answer })
             })
             .then(response => response.json())
             .then(data => {
                 console.log('Flashcard created successfully:', data);
+                // You might want to update the UI or reload flashcards after creating a new one
                 loadExistingFlashcards();
                 loadTopicsAndCreateButtons();
             })
             .catch(error => {
                 console.error('Error creating flashcard:', error);
             });
-        });
-
+});
+        // Initial load of existing flashcards, topics, and creation of buttons
         loadExistingFlashcards();
         loadTopicsAndCreateButtons();
     </script>
 </body>
-</html>

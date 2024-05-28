@@ -1,18 +1,15 @@
----
----
-
+<!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="general.css">
     <title>Chat App</title>
     <style>
 
       #sidebar {
         height: 100vh;
-        width: 7%;
+        width: 10%;
         background-color: #f0f0f0;
         position: fixed;
-        top: 58px;
+        top: 0;
         left: 0;
         display: flex;
         flex-direction: column;
@@ -36,24 +33,25 @@
       }
 
       #content {
-        margin-left: 7.5%;
+        margin-left: 10%;
         padding: 10px;
     }
 
         #messages {
+          position: center;
           height: 81vh;
           overflow-y: auto;
           border-radius: 10px;
           border: 3px solid #ccc;
           padding: 10px;
           margin-bottom: 10px;
-          width: 98%;
+          width: 95%;
           font-family: Arial, sans-serif;
         }
       
         #settings {
           position: absolute;
-          top: 70px;
+          top: 25px;
           right: 25px;
           cursor: pointer;
           font-family: Arial, sans-serif;
@@ -62,7 +60,7 @@
         #messageInput {
           position: center;
           height: 30px;
-          width: 90%;
+          width: 88%;
           border-radius: 10px;
           border: 3px solid #ccc;
           padding: 5px;
@@ -72,7 +70,7 @@
         #sendButton {
           left: 1px;
           height: 41px;
-          width: 8.5%;
+          width: 6.5%;
           border-radius: 10px;
           border: 3px solid #ccc;
           background-color: #f0f0f0;
@@ -85,7 +83,7 @@
           border: 3px solid #ccc;
           padding: 5px;
           font-family: Arial, sans-serif;
-          width: 10%;
+          width: 15%;
         }
       
         /* Dark mode styles */
@@ -107,6 +105,8 @@
         }
       </style>
       
+      </head>
+      <link rel="stylesheet" type="text/css" href="general.css">
       </head>
       
       <body>
@@ -131,76 +131,94 @@
         <button id="sendButton">Send</button>
     </div>
       
-        <script>
-fetch('https://schaal.stu.nighthawkcodingsociety.com/channel')
-.then(response => response.json())
-.then(data => {
-    const channelSelect = document.getElementById('channelSelect');
-    data.forEach(channel => {
-        const option = document.createElement('option');
-        option.value = channel.id;
-        option.textContent = channel.name;
-        channelSelect.appendChild(option);
-    });
-})
+    <script>
+        function getCurrentTime() {
+            const date = new Date();
+            return date.getHours() + ":" + date.getMinutes();
+        }
+
+        fetch('https://schaal.stu.nighthawkcodingsociety.com/channel')
+            .then(response => response.json())
+            .then(data => {
+                const channelSelect = document.getElementById('channelSelect');
+                data.forEach(channel => {
+                    const option = document.createElement('option');
+                    option.value = channel.id;
+                    option.textContent = channel.name;
+                    channelSelect.appendChild(option);
+                });
+            })
 .catch(error => {
     console.error('Error fetching channels:', error);
 });
-
-document.getElementById('channelSelect').addEventListener('change', function() {
-  const channelId = this.value;
-  const messagesDiv = document.getElementById('messages');
-  messagesDiv.innerHTML = '';
-
-  fetch(`https://schaal.stu.nighthawkcodingsociety.com/message?channelId=${channelId}`)
-  .then(response => response.json())
-  .then(messages => {
-      const messagesDiv = document.getElementById('messages');
-      messagesDiv.innerHTML = '';
-      messages.forEach(message => {
-          const messageElement = document.createElement('p');
-          messageElement.textContent = `${message.time} - ${message.writer}: ${message.text}`;
-          messagesDiv.appendChild(messageElement);
-      });
-  })
-  .catch(error => {
-      console.error('Error fetching messages:', error);
-  });
-});
-
-document.getElementById('sendButton').addEventListener('click', function() {
-  const messageInput = document.getElementById('messageInput');
-  const text = messageInput.value;
-  const channelName = document.getElementById('channelSelect').value;
-  const time = new Date().toISOString();
-  const writer = localStorage.getItem('writer');
-
-  if (text) {
-      fetch('https://schaal.stu.nighthawkcodingsociety.com/message', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            channelName: channelName,
-            text: text,
-            writer: writer,
-            time: time
-          })
-      })
-      .then(response => {
-          if (response.ok) {
-              // Clear the message input field
-              messageInput.value = '';
-          } else {
-              console.error('Error sending message:', response.status);
-          }
-      })
-      .catch(error => {
-          console.error('Error sending message:', error);
-      });
-  }
-});
+    
+        function fetchMessages() {
+            const channelId = document.getElementById('channelSelect').value;
+            const messagesDiv = document.getElementById('messages');
+            messagesDiv.innerHTML = '';
+    
+            fetch(`http://schaal.stu.nighthawkcodingsociety.com/message?channelId=${channelId}`)
+            .then(response => response.json())
+            .then(messages => {
+                const messagesDiv = document.getElementById('messages');
+                messagesDiv.innerHTML = '';
+                messages.reverse().forEach(message => {
+                    const messageElement = document.createElement('p');
+                    messageElement.textContent = `${message.time} - ${message.writer}: ${message.text}`;
+                    messagesDiv.appendChild(messageElement);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching messages:', error);
+            });
+        }
+    
+        // Fetch messages every 3.5 seconds
+        setInterval(fetchMessages, 3500);
+    
+        document.getElementById('sendButton').addEventListener('click', function() {
+            const messageInput = document.getElementById('messageInput');
+            const text = messageInput.value;
+            const channelName = document.getElementById('channelSelect').value;
+            const time = getCurrentTime();
+            const writer = localStorage.getItem('writer');
+    
+            if (text) {
+                fetch('http://schaal.stu.nighthawkcodingsociety.com/message', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        channelName: channelName,
+                        text: text,
+                        writer: writer,
+                        time: time
+                    })
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // Clear the message input field
+                        messageInput.value = '';
+                        // Fetch messages after sending a message
+                        fetchMessages();
+                    } else {
+                        console.error('Error sending message:', response.status);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error sending message:', error);
+                });
+            }
+        });
+    
+        // Add keybind for the enter key to press the send button
+        document.getElementById('messageInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                document.getElementById('sendButton').click();
+            }
+        });
 
 document.getElementById('settings').addEventListener('click', function() {
     var bgColor = prompt("Enter a background color:");
@@ -246,25 +264,3 @@ document.getElementById('settings').addEventListener('click', function() {
     </script>
 </body>
 </html>
-
-<!-- document.getElementById('channelSelect').addEventListener('change', function() {
-    const channelId = this.value;
-    const messagesDiv = document.getElementById('messages');
-    messagesDiv.innerHTML = '';
-
-    fetch(`http://localhost:8765/message?channelId=${channelId}`)
-    .then(response => response.json())
-    .then(messages => {
-        const messagesDiv = document.getElementById('messages');
-        messagesDiv.innerHTML = '';
-        messages.forEach(message => {
-            const messageElement = document.createElement('p');
-            messageElement.textContent = `${message.time} - ${message.writer}: ${message.text}`;
-            messagesDiv.appendChild(messageElement);
-        });
-    })
-    .catch(error => {
-        console.error('Error fetching messages:', error);
-    });
-});
--->
