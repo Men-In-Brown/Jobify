@@ -122,7 +122,6 @@ permalink: /chatbot
         toggleUser();
         messageInput.value = '';
 
-
         var newMessage = document.createElement('li');
         await createBubble(response, newMessage);
         var response = await generateResponse(message, newMessage);
