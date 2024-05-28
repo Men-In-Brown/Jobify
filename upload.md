@@ -1,0 +1,57 @@
+---
+layout: page
+title: Assignment Upload
+permalink: /Upload
+---
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>File Upload</title>
+</head>
+<body>
+    <form id="uploadForm">
+        <input type="text" id="uname" name="uname"><br>
+        <input type="text" id="assignment" name="assignment">
+        <!-- <select id="assignmentDropdown">
+            <option value="" disabled selected>Select Assignment</option>
+        </select>
+        <p>Selected Assignment Name: <span id="selectedAssignmentName"></span></p> -->
+        <input type="file" id="fileInput" name="file">
+        <button type="button" onclick="uploadFile()">Upload</button>
+    </form>
+    <!-- <h1>Uploaded Files</h1>
+    <ul id="fileList"></ul> -->
+</body>
+
+<script>
+    async function uploadFile() {
+        const fileInput = document.getElementById('fileInput');
+        const nameInput = document.getElementById('uname').value;
+        const assignmentInput = document.getElementById('assignment').value;
+        const formData = new FormData();
+
+        // alert(document.getElementById('uname').value);
+        // alert(document.getElementById('assignment').value);
+
+        formData.append('file', fileInput.files[0]);
+        formData.append('name', nameInput);
+        formData.append('assignment', assignmentInput);
+
+        try {
+            const response = await fetch('http://localhost:8091/api/fileupload/upload', {
+                method: 'POST',
+                body: formData
+            });
+            if (response.ok) {
+                // alert('File uploaded successfully');
+            } else {
+                alert('File upload failed');
+            }
+        } catch (error) {
+            console.error('Error uploading file:', error);
+            alert('Error uploading file');
+        }
+    }
+</script>
+</html>
