@@ -3,47 +3,114 @@
 
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="general.css">
-    <title>Login Page</title>
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        #login {
+            width: 300px;
+            padding: 16px;
+            background-color: #ffffff;
+            margin: 0 auto;
+            margin-top: 50px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px 0px #00000033;
+        }
+
+        #login label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        #login input[type="text"],
+        #login input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+
+        #login button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #info {
+            width: 300px;
+            padding: 16px;
+            background-color: #ffffff;
+            margin: 0 auto;
+            margin-top: 50px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px 0px #00000033;
+        }
+
+        #info h2 {
+            margin-top: 0;
+        }
+
+        #info button {
+            width: 100%;
+            padding: 10px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
     {% include header2.html %}
-<div id="login">
-    <label for="username">Username:</label><br>
-    <input type="text" id="username" name="username"><br>
-    <label for="password">Password:</label><br>
-    <input type="password" id="password" name="password">
-    <input type="checkbox" onclick="showPassword()">Show Password<br>
-    <button onclick="login()">Login</button>
-</div>
-<div id="info" style="display: none;">
-    <h2>User Information</h2>
-    <p id="userInfo"></p>
-    <button onclick="logout()">Logout</button>
-</div>
-<script>
-    function showPassword() {
-        var x = document.getElementById("password");
-        if (x.type === "password") {
-            x.type = "text";
-        } else {
-            x.type = "password";
+    <div id="login">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username"><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password">
+        <input type="checkbox" onclick="showPassword()">Show Password<br>
+        <button onclick="login()">Login</button>
+        <button onclick="login()">Sign-Up</button>
+    </div>
+    <div id="info" style="display: none;">
+        <h2>User Information</h2>
+        <p id="userInfo"></p>
+        <button onclick="logout()">Logout</button>
+    </div>
+    <script>
+        function showPassword() {
+            var x = document.getElementById("password");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
         }
-    }
 
-    function login() {
-        var username = document.getElementById("username").value;
-        var password = document.getElementById("password").value;
-        localStorage.setItem("username", username);
-        document.getElementById("userInfo").innerHTML = "Username: " + username + "<br>Password: " + password;
-        document.getElementById("login").style.display = "none";
-        document.getElementById("info").style.display = "block";
-    }
+        function login() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            localStorage.setItem("username", username);
+            document.getElementById("userInfo").innerHTML = "Username: " + username + "<br>Password: " + password;
+            document.getElementById("login").style.display = "none";
+            document.getElementById("info").style.display = "block";
+        }
 
-    function logout() {
-        document.getElementById("login").style.display = "block";
-        document.getElementById("info").style.display = "none";
-    }
-</script>
+        function logout() {
+            document.getElementById("login").style.display = "block";
+            document.getElementById("info").style.display = "none";
+        }
+    </script>
 </body>
 </html>

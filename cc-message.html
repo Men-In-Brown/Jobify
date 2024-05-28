@@ -41,7 +41,7 @@
     }
 
         #messages {
-          height: 81vh;
+          height: 75vh;
           overflow-y: auto;
           border-radius: 10px;
           border: 3px solid #ccc;
@@ -238,25 +238,3 @@ document.getElementById('settings').addEventListener('click', function() {
     </script>
 </body>
 </html>
-
-<!-- document.getElementById('channelSelect').addEventListener('change', function() {
-    const channelId = this.value;
-    const messagesDiv = document.getElementById('messages');
-    messagesDiv.innerHTML = '';
-
-    fetch(`http://localhost:8765/message?channelId=${channelId}`)
-    .then(response => response.json())
-    .then(messages => {
-        const messagesDiv = document.getElementById('messages');
-        messagesDiv.innerHTML = '';
-        messages.forEach(message => {
-            const messageElement = document.createElement('p');
-            messageElement.textContent = `${message.time} - ${message.writer}: ${message.text}`;
-            messagesDiv.appendChild(messageElement);
-        });
-    })
-    .catch(error => {
-        console.error('Error fetching messages:', error);
-    });
-});
--->
