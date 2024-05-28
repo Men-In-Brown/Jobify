@@ -1,96 +1,96 @@
 ---
-layout: default
-title: Chatbot
-nav_order: 4
-description: "Student blog"
-permalink: /chatbot
 ---
 
 <!--Mati's feature-->
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Oxygen&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="general.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+    
+        #chat-container {
+            max-width: 1400px;
+            margin: 20px auto;
+            border: 1px solid #ccc;
+            padding: 20px;
+            height: 90vh;
+            margin-right: 50px;
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    
+        #messages {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            overflow-y: scroll;
+            height: 80%;
+        }
+    
+        .message {
+            padding: 1px;
+            margin-bottom: 1px;
+            border-radius: 8px;
+            overflow-wrap: break-word;
+        }
+    
+    
+        .user1 {
+            background-color: #a0c4ff;
+            text-align: left;
+            padding: 10px;
+            max-width: 55%;
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            margin-top: 50px;
+        }
+    
+        .user2 {
+            background-color: #ffc0cb;
+            text-align: right;
+            max-width: auto;
+            margin-top: 50px;
+            padding: 10px;
+            margin-left: 600px;
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    
+        #message-input {
+            width: 100%;
+            padding: 8px;
+            margin-right: 9px;
+            margin-top: 100px;
+            max-hight: 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    
+        h6 {
+            margin-left: 400px;
+            color: #d3d3d3;
+        }
+    </style>
+</head>
 
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    #chat-container {
-        max-width: 1400px;
-        margin: 20px auto;
-        border: 1px solid #ccc;
-        padding: 20px;
-        height: 90vh;
-        margin-right: 50px;
-        border-radius: 16px;
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-    }
-
-    #messages {
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-        overflow-y: scroll;
-        height: 80%;
-    }
-
-    .message {
-        padding: 1px;
-        margin-bottom: 1px;
-        border-radius: 8px;
-        overflow-wrap: break-word;
-    }
-
-
-    .user1 {
-        background-color: #a0c4ff;
-        text-align: left;
-        padding: 10px;
-        max-width: 55%;
-        border-radius: 16px;
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        margin-top: 50px;
-    }
-
-    .user2 {
-        background-color: #ffc0cb;
-        text-align: right;
-        max-width: auto;
-        margin-top: 50px;
-        padding: 10px;
-        margin-left: 600px;
-        border-radius: 16px;
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-    }
-
-    #message-input {
-        width: 100%;
-        padding: 8px;
-        margin-right: 9px;
-        margin-top: 100px;
-        max-hight: 20px;
-        border-radius: 16px;
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-    }
-
-    h6 {
-        margin-left: 400px;
-        color: #d3d3d3;
-    }
-</style>
+{% include header2.html %}
 <div id="chat-container">
     <ul id="messages"></ul>
     <div>
@@ -122,7 +122,6 @@ permalink: /chatbot
         toggleUser();
         messageInput.value = '';
 
-
         var newMessage = document.createElement('li');
         await createBubble(response, newMessage);
         var response = await generateResponse(message, newMessage);
@@ -145,15 +144,14 @@ permalink: /chatbot
     }
 
     var memory = [];
-
     async function generateResponse(prompt, messageBox) {
         generating = true;
-        const url = 'http://127.0.0.1:11434/api/generate';
+        const url = 'https://ollama.20730661.xyz/api/generate';
 
-        const system = "act like a cowboy ";
+        const system = "act like an ass";
         const data = {
             // change the model to regular `llama2` if you don't have 16gb of ram for `llama2:13b` 
-            model: 'llama2:13b',
+            model: 'phi3',
             context: memory,
             system,
             prompt,
@@ -162,13 +160,14 @@ permalink: /chatbot
         const options = {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: JSON.stringify(data),
         };
 
         var response = await fetch(url, options);
         if (!response.ok) {
+            console.error(await response.text());
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
@@ -195,6 +194,6 @@ permalink: /chatbot
             }
         }
 
-        generating = false;
+        generating = false; 
     }
 </script>

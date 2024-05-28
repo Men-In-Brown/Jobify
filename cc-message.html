@@ -1,6 +1,9 @@
-<!DOCTYPE html>
+---
+---
+
 <html>
 <head>
+    <link rel="stylesheet" type="text/css" href="general.css">
     <title>Chat App</title>
     <style>
 
@@ -9,7 +12,7 @@
         width: 7%;
         background-color: #f0f0f0;
         position: fixed;
-        top: 0;
+        top: 58px;
         left: 0;
         display: flex;
         flex-direction: column;
@@ -50,7 +53,7 @@
       
         #settings {
           position: absolute;
-          top: 25px;
+          top: 70px;
           right: 25px;
           cursor: pointer;
           font-family: Arial, sans-serif;
@@ -107,14 +110,7 @@
       </head>
       
       <body>
-        <div id="sidebar">
-          <a href="cc-home.html">Home</a>
-          <a href="cc-message.html">Message</a>
-          <a href="cc-assistant.html">Assistant</a>
-          <a href="cc-channel.html">Channel</a>
-          <a href="cc-account.html">Account</a>
-          <a href="cc-image.html">Image</a>
-      </div>
+        {% include header2.html %}
       <div id="content">
         <div id="settings">Settings ⚙️</div>
         <select id="channelSelect">
@@ -128,7 +124,7 @@
     </div>
       
         <script>
-fetch('http://localhost:8765/channel')
+fetch('https://schaal.stu.nighthawkcodingsociety.com/channel')
 .then(response => response.json())
 .then(data => {
     const channelSelect = document.getElementById('channelSelect');
@@ -148,7 +144,7 @@ document.getElementById('channelSelect').addEventListener('change', function() {
   const messagesDiv = document.getElementById('messages');
   messagesDiv.innerHTML = '';
 
-  fetch(`http://localhost:8765/message?channelId=${channelId}`)
+  fetch(`https://schaal.stu.nighthawkcodingsociety.com/message?channelId=${channelId}`)
   .then(response => response.json())
   .then(messages => {
       const messagesDiv = document.getElementById('messages');
@@ -172,21 +168,21 @@ document.getElementById('sendButton').addEventListener('click', function() {
   const writer = localStorage.getItem('writer');
 
   if (text) {
-      fetch('http://localhost:8765/message', {
+      fetch('https://schaal.stu.nighthawkcodingsociety.com/message', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            channelName: channelName,
             text: text,
             writer: writer,
-            time: time
+            time: time,
+            recipient: recipient
           })
       })
       .then(response => {
           if (response.ok) {
-              // Clear the message input field
+              alert("hello");
               messageInput.value = '';
           } else {
               console.error('Error sending message:', response.status);

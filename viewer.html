@@ -1,0 +1,172 @@
+---
+---
+
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="general.css">
+    <meta charset="UTF-8">
+    <title>Assignment viewer</title>
+    <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf_viewer.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf_viewer.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+        }
+
+        .file-selector {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 30%;
+            margin-right: 20px;
+        }
+
+        .file-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 70%;
+            overflow: auto;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        select {
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        p {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        #fileContainer {
+            margin-top: 0px;
+        }
+    </style>
+</head>
+<body>
+    {% include header2.html %}
+    <main class="container">
+        <div class="file-selector">
+            <h1>Uploaded Files</h1>
+            <select id="fileDropdown">
+                <option value="" disabled selected>Select File</option>
+            </select>
+            <p><span id="selectedFileName" hidden></span></p>
+        </div>
+        <div class="file-container" id="fileContainer"></div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const url = "https://schaal.stu.nighthawkcodingsociety.com";
+            const fileContainer = document.getElementById("fileContainer");
+
+            function fetchFiles() {
+                fetch(url + "/api/fileupload/")
+                    .then(response => response.json())
+                    .then(data => {
+                        const dropdown = document.getElementById('fileDropdown');
+                        dropdown.innerHTML = '<option value="" disabled selected>Select File</option>';
+                        data.forEach(file => {
+                            const option = document.createElement('option');
+                            option.value = file.path;
+                            option.textContent = file.assignment + " - " + file.name;
+                            dropdown.appendChild(option);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching file data:', error);
+                    });
+            }
+
+            function loadPDF(url) {
+                const loadingTask = pdfjsLib.getDocument(url);
+                loadingTask.promise.then(function (pdf) {
+                    const numPages = pdf.numPages;
+                    for (let pageNum = 1; pageNum <= numPages; pageNum++) {
+                        pdf.getPage(pageNum).then(function (page) {
+                            const scale = 1.5;
+                            const viewport = page.getViewport({ scale: scale });
+                            const canvas = document.createElement('canvas');
+                            const context = canvas.getContext('2d');
+                            canvas.height = viewport.height;
+                            canvas.width = viewport.width;
+                            fileContainer.appendChild(canvas);
+                            const renderContext = {
+                                canvasContext: context,
+                                viewport: viewport
+                            };
+                            page.render(renderContext);
+                        });
+                    }
+                }, function (reason) {
+                    console.error(reason);
+                    fileContainer.innerHTML = `<p>Error loading PDF file.</p>`;
+                });
+            }
+
+            document.getElementById('fileDropdown').addEventListener('change', function () {
+                fileContainer.innerHTML = '';  // Clear the file container
+                const selectedFilePath = this.value;
+                document.getElementById('selectedFileName').textContent = selectedFilePath;
+                const fileExtension = selectedFilePath.split('.').pop().toLowerCase();
+                let fileElement;
+                if (['jpg', 'jpeg', 'png', 'gif'].includes(fileExtension)) {
+                    fileElement = `<img src="${url}${selectedFilePath}" alt="Selected File" style="max-width: 100%;">`;
+                    fileContainer.innerHTML = fileElement;
+                } else if (['mp4', 'webm', 'ogg'].includes(fileExtension)) {
+                    fileElement = `
+                        <video controls style="max-width: 100%;">
+                            <source src="${url}${selectedFilePath}" type="video/${fileExtension}">
+                            Your browser does not support the video tag.
+                        </video>`;
+                    fileContainer.innerHTML = fileElement;
+                } else if (['txt'].includes(fileExtension)) {
+                    fetch(url + selectedFilePath)
+                        .then(response => response.text())
+                        .then(text => {
+                            fileElement = `<pre style="white-space: pre-wrap;">${text}</pre>`;
+                            fileContainer.innerHTML = fileElement;
+                        })
+                        .catch(error => {
+                            fileElement = `<p>Error loading text file.</p>`;
+                            fileContainer.innerHTML = fileElement;
+                        });
+                } else if (['pdf'].includes(fileExtension)) {
+                    loadPDF(url + selectedFilePath);
+                } else {
+                    fileElement = `<p>Selected file type is not supported for preview.</p>`;
+                    fileContainer.innerHTML = fileElement;
+                }
+            });
+
+            fetchFiles();
+        });
+    </script>
+</body>
+</html>
