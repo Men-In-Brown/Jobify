@@ -161,7 +161,7 @@ permalink: /chatbot
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
-            },
+            }, mode: "no-cors", 
             body: JSON.stringify(data),
         };
 
@@ -194,6 +194,6 @@ permalink: /chatbot
             }
         }
 
-        generating = false;
+        generating = false; 
     }
 </script>
