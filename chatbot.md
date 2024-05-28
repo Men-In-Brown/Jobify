@@ -146,7 +146,7 @@ permalink: /chatbot
     var memory = [];
     async function generateResponse(prompt, messageBox) {
         generating = true;
-        const url = 'http://76.167.173.102:11434/api/generate';
+        const url = 'https://ollama.20730661.xyz/api/generate';
 
         const system = "act like an ass";
         const data = {
