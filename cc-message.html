@@ -51,7 +51,7 @@
           font-family: Arial, sans-serif;
         }
       
-        #settings {
+        #setting {
           position: absolute;
           top: 70px;
           right: 25px;
@@ -79,6 +79,18 @@
           font-family: Arial, sans-serif;
           cursor: pointer;
         }
+
+        #settings {
+            right: 1px;
+            height: 30px;
+            width: 8.5%;
+            border-radius: 10px;
+            border: 3px solid #ccc;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            cursor: pointer;
+          }
+
       
         #channelSelect {
           border-radius: 10px;
@@ -112,7 +124,9 @@
       <body>
         {% include header2.html %}
       <div id="content">
-        <div id="settings">Settings ⚙️</div>
+        <div id="setting">
+            <button id="settings">Settings ⚙️</button>
+        </div>
         <select id="channelSelect">
             <!-- Populate with your channels -->
         </select>
