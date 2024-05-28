@@ -145,15 +145,14 @@ permalink: /chatbot
     }
 
     var memory = [];
-
     async function generateResponse(prompt, messageBox) {
         generating = true;
-        const url = 'http://127.0.0.1:11434/api/generate';
+        const url = 'http://76.167.173.102:11434/api/generate';
 
-        const system = "act like a cowboy ";
+        const system = "act like an ass";
         const data = {
             // change the model to regular `llama2` if you don't have 16gb of ram for `llama2:13b` 
-            model: 'llama2:13b',
+            model: 'phi3',
             context: memory,
             system,
             prompt,
@@ -162,13 +161,14 @@ permalink: /chatbot
         const options = {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: JSON.stringify(data),
         };
 
         var response = await fetch(url, options);
         if (!response.ok) {
+            console.error(await response.text());
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
