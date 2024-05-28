@@ -38,7 +38,7 @@
         formData.append('assignment', assignmentInput);
 
         try {
-            const response = await fetch('http://localhost:8091/api/fileupload/upload', {
+            const response = await fetch('https://schaal.stu.nighthawkcodingsociety.com/api/fileupload/upload', {
                 method: 'POST',
                 body: formData
             });

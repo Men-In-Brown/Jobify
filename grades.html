@@ -54,7 +54,7 @@
             }
 
             function fetchStudents() {
-                fetch('http://localhost:8091/api/grade/')
+                fetch('https://schaal.stu.nighthawkcodingsociety.com/api/grade/')
                     .then(response => response.json())
                     .then(data => {
                         const dropdown = document.getElementById('studentDropdown');
@@ -72,7 +72,7 @@
             }
 
             function fetchAssignments() {
-                fetch('http://localhost:8091/api/assignments/')
+                fetch('https://schaal.stu.nighthawkcodingsociety.com/api/assignments/')
                     .then(response => response.json())
                     .then(data => {
                         const dropdown = document.getElementById('assignmentDropdown');
@@ -107,7 +107,7 @@
 
             function searchName() {
                 const studentEmail = document.getElementById('selectedStudentEmail').textContent;
-                fetch(`http://localhost:8091/api/grade/email/${studentEmail}`)
+                fetch(`https://schaal.stu.nighthawkcodingsociety.com/api/grade/email/${studentEmail}`)
                     .then(response => response.json())
                     .then(data => {
                         displayStudentResults(data);
@@ -173,7 +173,7 @@
                                 newScore: student.score
                             })
                         };
-                        fetch(`http://localhost:8091/api/grade/update/${student.id}`, requestOptions)
+                        fetch(`https://schaal.stu.nighthawkcodingsociety.com/api/grade/update/${student.id}`, requestOptions)
                             .then(response => {
                                 if (response.status !== 200) {
                                     const errorMsg = 'Invalid Input - Database Update error: ' + response.status;
@@ -198,7 +198,7 @@
 
             function searchAssignment() {
                 const assignmentId = document.getElementById('assignmentDropdown').value;
-                fetch(`http://localhost:8091/api/assignments/${assignmentId}`)
+                fetch(`https://schaal.stu.nighthawkcodingsociety.com/api/assignments/${assignmentId}`)
                     .then(response => response.json())
                     .then(data => {
                         displayAssignmentResults(data);
@@ -276,7 +276,7 @@
                                 newScore: submission.score
                             })
                         };
-                        fetch(`http://localhost:8091/api/grade/update/${submission.id}`, requestOptions)
+                        fetch(`https://schaal.stu.nighthawkcodingsociety.com/api/grade/update/${submission.id}`, requestOptions)
                             .then(response => {
                                 if (response.status !== 200) {
                                     const errorMsg = 'Invalid Input - Database Update error: ' + response.status;

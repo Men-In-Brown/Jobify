@@ -3,7 +3,7 @@ let currentcompanyIndex = -1;
 let _companyName, _companyMission;
 
 window.onload = function() {
-    const apiUrl = "http://localhost:8091/api/internships";
+    const apiUrl = "https://schaal.stu.nighthawkcodingsociety.com/api/internships";
 
     fetch(apiUrl)
       .then(response => {
