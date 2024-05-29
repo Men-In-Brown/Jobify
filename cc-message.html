@@ -41,52 +41,53 @@
     }
 
         #messages {
-          height: 75vh;
+          height: 77vh;
           overflow-y: auto;
           border-radius: 10px;
           border: 3px solid #ccc;
           padding: 10px;
           margin-bottom: 10px;
-          width: 98%;
+          width: 99%;
           font-family: Arial, sans-serif;
         }
       
         #setting {
           position: absolute;
-          top: 70px;
-          right: 25px;
+          top: 65px;
+          right: 30px;
           cursor: pointer;
           font-family: Arial, sans-serif;
         }
       
         #messageInput {
           position: center;
-          height: 30px;
+          height: 50px;
           width: 90%;
           border-radius: 10px;
           border: 3px solid #ccc;
+          background-color: #24475b;
           padding: 5px;
           font-family: Arial, sans-serif;
         }
       
         #sendButton {
           left: 1px;
-          height: 41px;
+          height: 50px;
           width: 8.5%;
           border-radius: 10px;
           border: 3px solid #ccc;
-          background-color: #f0f0f0;
+          background-color: #24475b;
           font-family: Arial, sans-serif;
           cursor: pointer;
         }
 
         #settings {
-            right: 20px;
+            right: 1px;
             height: 30px;
-            width: 90%;
+            width: 100%;
             border-radius: 10px;
             border: 3px solid #ccc;
-            background-color: #f0f0f0;
+            background-color: #24475b;
             font-family: Arial, sans-serif;
             cursor: pointer;
           }
@@ -95,6 +96,7 @@
         #channelSelect {
           border-radius: 10px;
           border: 3px solid #ccc;
+          background-color: #24475b;
           padding: 5px;
           font-family: Arial, sans-serif;
           width: 10%;
@@ -123,6 +125,10 @@
       
       <body>
         {% include header2.html %}
+        <div id="sidebar">
+            <a href="cc-home.html">Calendar</a>
+            <a href="cc-message.html">Notes</a>
+        </div>
       <div id="content">
         <div id="setting">
             <button id="settings">Settings ⚙️</button>
@@ -179,7 +185,7 @@ document.getElementById('sendButton').addEventListener('click', function() {
   const text = messageInput.value;
   const channelName = document.getElementById('channelSelect').value;
   const time = new Date().toISOString();
-  const writer = localStorage.getItem('writer');
+  const writer = localStorage.getItem('username');
 
   if (text) {
       fetch('https://schaal.stu.nighthawkcodingsociety.com/message', {
