@@ -17,8 +17,6 @@
                 <input type="text" id="title2" name="title" placeholder="Title" style="width: 100%;"><br>
                 <label for="desc">Description:</label><br>
                 <textarea id="desc" name="desc" placeholder="Description" rows="4" cols="50" style="width: 100%;"></textarea><br>
-                <label for="username">Username:</label><br>
-                <input type="text" id="username" name="username" placeholder="Username" style="width: 100%;"><br>
                 <button type="submit">Submit</button>
             </form>
         </div>
@@ -29,12 +27,12 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        const username = localStorage.getItem('username');
         $(document).ready(function() {
             $('#new-issue-form').on('submit', function(e) {
                 e.preventDefault();
                 var title = $('#title2').val();
                 var desc = $('#desc').val();
-                var username = $('#username').val();
                 $.post('https://schaal.stu.nighthawkcodingsociety.com/api/issues/post', { title: title, desc: desc, username: username });
             }); 
             $.ajax({
@@ -62,7 +60,6 @@
                         html += '<button class="reply-button" data-id="' + issue.id + '">Reply</button>';
                         html += '<div id="reply-form-' + issue.id + '" style="display: none;">';
                         html += '<form class="reply-form" data-id="' + issue.id + '">';
-                        html += '<input type="text" name="username" placeholder="Your username">';
                         html += '<textarea name="reply" placeholder="Your reply"></textarea>';
                         html += '<button type="submit">Submit reply</button>';
                         html += '</form>';
@@ -79,7 +76,6 @@
             $(document).on('submit', '.reply-form', function(e) {
                 e.preventDefault();
                 var id = $(this).data('id');
-                var username = $(this).find('input[name="username"]').val();
                 var reply = $(this).find('textarea[name="reply"]').val();
                 $.ajax({
                     url: 'https://schaal.stu.nighthawkcodingsociety.com/api/issues/comment',
