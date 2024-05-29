@@ -157,6 +157,7 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        const {} = localStorage.getItem('username');
         var url = new URL(window.location.href);
         var id = url.searchParams.get("id");
         var flashcards = [];
