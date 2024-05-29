@@ -157,7 +157,7 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        const {} = localStorage.getItem('username');
+        const username = localStorage.getItem('username');
         var url = new URL(window.location.href);
         var id = url.searchParams.get("id");
         var flashcards = [];
@@ -240,7 +240,7 @@
             if (canMoveToNextFlashcard) {
                 document.getElementById('flashcard').classList.remove('is-flipped');
 
-                var username = document.getElementById('username3').value;
+                //var username = document.getElementById('username3').value;
                 fetch(`https://schaal.stu.nighthawkcodingsociety.com/api/assignments/completeFlashcard/${id}?username=${username}`, {
                     method: 'POST',
                 })
@@ -310,11 +310,11 @@
                     "title": document.getElementById('title2').value,
                     "desc": document.getElementById('desc').value,
                     "contributors": document.getElementById('contributors').value.split(','),
-                    "username": document.getElementById('username2').value,
+                    "username": /*document.getElementById('username2').value*/username,
                     "link": document.getElementById('link').value
                 };
         
-                fetch('https://schaal.stu.nighthawkcodingsociety.com/api/assignments/submit', {
+                fetch('http://schaal.stu.nighthawkcodingsociety.com/api/assignments/submit', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -341,7 +341,7 @@
                 var data = {
                     "id": id.toString(),
                     "answers": answers,
-                    "username": document.getElementById('username2').value
+                    "username": /*document.getElementById('username2').value*/username
                 };
         
                 fetch('https://schaal.stu.nighthawkcodingsociety.com/api/assignments/submit', {
