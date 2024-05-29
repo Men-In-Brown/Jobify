@@ -41,63 +41,88 @@
     }
 
         #messages {
-          height: 75vh;
+          height: 77vh;
           overflow-y: auto;
           border-radius: 10px;
           border: 3px solid #ccc;
           padding: 10px;
           margin-bottom: 10px;
-          width: 98%;
+          width: 99%;
           font-family: Arial, sans-serif;
         }
       
         #setting {
           position: absolute;
-          top: 70px;
-          right: 25px;
+          top: 62px;
+          right: 30px;
           cursor: pointer;
           font-family: Arial, sans-serif;
         }
+
+        #recipient {
+            position: absolute;
+            top: 67px;
+            right: 1150px;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+          }
       
         #messageInput {
           position: center;
-          height: 30px;
+          height: 50px;
           width: 90%;
           border-radius: 10px;
           border: 3px solid #ccc;
+          background-color: #24475b;
+          color: #fff;
           padding: 5px;
           font-family: Arial, sans-serif;
         }
       
         #sendButton {
           left: 1px;
-          height: 41px;
+          height: 50px;
           width: 8.5%;
           border-radius: 10px;
           border: 3px solid #ccc;
-          background-color: #f0f0f0;
+          background-color: #24475b;
+          color: #fff;
           font-family: Arial, sans-serif;
           cursor: pointer;
         }
 
         #settings {
-            right: 20px;
-            height: 30px;
-            width: 90%;
+            right: 1px;
+            height: 34px;
+            width: 100%;
             border-radius: 10px;
             border: 3px solid #ccc;
-            background-color: #f0f0f0;
+            background-color: #24475b;
+            color: #fff;
             font-family: Arial, sans-serif;
             cursor: pointer;
           }
 
+          #recipients {
+            right: 1px;
+            height: 33px;
+            width: 100%;
+            border-radius: 10px;
+            border: 3px solid #ccc;
+            background-color: #24475b;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            cursor: pointer;
+          }
       
         #channelSelect {
           border-radius: 10px;
           border: 3px solid #ccc;
+          background-color: #24475b;
           padding: 5px;
           font-family: Arial, sans-serif;
           width: 10%;
+          color: #fff;
         }
       
         /* Dark mode styles */
@@ -117,15 +142,119 @@
         body.dark-mode #sendButton {
           background-color: #888;
         }
+
+        #settings-menu {
+            position: absolute;
+            top: 65px;
+            right: 30px;
+            background-color: #f0f0f0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            width: 250px;
+          }
+          
+          #settings-menu h2 {
+            margin-top: 0;
+            font-weight: bold;
+            font-size: 18px;
+            color: #333;
+          }
+          
+          #settings-menu label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #666;
+          }
+          
+          #settings-menu input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+          }
+          
+          #settings-menu input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin: 0 10px;
+          }
+          
+          #settings-menu select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+          }
+          
+          #save-settings {
+            background-color: #24475b;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+          }
+          
+          #save-settings:hover {
+            background-color: #1a1d23;
+          }
       </style>
       
       </head>
       
       <body>
         {% include header2.html %}
+        <div id="sidebar">
+            <a href="cc-home.html">Calendar</a>
+            <a href="cc-message.html">Notes</a>
+        </div>
+        <div id="settings-menu" style="display: none; position: absolute; top: 65px; right: 30px; background-color: #f0f0f0; padding: 10px; border: 1px solid #ccc;">
+            <h2>Settings</h2>
+        <label for="bgColor">Background Color:</label>
+        <input type="text" id="bgColor" />
+        <br>
+        <label for="msgColor">Text Color:</label>
+        <input type="text" id="msgColor" />
+        <br>
+        <label for="darkMode">Dark Mode:</label>
+        <input type="checkbox" id="darkMode" />
+        <br>
+        <label for="quickSettings">Quick Settings:</label>
+        <select id="quickSettings">
+            <option value="">Select a theme</option>
+            <option value="cherry">Cherry</option>
+            <option value="space">Space</option>
+            <option value="sea">Ocean</option>
+            <option value="school">Del Norte High School</option>
+        </select>
+        <br>
+        <label for="fontFamily">Font Family:</label>
+        <select id="fontFamily">
+            <option value="">Select a font</option>
+            <option value="Arial">Arial</option>
+            <option value="Verdana">Verdana</option>
+            <option value="Tahoma">Tahoma</option>
+            <option value="Times New Roman">Times New Roman</option>
+            <option value="Courier New">Courier New</option>
+            <option value="Comic Sans MS">Comic Sans MS</option>
+            <option value="Lucida Console">Lucida Console</option>
+            <option value="Impact">Impact</option>
+            <option value="Arial Black">Arial Black</option>
+        </select>
+        <br>
+        <button id="save-settings">Save</button>
+        </div>
       <div id="content">
         <div id="setting">
-            <button id="settings">Settings ⚙️</button>
+            <button id="settings" onclick="document.getElementById('settings-menu').style.display = 'block';">Settings ⚙️</button>
+        </div>
+        <div id="recipient">
+            <input type="text" id="recipients" placeholder="Create a chat">
         </div>
         <select id="channelSelect">
             <!-- Populate with your channels -->
@@ -158,7 +287,7 @@ document.getElementById('channelSelect').addEventListener('change', function() {
   const messagesDiv = document.getElementById('messages');
   messagesDiv.innerHTML = '';
 
-  fetch(`https://schaal.stu.nighthawkcodingsociety.com/message?channelId=${channelId}`)
+  fetch(`https://schaal.stu.nighthawkcodingsociety.com/message?recipient=${recipient}`)
   .then(response => response.json())
   .then(messages => {
       const messagesDiv = document.getElementById('messages');
@@ -177,9 +306,9 @@ document.getElementById('channelSelect').addEventListener('change', function() {
 document.getElementById('sendButton').addEventListener('click', function() {
   const messageInput = document.getElementById('messageInput');
   const text = messageInput.value;
-  const channelName = document.getElementById('channelSelect').value;
+  const recipient = document.getElementById('recipients');
   const time = new Date().toISOString();
-  const writer = localStorage.getItem('writer');
+  const writer = localStorage.getItem('username');
 
   if (text) {
       fetch('https://schaal.stu.nighthawkcodingsociety.com/message', {
@@ -208,47 +337,93 @@ document.getElementById('sendButton').addEventListener('click', function() {
   }
 });
 
-document.getElementById('settings').addEventListener('click', function() {
-    var bgColor = prompt("Enter a background color:");
-    var msgColor = prompt("Enter a message color:");
-    var darkMode = confirm("Enable dark mode?");
-    
+document.getElementById('save-settings').addEventListener('click', function() {
+    var bgColor = document.getElementById('bgColor').value;
+    var msgColor = document.getElementById('msgColor').value;
+    var darkMode = document.getElementById('darkMode').checked;
+    var quickSettings = document.getElementById('quickSettings').value;
+    var fontFamily = document.getElementById('fontFamily').value;
+
     if (bgColor) {
-        document.body.style.backgroundColor = bgColor;
-        localStorage.setItem('bgColor', bgColor);
+      document.body.style.backgroundColor = bgColor;
+      localStorage.setItem('bgColor', bgColor);
     }
-    
+
     if (msgColor) {
-        document.getElementById('messages').style.color = msgColor;
-        localStorage.setItem('msgColor', msgColor);
+      document.getElementById('messages').style.color = msgColor;
+      localStorage.setItem('msgColor', msgColor);
     }
-    
+
     if (darkMode) {
-        document.body.classList.add('dark-mode');
-        localStorage.setItem('darkMode', true);
+      document.body.classList.add('dark-mode');
+      localStorage.setItem('darkMode', true);
     } else {
-        document.body.classList.remove('dark-mode');
-        localStorage.removeItem('darkMode');
+      document.body.classList.remove('dark-mode');
+      localStorage.removeItem('darkMode');
     }
-});    
 
-    window.onload = function() {
-        var savedBgColor = localStorage.getItem('bgColor');
-        var savedMsgColor = localStorage.getItem('msgColor');
-        var isDarkMode = localStorage.getItem('darkMode');
+    if (quickSettings) {
+      switch (quickSettings) {
+        case 'cherry':
+          document.body.style.backgroundColor = 'pink';
+          document.body.style.borderColor = 'maroon';
+          document.getElementById('messages').style.color = 'maroon';
+          break;
+        case 'space':
+          document.body.style.backgroundColor = 'black';
+          document.body.style.borderColor = 'yellow';
+          document.getElementById('messages').style.color = 'white';
+          break;
+        case 'sea':
+          document.body.style.backgroundColor = 'navy';
+          document.body.style.borderColor = 'green';
+          document.getElementById('messages').style.color = 'lightblue';
+          break;
+        case 'school':
+          document.body.style.backgroundColor = 'midnightblue';
+          document.body.style.borderColor = 'darkgreen';
+          document.getElementById('messages').style.color = 'white';
+          break;
+      }
+      localStorage.setItem('quickSettings', quickSettings);
+    }
 
-        if (savedBgColor) {
-            document.body.style.backgroundColor = savedBgColor;
-        }
+    if (fontFamily) {
+      document.body.style.fontFamily = fontFamily;
+      localStorage.setItem('fontFamily', fontFamily);
+    }
 
-        if (savedMsgColor) {
-            document.getElementById('messages').style.color = savedMsgColor;
-        }
+    document.getElementById('settings-menu').style.display = 'none';
+  });
 
-        if (isDarkMode) {
-            document.body.classList.add('dark-mode');
-        }
-};
-    </script>
+  window.onload = function() {
+    var savedBgColor = localStorage.getItem('bgColor');
+    var savedMsgColor = localStorage.getItem('msgColor');
+    var isDarkMode = localStorage.getItem('darkMode');
+    var savedQuickSettings = localStorage.getItem('quickSettings');
+    var savedFontFamily = localStorage.getItem('fontFamily');
+
+    if (savedBgColor) {
+      document.body.style.backgroundColor = savedBgColor;
+    }
+
+    if (savedMsgColor) {
+      document.getElementById('messages').style.color = savedMsgColor;
+    }
+
+    if (isDarkMode) {
+      document.body.classList.add('dark-mode');
+    }
+
+    if (savedQuickSettings) {
+      document.getElementById('quickSettings').value = savedQuickSettings;
+    }
+
+    if (savedFontFamily) {
+        document.body.style.fontFamily = savedFontFamily;
+        document.getElementById('fontFamily').value = savedFontFamily;
+      }
+  };
+</script>
 </body>
 </html>
