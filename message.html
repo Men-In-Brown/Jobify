@@ -319,7 +319,7 @@
             const channelSelect = document.getElementById('channelSelect');
             const writer = localStorage.getItem('username');
             
-            fetch('https://schaal.stu.nighthawkcodingsociety.com/channels')
+            fetch('https://schaal.stu.nighthawkcodingsociety.com/channel')
               .then(response => response.json())
               .then(channels => {
                 channels.forEach(channel => {
@@ -411,39 +411,6 @@
                   });
                 }
               });
-
-document.getElementById('send-message').addEventListener('click', function() {
-    const username = document.getElementById('username').value;
-    const message = document.getElementById('message').value;
-    if (username && message) {
-      // Send the message to the server
-      fetch('https://schaal.stu.nighthawkcodingsociety.com/message', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          text: message,
-          writer: localStorage.getItem('username'),
-          time: new Date().toISOString(),
-          recipient: username
-        })
-      })
-      .then(response => {
-        if (response.ok) {
-          alert("Message sent successfully!");
-          document.getElementById('username').value = '';
-          document.getElementById('message').value = '';
-          document.getElementById('recipient-menu').style.display = 'none';
-        } else {
-          console.error('Error sending message:', response.status);
-        }
-      })
-      .catch(error => {
-        console.error('Error sending message:', error);
-      });
-    }
-  });
 
 document.getElementById('recipients').addEventListener('click', function() {
     document.getElementById('recipient-menu').style.display = 'block';
