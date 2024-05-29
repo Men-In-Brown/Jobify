@@ -86,35 +86,37 @@
             padding: 10px;
             margin-bottom: 10px;
             cursor: pointer;
-            transition: transform 0.5s;
             perspective: 1000px;
-            max-width: 800px; /* Increase the max-width to make flashcards wider */
-            width: 100%; /* Ensure flashcards take the full width within the container */
+            max-width: 800px;
+            width: 100%;
             margin: 10px auto;
         }
         
         .flashcard-inner {
-            transform-style: preserve-3d;
-            transition: transform 0.5s;
             position: relative;
+            width: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
         }
         
-        .flashcard .question,
-        .flashcard .answer {
-            backface-visibility: hidden;
+        .flashcard-inner.flipped {
+            transform: rotateY(180deg);
+        }
+        
+        .flashcard .question, .flashcard .answer {
             position: absolute;
             width: 100%;
-            height: 100%;
+            backface-visibility: hidden;
+            padding: 10px;
+            box-sizing: border-box;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 10px;
-            box-sizing: border-box;
         }
         
         .flashcard .answer {
             transform: rotateY(180deg);
-        }        
+        }                
     </style>
 </head>
 <body>
@@ -175,28 +177,42 @@
                     });
             }
         
+            function createFlashcardElement(flashcard) {
+                const flashcardItem = document.createElement('div');
+                flashcardItem.className = 'flashcard';
+                flashcardItem.innerHTML = `
+                    <div class="flashcard-inner">
+                        <div class="question">${flashcard.question}</div>
+                        <div class="answer">${flashcard.answer}</div>
+                    </div>
+                    <button data-flashcard-id="${flashcard.id}" class="delete-button">Delete</button>
+                    <button data-flashcard-id="${flashcard.id}" class="edit-button">Edit</button>
+                `;
+        
+                flashcardItem.addEventListener('click', function () {
+                    flashcardItem.querySelector('.flashcard-inner').classList.toggle('flipped');
+                });
+        
+                flashcardItem.querySelector('.delete-button').addEventListener('click', function (event) {
+                    event.stopPropagation();
+                    deleteFlashcard(flashcard.id);
+                });
+        
+                flashcardItem.querySelector('.edit-button').addEventListener('click', function (event) {
+                    event.stopPropagation();
+                    editFlashcard(flashcard.id);
+                });
+        
+                return flashcardItem;
+            }
+        
             function loadExistingFlashcards() {
                 fetch('https://schaal.stu.nighthawkcodingsociety.com/api/flashcards/')
                     .then(response => response.json())
                     .then(data => {
                         existingFlashcardsContainer.innerHTML = '';
                         data.forEach(flashcard => {
-                            const flashcardItem = document.createElement('div');
-                            flashcardItem.className = 'flashcard';
-                            flashcardItem.innerHTML = `
-                                <div class="flashcard-inner">
-                                    <div class="question">${flashcard.question}</div>
-                                    <div class="answer">${flashcard.answer}</div>
-                                </div>
-                                <button data-flashcard-id="${flashcard.id}" class="delete-button">Delete</button>
-                                <button data-flashcard-id="${flashcard.id}" class="edit-button">Edit</button>
-                            `;
-                            flashcardItem.querySelector('.delete-button').addEventListener('click', function () {
-                                deleteFlashcard(flashcard.id);
-                            });
-                            flashcardItem.querySelector('.edit-button').addEventListener('click', function () {
-                                editFlashcard(flashcard.id);
-                            });
+                            const flashcardItem = createFlashcardElement(flashcard);
                             existingFlashcardsContainer.appendChild(flashcardItem);
                         });
                     })
@@ -212,20 +228,8 @@
                         flashcardList.innerHTML = '';
                         data.forEach(flashcard => {
                             const listItem = document.createElement('li');
-                            listItem.innerHTML = `
-                                <strong>Topic:</strong> ${flashcard.topic}<br>
-                                <strong>Question:</strong>
-                                <div class="flashcard">
-                                    <div class="flashcard-inner">
-                                        <div class="question">${flashcard.question}</div>
-                                        <div class="answer">${flashcard.answer}</div>
-                                    </div>
-                                </div>
-                                <button data-flashcard-id="${flashcard.id}">Delete</button>
-                            `;
-                            listItem.querySelector('button').addEventListener('click', function () {
-                                deleteFlashcard(flashcard.id);
-                            });
+                            const flashcardItem = createFlashcardElement(flashcard);
+                            listItem.appendChild(flashcardItem);
                             flashcardList.appendChild(listItem);
                         });
                     })
@@ -302,7 +306,8 @@
         
             loadExistingFlashcards();
             loadTopicsAndCreateButtons();
-        });        
+        });
+
     </script>
 </body>
 </html>
