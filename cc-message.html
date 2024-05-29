@@ -61,8 +61,8 @@
 
         #recipient {
             position: absolute;
-            top: 67px;
-            right: 900px;
+            top: 64px;
+            right: 975px;
             cursor: pointer;
             font-family: Arial, sans-serif;
           }
@@ -154,6 +154,18 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
             width: 250px;
           }
+
+          #recipient-menu {
+            position: absolute;
+            top: 65px;
+            right: 900px;
+            background-color: #f0f0f0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            width: 250px;
+          }
           
           #settings-menu h2 {
             margin-top: 0;
@@ -199,7 +211,34 @@
             border-radius: 5px;
             cursor: pointer;
           }
-          
+
+          #close-settings {
+            background-color: #24475b;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+          }
+
+          #send-message {
+            background-color: #24475b;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+          }
+
+          #close-message {
+            background-color: #24475b;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+          }
+
           #save-settings:hover {
             background-color: #1a1d23;
           }
@@ -210,8 +249,8 @@
       <body>
         {% include header2.html %}
         <div id="sidebar">
-            <a href="cc-home.html">Calendar</a>
-            <a href="cc-message.html">Notes</a>
+            <a href="home.html">Calendar (TBA) </a>
+            <a href="home.html">Notes (BETA) </a>
         </div>
         <div id="settings-menu" style="display: none; position: absolute; top: 65px; right: 30px; background-color: #f0f0f0; padding: 10px; border: 1px solid #ccc;">
             <h2>Settings</h2>
@@ -248,13 +287,14 @@
         </select>
         <br>
         <button id="save-settings">Save</button>
+        <button id="close-settings">Close</button>
         </div>
       <div id="content">
         <div id="setting">
             <button id="settings" onclick="document.getElementById('settings-menu').style.display = 'block';">Settings ⚙️</button>
         </div>
         <div id="recipient">
-            <input type="text" id="recipients" placeholder="Create a chat">
+            <button id="recipients" onclick="document.getElementById('recipient-menu').style.display = 'block';">Create 🔨</button>
         </div>
         <select id="channelSelect">
             <!-- Populate with your channels -->
@@ -263,8 +303,19 @@
             <!-- Messages will be displayed here -->
         </div>
         <input type="text" id="messageInput" placeholder="Type your message here...">
-        <button id="sendButton">Send</button>
+        <button id="sendButton">Send 🔼</button>
     </div>
+    <div id="recipient-menu" style="display: none; position: absolute; top: 65px; right: 900px; background-color: #f0f0f0; padding: 20px; border: 1px solid #ccc; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); width: 250px;">
+        <h2>Send Message</h2>
+        <label for="username">Username:</label>
+        <input type="text" id="username" />
+        <br>
+        <label for="message">Message:</label>
+        <textarea id="message" rows="5" cols="30"></textarea>
+        <br>
+        <button id="send-message">Send</button>
+        <button id="close-message">Close</button>
+      </div>
       
         <script>
 fetch('https://schaal.stu.nighthawkcodingsociety.com/channel')
@@ -337,6 +388,43 @@ document.getElementById('sendButton').addEventListener('click', function() {
   }
 });
 
+document.getElementById('send-message').addEventListener('click', function() {
+    const username = document.getElementById('username').value;
+    const message = document.getElementById('message').value;
+    if (username && message) {
+      // Send the message to the server
+      fetch('https://schaal.stu.nighthawkcodingsociety.com/message', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          text: message,
+          writer: localStorage.getItem('username'),
+          time: new Date().toISOString(),
+          recipient: username
+        })
+      })
+      .then(response => {
+        if (response.ok) {
+          alert("Message sent successfully!");
+          document.getElementById('username').value = '';
+          document.getElementById('message').value = '';
+          document.getElementById('recipient-menu').style.display = 'none';
+        } else {
+          console.error('Error sending message:', response.status);
+        }
+      })
+      .catch(error => {
+        console.error('Error sending message:', error);
+      });
+    }
+  });
+
+document.getElementById('recipients').addEventListener('click', function() {
+    document.getElementById('recipient-menu').style.display = 'block';
+  });
+
 document.getElementById('save-settings').addEventListener('click', function() {
     var bgColor = document.getElementById('bgColor').value;
     var msgColor = document.getElementById('msgColor').value;
@@ -394,6 +482,14 @@ document.getElementById('save-settings').addEventListener('click', function() {
     }
 
     document.getElementById('settings-menu').style.display = 'none';
+  });
+
+  document.getElementById('close-settings').addEventListener('click', function() {
+    document.getElementById('settings-menu').style.display = 'none';
+  });
+
+  document.getElementById('close-message').addEventListener('click', function() {
+    document.getElementById('recipient-menu').style.display = 'none';
   });
 
   window.onload = function() {
