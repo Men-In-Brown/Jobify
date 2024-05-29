@@ -306,7 +306,7 @@ document.getElementById('channelSelect').addEventListener('change', function() {
 document.getElementById('sendButton').addEventListener('click', function() {
   const messageInput = document.getElementById('messageInput');
   const text = messageInput.value;
-  const recipient = document.getElementById('recipients');
+  const recipient = document.getElementById('recipients').value;
   const time = new Date().toISOString();
   const writer = localStorage.getItem('username');
 
