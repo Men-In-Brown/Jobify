@@ -103,6 +103,7 @@
             var username = document.getElementById("username").value;
             var password = document.getElementById("password").value;
             localStorage.setItem("username", username);
+            window.location.href = "https://men-in-brown.github.io/Jobify/home.html";
             document.getElementById("userInfo").innerHTML = "Username: " + username + "<br>Password: " + password;
             document.getElementById("login").style.display = "none";
             document.getElementById("info").style.display = "block";

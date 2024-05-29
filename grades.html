@@ -9,21 +9,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grade Search</title>
     <style>
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        main.container {
+            padding: 20px;
+        }
         table {
             border-collapse: collapse;
             width: 100%;
+            margin-top: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         th, td {
-            border: 1px solid black;
-            padding: 8px;
+            border: 1px solid #ddd;
+            padding: 12px;
             text-align: left;
+            font-size: 16px;
         }
         tr:nth-child(even) {
-            background-color: #f2f2f2;
+            background-color: #f9f9f9;
         }
         th {
-            background-color: #4CAF50;
+            background-color: #24475b;
             color: white;
+            font-size: 18px;
+        }
+        select {
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #totalGrade {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        button {
+            background-color: #24475b;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #1a3340;
         }
     </style>
 </head>
@@ -45,7 +81,7 @@
         <div id="totalGrade"></div>
     </main>
     <script>
-        // const url = "http://localhost:8091/";
+        // JavaScript code remains unchanged
         const url = "https://schaal.stu.nighthawkcodingsociety.com/";
 
         document.addEventListener('DOMContentLoaded', function () {
@@ -163,7 +199,6 @@
                 resultContainer.appendChild(headerRow);
 
                 data.forEach(student => {
-                    // alert(student.id);
                     const row = document.createElement("tr");
                     const emailCell = document.createElement("td");
                     emailCell.textContent = student.email;
@@ -244,14 +279,14 @@
                 resultDiv.innerHTML = '';
                 const resultContainer = document.getElementById("resultTable");
                 resultContainer.innerHTML = '';
-            
+
                 if (!data.submissions || Object.keys(data.submissions).length === 0) {
                     resultDiv.innerHTML = 'No submissions found for this assignment.';
                     return;
                 }
-            
+
                 const submissions = data.submissions;
-            
+
                 const headerRow = document.createElement("tr");
                 const headers = ["Email", "Assignment", "Max Score", "Grade", "Update"];
                 headers.forEach(headerText => {
@@ -260,24 +295,23 @@
                     headerRow.appendChild(th);
                 });
                 resultContainer.appendChild(headerRow);
-            
+
                 Object.keys(submissions).forEach(username => {
                     const submission = submissions[username];
                     const row = document.createElement("tr");
-            
+
                     const emailCell = document.createElement("td");
                     emailCell.textContent = submission.contributors;
-                    // alert(submission.contributors);
                     row.appendChild(emailCell);
-            
+
                     const assignmentCell = document.createElement("td");
                     assignmentCell.textContent = data.title;
                     row.appendChild(assignmentCell);
-            
+
                     const maxScoreCell = document.createElement("td");
                     maxScoreCell.textContent = data.maxPoints;
                     row.appendChild(maxScoreCell);
-            
+
                     const gradeCell = document.createElement("td");
                     const gradeInput = document.createElement("input");
                     gradeInput.type = "text";
@@ -287,7 +321,7 @@
                     });
                     gradeCell.appendChild(gradeInput);
                     row.appendChild(gradeCell);
-            
+
                     const updateCell = document.createElement("td");
                     const updateButton = document.createElement("button");
                     updateButton.textContent = "Update";
@@ -327,7 +361,7 @@
                 });
 
                 totalGradeElement.style.display = "none";
-            }           
+            }
 
             fetchStudents();
             fetchAssignments();
