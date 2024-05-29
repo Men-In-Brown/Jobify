@@ -64,29 +64,44 @@
     {% include header2.html %}
     <main class="container">
         <form id="uploadForm">
-            <label for="uname">Name:</label>
-            <input type="text" id="uname" name="uname">
-            <label for="assignment">Assignment:</label>
-            <input type="text" id="assignment" name="assignment">
+            <select id="assignmentDropdown">
+                <option value="" disabled selected>Select Assignment</option>
+            </select>
+            <p><span id="selectedAssignmentName"></span></p>
+
             <label for="fileInput">Upload File:</label>
             <input type="file" id="fileInput" name="file">
+
             <button type="button" onclick="uploadFile()">Upload</button>
         </form>
     </main>
 
     <script>
         async function uploadFile() {
+            const url = "https://schaal.stu.nighthawkcodingsociety.com/";
+            // const url = "http://localhost:8091/";
             const fileInput = document.getElementById('fileInput');
-            const nameInput = document.getElementById('uname').value;
-            const assignmentInput = document.getElementById('assignment').value;
+            let nameInput = localStorage.getItem('username') !== "" ? localStorage.getItem('username') : "Name Not Provided";
+        
+            const assignmentDropdown = document.getElementById('assignmentDropdown');
+            if (assignmentDropdown.value === "") {
+                alert("Please select an assignment.");
+                return;
+            }
+        
+            const selectedIndex = assignmentDropdown.selectedIndex;
+            const selectedOption = assignmentDropdown.options[selectedIndex];
+            const assignmentName = selectedOption.textContent;
+        
+            document.getElementById('selectedAssignmentName').textContent = assignmentName;
+        
             const formData = new FormData();
-
             formData.append('file', fileInput.files[0]);
             formData.append('name', nameInput);
-            formData.append('assignment', assignmentInput);
-
+            formData.append('assignment', assignmentName); // Append assignmentName here
+        
             try {
-                const response = await fetch('https://schaal.stu.nighthawkcodingsociety.com/api/fileupload/upload', {
+                const response = await fetch(url + 'api/fileupload/upload', {
                     method: 'POST',
                     body: formData
                 });
@@ -99,7 +114,47 @@
                 console.error('Error uploading file:', error);
                 alert('Error uploading file');
             }
+        }        
+
+        function fetchAssignments() {
+            const url = "https://schaal.stu.nighthawkcodingsociety.com/";
+            // const url = "http://localhost:8091/";
+            fetch(url + 'api/assignments/')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const dropdown = document.getElementById('assignmentDropdown');
+                    dropdown.innerHTML = '<option value="" disabled selected>Select Assignment</option>';
+                    if (!Array.isArray(data)) {
+                        data = Object.values(data);
+                    }
+                    data.forEach(assignment => {
+                        const option = document.createElement('option');
+                        option.value = assignment.id;
+                        option.textContent = assignment.title;
+                        dropdown.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching assignment data:', error);
+                });
         }
+
+        // Fetch assignments on page load
+        fetchAssignments();
+
+        // Event listener for assignment dropdown change
+        // Event listener for assignment dropdown change
+        document.getElementById('assignmentDropdown').addEventListener('change', function () {
+            const selectedIndex = this.selectedIndex;
+            const selectedOption = this.options[selectedIndex];
+            const assignmentName = selectedOption.textContent;
+            document.getElementById('selectedAssignmentName').textContent = assignmentName;
+        });
     </script>
 </body>
 </html>

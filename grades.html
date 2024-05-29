@@ -25,28 +25,29 @@
             background-color: #4CAF50;
             color: white;
         }
-    </style>   
+    </style>
 </head>
 <body>
     {% include header2.html %}
     <main class="container">
         <h1>Select Student:</h1>
-        <!-- Dropdown to display student names -->
         <select id="studentDropdown">
             <option value="" disabled selected>Select Student</option>
         </select>
         <select id="assignmentDropdown">
             <option value="" disabled selected>Select Assignment</option>
         </select>
-        <!-- Display selected student ID -->
         <p><span id="selectedStudentEmail" hidden></span></p>
         <p><span id="selectedAssignmentName" hidden></span></p>
         <p><span id="selectedAssignmentMaxPoints" hidden></span></p>
         <div id="result"></div>
         <div id="resultTable"></div>
-        <div id="totalGrade"></div> <!-- Container for displaying total grade -->
+        <div id="totalGrade"></div>
     </main>
     <script>
+        // const url = "http://localhost:8091/";
+        const url = "https://schaal.stu.nighthawkcodingsociety.com/";
+
         document.addEventListener('DOMContentLoaded', function () {
             const totalGradeElement = document.getElementById('totalGrade');
 
@@ -62,11 +63,16 @@
             }
 
             function fetchStudents() {
-                fetch('https://schaal.stu.nighthawkcodingsociety.com/api/grade/')
-                    .then(response => response.json())
+                fetch(url + 'api/grade/')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
                     .then(data => {
                         const dropdown = document.getElementById('studentDropdown');
-                        dropdown.innerHTML = '<option value="" disabled selected>Select Student</option>'; // Clear existing options
+                        dropdown.innerHTML = '<option value="" disabled selected>Select Student</option>';
                         data.forEach(student => {
                             const option = document.createElement('option');
                             option.value = student.email;
@@ -80,13 +86,18 @@
             }
 
             function fetchAssignments() {
-                fetch('https://schaal.stu.nighthawkcodingsociety.com/api/assignments/')
-                    .then(response => response.json())
+                fetch(url + 'api/assignments/')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
                     .then(data => {
                         const dropdown = document.getElementById('assignmentDropdown');
-                        dropdown.innerHTML = '<option value="" disabled selected>Select Assignment</option>'; // Clear existing options
+                        dropdown.innerHTML = '<option value="" disabled selected>Select Assignment</option>';
                         if (!Array.isArray(data)) {
-                            data = Object.values(data); // Convert object values to array if needed
+                            data = Object.values(data);
                         }
                         data.forEach(assignment => {
                             const option = document.createElement('option');
@@ -115,8 +126,13 @@
 
             function searchName() {
                 const studentEmail = document.getElementById('selectedStudentEmail').textContent;
-                fetch(`https://schaal.stu.nighthawkcodingsociety.com/api/grade/email/${studentEmail}`)
-                    .then(response => response.json())
+                fetch(url + `api/grade/email/${studentEmail}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
                     .then(data => {
                         displayStudentResults(data);
                         calculateTotalGrade(data);
@@ -130,14 +146,13 @@
                 const resultDiv = document.getElementById("result");
                 resultDiv.innerHTML = '';
                 const resultContainer = document.getElementById("resultTable");
-                resultContainer.innerHTML = ''; // Clear previous table data
+                resultContainer.innerHTML = '';
 
                 if (data.length === 0) {
                     resultDiv.innerHTML = 'No grades found with the given selection.';
                     return;
                 }
 
-                // Construct Table header
                 const headerRow = document.createElement("tr");
                 const headers = ["Email", "Assignment", "Max Score", "Grade", "Update"];
                 headers.forEach(headerText => {
@@ -147,8 +162,8 @@
                 });
                 resultContainer.appendChild(headerRow);
 
-                // Add data rows
                 data.forEach(student => {
+                    // alert(student.id);
                     const row = document.createElement("tr");
                     const emailCell = document.createElement("td");
                     emailCell.textContent = student.email;
@@ -167,7 +182,7 @@
                     const updateCell = document.createElement("td");
                     const updateButton = document.createElement("button");
                     updateButton.textContent = "Update";
-                    updateButton.addEventListener('click', function () {
+                    updateButton.addEventListener('click', function() {
                         const requestOptions = {
                             method: 'PUT',
                             headers: {
@@ -175,24 +190,27 @@
                                 'Authorization': 'Bearer my-token',
                             },
                             body: JSON.stringify({
-                                newEmail: student.email,
-                                newAssignment: student.assignment,
-                                newMaxPoints: student.maxPoints,
-                                newScore: student.score
+                                email: student.email,
+                                assignment: student.assignment,
+                                maxPoints: student.maxPoints,
+                                score: student.score
                             })
                         };
-                        fetch(`https://schaal.stu.nighthawkcodingsociety.com/api/grade/update/${student.id}`, requestOptions)
+                        fetch(url + `api/grade/update/${student.id}?newEmail=${student.email}&newAssignment=${student.assignment}&newScore=${student.score}`, requestOptions)
                             .then(response => {
-                                if (response.status !== 200) {
+                                if (!response.ok) {
                                     const errorMsg = 'Invalid Input - Database Update error: ' + response.status;
                                     console.log(errorMsg);
                                     alert(errorMsg);
                                     return;
                                 }
-                                response.json().then(data => {
-                                    resultDiv.innerHTML = response.status;
+                                response.text().then(data => {
+                                    resultDiv.innerHTML = data;
                                 });
                             })
+                            .catch(error => {
+                                console.error('Error:', error);
+                            });
                     });
                     updateCell.appendChild(updateButton);
                     row.appendChild(emailCell);
@@ -206,8 +224,13 @@
 
             function searchAssignment() {
                 const assignmentId = document.getElementById('assignmentDropdown').value;
-                fetch(`https://schaal.stu.nighthawkcodingsociety.com/api/assignments/${assignmentId}`)
-                    .then(response => response.json())
+                fetch(url + `api/assignments/${assignmentId}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
                     .then(data => {
                         displayAssignmentResults(data);
                     })
@@ -220,16 +243,15 @@
                 const resultDiv = document.getElementById("result");
                 resultDiv.innerHTML = '';
                 const resultContainer = document.getElementById("resultTable");
-                resultContainer.innerHTML = ''; // Clear previous table data
-
+                resultContainer.innerHTML = '';
+            
                 if (!data.submissions || Object.keys(data.submissions).length === 0) {
                     resultDiv.innerHTML = 'No submissions found for this assignment.';
                     return;
                 }
-
+            
                 const submissions = data.submissions;
-
-                // Construct Table header
+            
                 const headerRow = document.createElement("tr");
                 const headers = ["Email", "Assignment", "Max Score", "Grade", "Update"];
                 headers.forEach(headerText => {
@@ -238,39 +260,38 @@
                     headerRow.appendChild(th);
                 });
                 resultContainer.appendChild(headerRow);
-
-                // Add data rows for each submission
+            
                 Object.keys(submissions).forEach(username => {
                     const submission = submissions[username];
                     const row = document.createElement("tr");
-                    // Email column (using username as email)
+            
                     const emailCell = document.createElement("td");
-                    emailCell.textContent = username;
+                    emailCell.textContent = submission.contributors;
+                    // alert(submission.contributors);
                     row.appendChild(emailCell);
-                    // Assignment column
+            
                     const assignmentCell = document.createElement("td");
-                    assignmentCell.textContent = data.title; // Use assignment title from the API response
+                    assignmentCell.textContent = data.title;
                     row.appendChild(assignmentCell);
-                    // Max Score column
+            
                     const maxScoreCell = document.createElement("td");
-                    maxScoreCell.textContent = data.maxPoints; // Use maxPoints from the API response
+                    maxScoreCell.textContent = data.maxPoints;
                     row.appendChild(maxScoreCell);
-                    // Grade column (set to -1 if ungraded)
+            
                     const gradeCell = document.createElement("td");
                     const gradeInput = document.createElement("input");
                     gradeInput.type = "text";
-                    gradeInput.value = submission.score !== undefined ? submission.score : -1; // Set default grade to -1 if undefined
+                    gradeInput.value = submission.score !== undefined ? submission.score : -1;
                     gradeInput.addEventListener('input', function () {
                         submission.score = this.value;
                     });
                     gradeCell.appendChild(gradeInput);
                     row.appendChild(gradeCell);
-                    // Update button column
+            
                     const updateCell = document.createElement("td");
                     const updateButton = document.createElement("button");
                     updateButton.textContent = "Update";
-                    // Add click event listener to update button
-                    updateButton.addEventListener('click', function () {
+                    updateButton.addEventListener('click', function() {
                         const requestOptions = {
                             method: 'PUT',
                             headers: {
@@ -278,31 +299,36 @@
                                 'Authorization': 'Bearer my-token',
                             },
                             body: JSON.stringify({
-                                newEmail: username,
-                                newAssignment: data.title,
-                                newScore: submission.score
+                                email: username,
+                                assignment: data.title,
+                                maxPoints: data.maxPoints,
+                                score: submission.score
                             })
                         };
-                        fetch(`https://schaal.stu.nighthawkcodingsociety.com/api/grade/update/${submission.id}`, requestOptions)
+                        fetch(url + `api/grade/update/${data.id}?newEmail=${submission.contributors}&newAssignment=${data.title}&newScore=${submission.score}`, requestOptions)
                             .then(response => {
-                                if (response.status !== 200) {
+                                if (!response.ok) {
                                     const errorMsg = 'Invalid Input - Database Update error: ' + response.status;
                                     console.log(errorMsg);
                                     alert(errorMsg);
                                     return;
                                 }
-                                response.json().then(data => {
-                                    resultDiv.innerHTML = response.status;
+                                response.text().then(data => {
+                                    resultDiv.innerHTML = data;
                                 });
                             })
+                            .catch(error => {
+                                console.error('Error:', error);
+                            });
                     });
                     updateCell.appendChild(updateButton);
                     row.appendChild(updateCell);
                     resultContainer.appendChild(row);
                 });
-            }
 
-            // Initial fetch of data on page load
+                totalGradeElement.style.display = "none";
+            }           
+
             fetchStudents();
             fetchAssignments();
         });
