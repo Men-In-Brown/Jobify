@@ -12,6 +12,7 @@
 {% include header2.html %}
 
 <body>
+    <button onclick="createPAT()">Create Pat</button>
     <div id="tableContainer">
         <!-- Table will be inserted here -->
     </div>
@@ -84,5 +85,13 @@
 
         // Call fetchAndReplace every 10 seconds (adjust the interval as needed)
         setInterval(fetchAndReplace, 10000); // 10000 milliseconds = 10 seconds
+        
+        function createPAT(){
+            let user = prompt('Email');
+            const apiUrl = "https://schaal.stu.nighthawkcodingsociety.com/api/pat/create?user="+user;
+            fetch(apiUrl, {
+            method: 'POST', // or 'PUT', 'DELETE', etc.
+            })
+        }
     </script>
 </body>
