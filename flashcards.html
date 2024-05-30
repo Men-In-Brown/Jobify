@@ -140,6 +140,11 @@
         </form>
     </div>
     <script>
+        const existingFlashcardsContainer = document.getElementById('existing-flashcards');
+        const topicButtons = document.getElementById('topic-buttons');
+        const flashcardList = document.getElementById('flashcard-list');
+        const flashcardForm = document.getElementById('flashcard-form');
+
         document.addEventListener('DOMContentLoaded', function () {
             const existingFlashcardsContainer = document.getElementById('existing-flashcards');
             const topicButtons = document.getElementById('topic-buttons');
@@ -148,12 +153,7 @@
         
             function loadTopicsAndCreateButtons() {
                 fetch('https://schaal.stu.nighthawkcodingsociety.com/api/flashcards/topics')
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! status: ${response.status}`);
-                        }
-                        return response.json();
-                    })
+                    .then(response => response.json())
                     .then(data => {
                         if (Array.isArray(data)) {
                             topicButtons.innerHTML = '';
@@ -208,22 +208,13 @@
         
             function loadExistingFlashcards() {
                 fetch('https://schaal.stu.nighthawkcodingsociety.com/api/flashcards/')
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! status: ${response.status}`);
-                        }
-                        return response.json();
-                    })
+                    .then(response => response.json())
                     .then(data => {
-                        if (Array.isArray(data)) {
-                            existingFlashcardsContainer.innerHTML = '';
-                            data.forEach(flashcard => {
-                                const flashcardItem = createFlashcardElement(flashcard);
-                                existingFlashcardsContainer.appendChild(flashcardItem);
-                            });
-                        } else {
-                            console.error('Unexpected response format:', data);
-                        }
+                        existingFlashcardsContainer.innerHTML = '';
+                        data.forEach(flashcard => {
+                            const flashcardItem = createFlashcardElement(flashcard);
+                            existingFlashcardsContainer.appendChild(flashcardItem);
+                        });
                     })
                     .catch(error => {
                         console.error('Error fetching existing flashcards:', error);
@@ -232,24 +223,15 @@
         
             function loadFlashcardsByTopic(selectedTopic) {
                 fetch(`https://schaal.stu.nighthawkcodingsociety.com/api/flashcards?topic=${selectedTopic}`)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! status: ${response.status}`);
-                        }
-                        return response.json();
-                    })
+                    .then(response => response.json())
                     .then(data => {
-                        if (Array.isArray(data)) {
-                            flashcardList.innerHTML = '';
-                            data.forEach(flashcard => {
-                                const listItem = document.createElement('li');
-                                const flashcardItem = createFlashcardElement(flashcard);
-                                listItem.appendChild(flashcardItem);
-                                flashcardList.appendChild(listItem);
-                            });
-                        } else {
-                            console.error('Unexpected response format:', data);
-                        }
+                        flashcardList.innerHTML = '';
+                        data.forEach(flashcard => {
+                            const listItem = document.createElement('li');
+                            const flashcardItem = createFlashcardElement(flashcard);
+                            listItem.appendChild(flashcardItem);
+                            flashcardList.appendChild(listItem);
+                        });
                     })
                     .catch(error => {
                         console.error('Error fetching flashcards:', error);
@@ -261,12 +243,13 @@
                     method: 'DELETE'
                 })
                 .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
+                    if (response.ok) {
+                        console.log('Flashcard deleted successfully');
+                        loadExistingFlashcards();
+                        loadTopicsAndCreateButtons();
+                    } else {
+                        console.error('Error deleting flashcard');
                     }
-                    console.log('Flashcard deleted successfully');
-                    loadExistingFlashcards();
-                    loadTopicsAndCreateButtons();
                 })
                 .catch(error => {
                     console.error('Error deleting flashcard:', error);
@@ -286,12 +269,7 @@
                         },
                         body: JSON.stringify({ topic, question, answer })
                     })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! status: ${response.status}`);
-                        }
-                        return response.json();
-                    })
+                    .then(response => response.json())
                     .then(data => {
                         console.log('Flashcard updated successfully:', data);
                         loadExistingFlashcards();
@@ -315,12 +293,7 @@
                     },
                     body: JSON.stringify({ topic, question, answer })
                 })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    return response.json();
-                })
+                .then(response => response.json())
                 .then(data => {
                     console.log('Flashcard created successfully:', data);
                     loadExistingFlashcards();
@@ -333,7 +306,8 @@
         
             loadExistingFlashcards();
             loadTopicsAndCreateButtons();
-        });        
+        });
+
     </script>
 </body>
 </html>
