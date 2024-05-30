@@ -11,8 +11,8 @@ permalink: account-make
 <body>
     <h2>Login</h2>
     <form id="loginForm">
-        <label for="loginUsername">Username:</label>
-        <input type="text" id="loginUsername" name="username" required>
+        <label for="loginEmail">Email:</label>
+        <input type="text" id="loginEmail" name="email" required>
         <br>
         <label for="loginPassword">Password:</label>
         <input type="password" id="loginPassword" name="password" required>
@@ -34,10 +34,16 @@ permalink: account-make
         <label for="signupName">Name:</label>
         <input type="text" id="signupName" name="name" required>
         <br>
+        <label for="signupDob">Date of Birth:</label>
+        <input type="date" id="signupDob" name="dob" required>
+        <br>
         <label for="signupRole">Role:</label>
         <select id="signupRole" name="role" required>
             <option value="USER">User</option>
             <option value="ADMIN">Admin</option>
+            <option value="STUDENT">Student</option>
+            <option value="TEACHER">Teacher</option>
+            <option value="INTERN">Intern</option>
             <!-- Add other roles as needed -->
         </select>
         <br>
@@ -51,26 +57,39 @@ permalink: account-make
         document.getElementById('loginForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
-            const username = document.getElementById('loginUsername').value;
+            const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
 
-            fetch("https://schaal.stu.nighthawkcodingsociety.comlogin", requestOptions, {
+            console.log("Login Request: ", { email: email, password: password });
+
+            fetch("http://localhost:8091/authenticate", {
                 method: 'POST',
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ usn: username, password: password })
+                body: JSON.stringify({ email: email, password: password })
             })
-            .then(response => response.json())
+            .then(response => {
+                console.log("Login Response Status: ", response.status);
+                if (!response.ok) {
+                    return response.json().then(error => { throw new Error(error.message || 'Login failed'); });
+                }
+                return response.json();
+            })
             .then(data => {
+                console.log("Login Response: ", data);
                 if (data.success) {
                     alert('Login successful!');
                     // Redirect or handle successful login
                 } else {
-                    alert('Login failed!');
+                    alert('Login failed: ' + data.message);
                 }
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Login failed: ' + error.message);
+            });
         });
 
         document.getElementById('signupForm').addEventListener('submit', function(event) {
@@ -80,10 +99,21 @@ permalink: account-make
             const username = document.getElementById('signupUsername').value;
             const password = document.getElementById('signupPassword').value;
             const name = document.getElementById('signupName').value;
+            const dob = document.getElementById('signupDob').value;
             const role = document.getElementById('signupRole').value;
             const subjects = document.getElementById('signupSubjects').value.split(',');
 
-            fetch("https://schaal.stu.nighthawkcodingsociety.comsignup", {
+            console.log("Signup Request: ", {
+                email: email,
+                usn: username,
+                password: password,
+                name: name,
+                dob: dob,
+                roles: [{ roleName: role }],
+                subjectsOfInterest: subjects.map(subject => subject.trim())
+            });
+
+            fetch("http://localhost:8091/api/person/post", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -93,20 +123,33 @@ permalink: account-make
                     usn: username,
                     password: password,
                     name: name,
+                    dob: dob,
                     roles: [{ roleName: role }],
                     subjectsOfInterest: subjects.map(subject => subject.trim())
                 })
             })
-            .then(response => response.json())
+            .then(response => {
+                console.log("Signup Response Status: ", response.status);
+                if (!response.ok) {
+                    return response.json().then(error => { throw new Error(error.message || 'Signup failed'); });
+                }
+                return response.json();
+            })
             .then(data => {
+                console.log("Signup Response: ", data);
                 if (data.success) {
                     alert('Signup successful!');
                     // Redirect or handle successful signup
                 } else {
-                    alert('Signup failed!');
+                    alert('Signup failed: ' + data.message);
+                    console.log("hi");
                 }
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Signup failed: ' + error.message);
+                console.log("bye");
+            });
         });
     </script>
 </body>
