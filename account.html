@@ -1,0 +1,113 @@
+---
+layout: post
+title: Account Creation
+permalink: account-make
+---
+
+<html>
+<head>
+    <title>Login and Signup</title>
+</head>
+<body>
+    <h2>Login</h2>
+    <form id="loginForm">
+        <label for="loginUsername">Username:</label>
+        <input type="text" id="loginUsername" name="username" required>
+        <br>
+        <label for="loginPassword">Password:</label>
+        <input type="password" id="loginPassword" name="password" required>
+        <br>
+        <button type="submit">Login</button>
+    </form>
+
+    <h2>Signup</h2>
+    <form id="signupForm">
+        <label for="signupEmail">Email:</label>
+        <input type="email" id="signupEmail" name="email" required>
+        <br>
+        <label for="signupUsername">Username:</label>
+        <input type="text" id="signupUsername" name="username" required>
+        <br>
+        <label for="signupPassword">Password:</label>
+        <input type="password" id="signupPassword" name="password" required>
+        <br>
+        <label for="signupName">Name:</label>
+        <input type="text" id="signupName" name="name" required>
+        <br>
+        <label for="signupRole">Role:</label>
+        <select id="signupRole" name="role" required>
+            <option value="USER">User</option>
+            <option value="ADMIN">Admin</option>
+            <!-- Add other roles as needed -->
+        </select>
+        <br>
+        <label for="signupSubjects">Subjects:</label>
+        <input type="text" id="signupSubjects" name="subjects" placeholder="Enter subjects separated by commas" required>
+        <br>
+        <button type="submit">Signup</button>
+    </form>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+
+            fetch("https://schaal.stu.nighthawkcodingsociety.comlogin", requestOptions, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ usn: username, password: password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Login successful!');
+                    // Redirect or handle successful login
+                } else {
+                    alert('Login failed!');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+        document.getElementById('signupForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('signupEmail').value;
+            const username = document.getElementById('signupUsername').value;
+            const password = document.getElementById('signupPassword').value;
+            const name = document.getElementById('signupName').value;
+            const role = document.getElementById('signupRole').value;
+            const subjects = document.getElementById('signupSubjects').value.split(',');
+
+            fetch("https://schaal.stu.nighthawkcodingsociety.comsignup", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email,
+                    usn: username,
+                    password: password,
+                    name: name,
+                    roles: [{ roleName: role }],
+                    subjectsOfInterest: subjects.map(subject => subject.trim())
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Signup successful!');
+                    // Redirect or handle successful signup
+                } else {
+                    alert('Signup failed!');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
