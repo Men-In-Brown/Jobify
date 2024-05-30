@@ -109,7 +109,6 @@
 
     <script>
         const apiUrl = 'https://schaal.stu.nighthawkcodingsociety.com/api/hallpass';
-
         const studentSelect = document.getElementById("studentId");
         studentSelect.addEventListener("change", (event) => {
             fetchHallPasses(`${event.target.value}`);
