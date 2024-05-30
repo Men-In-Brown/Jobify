@@ -77,7 +77,7 @@ permalink: create-account
         console.log("DOB:", fetchDob);
         
 
-        let requestURL = `http://localhost:8091/api/person/post?email=${fetchEmail}&password=${fetchPassword}&name=${fetchName}&dob=${fetchDob}=`;
+        let requestURL = `https://schaal.stu.nighthawkcodingsociety.comapi/person/post?email=${fetchEmail}&password=${fetchPassword}&name=${fetchName}&dob=${fetchDob}=`;
         console.log(requestURL)
 
         fetch(requestURL, requestOptions)

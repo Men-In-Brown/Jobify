@@ -79,7 +79,7 @@
     <script>
         async function uploadFile() {
             const url = "https://schaal.stu.nighthawkcodingsociety.com/";
-            // const url = "http://localhost:8091/";
+            // const url = "https://schaal.stu.nighthawkcodingsociety.com";
             const fileInput = document.getElementById('fileInput');
             let nameInput = localStorage.getItem('username') !== "" ? localStorage.getItem('username') : "Name Not Provided";
         
@@ -118,7 +118,7 @@
 
         function fetchAssignments() {
             const url = "https://schaal.stu.nighthawkcodingsociety.com/";
-            // const url = "http://localhost:8091/";
+            // const url = "https://schaal.stu.nighthawkcodingsociety.com";
             fetch(url + 'api/assignments/')
                 .then(response => {
                     if (!response.ok) {
