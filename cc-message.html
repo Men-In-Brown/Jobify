@@ -378,7 +378,9 @@
                 messagesDiv.innerHTML = '';
                 messages.forEach(message => {
                   const messageElement = document.createElement('p');
-                  messageElement.textContent = `${message.time} - ${message.writer}: ${message.text}`;
+                  const time = new Date(message.time);
+                  const formattedTime = `${time.getHours()}:${time.getMinutes()}`;
+                  messageElement.textContent = `${formattedTime} - ${message.writer}: ${message.text}`;
                   messagesDiv.appendChild(messageElement);
                 });
               }
@@ -498,14 +500,6 @@ document.getElementById('send-message').addEventListener('click', function() {
         console.error('Error sending message:', error);
       });
     }
-  });
-
-  messages.forEach(message => {
-    const messageElement = document.createElement('p');
-    const time = new Date(message.time);
-    const formattedTime = `${time.getHours()}:${time.getMinutes()}`;
-    messageElement.textContent = `${formattedTime} - ${message.writer}: ${message.text}`;
-    messagesDiv.appendChild(messageElement);
   });
 
 document.getElementById('recipients').addEventListener('click', function() {
