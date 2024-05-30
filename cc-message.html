@@ -318,6 +318,86 @@
       </div>
       
         <script>
+
+          fetch('https://schaal.stu.nighthawkcodingsociety.com/message')
+        .then(response => response.json())
+        .then(messages => {
+            const messagesDiv = document.getElementById('messages');
+            messagesDiv.innerHTML = '';
+            messages.forEach(message => {
+                const messageElement = document.createElement('p');
+                messageElement.textContent = `${message.time} - ${message.writer}: ${message.text}`;
+                messagesDiv.appendChild(messageElement);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching messages:', error);
+        });
+
+        // Send message
+        document.getElementById('sendButton').addEventListener('click', function() {
+            const messageInput = document.getElementById('messageInput');
+            const text = messageInput.value;
+            const writer = 'Anonymous'; // Replace with actual writer
+            const time = new Date().toISOString();
+
+            if (text) {
+                fetch('https://schaal.stu.nighthawkcodingsociety.com/message', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        text: text,
+                        writer: writer,
+                        time: time
+                    })
+                })
+                .then(response => {
+                    if (response.ok) {
+                        messageInput.value = '';
+                    } else {
+                        console.error('Error sending message:', response.status);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error sending message:', error);
+                });
+            }
+        });
+
+        let lastMessages = [];
+
+        setInterval(() => {
+            fetch('https://schaal.stu.nighthawkcodingsociety.com/message')
+            .then(response => response.json())
+            .then(messages => {
+              if (!isEqual(messages, lastMessages)) {
+                lastMessages = messages;
+                const messagesDiv = document.getElementById('messages');
+                messagesDiv.innerHTML = '';
+                messages.forEach(message => {
+                  const messageElement = document.createElement('p');
+                  messageElement.textContent = `${message.time} - ${message.writer}: ${message.text}`;
+                  messagesDiv.appendChild(messageElement);
+                });
+              }
+            })
+            .catch(error => {
+              console.error('Error fetching messages:', error);
+            });
+        }, 1500);
+
+function isEqual(arr1, arr2) {
+  if (arr1.length !== arr2.length) return false;
+  for (let i = 0; i < arr1.length; i++) {
+    if (arr1[i].time !== arr2[i].time || arr1[i].writer !== arr2[i].writer || arr1[i].text !== arr2[i].text) {
+      return false;
+    }
+  }
+  return true;
+}
+
 fetch('https://schaal.stu.nighthawkcodingsociety.com/channel')
 .then(response => response.json())
 .then(data => {
