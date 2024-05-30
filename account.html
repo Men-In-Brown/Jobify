@@ -38,6 +38,9 @@ permalink: account-make
         <select id="signupRole" name="role" required>
             <option value="USER">User</option>
             <option value="ADMIN">Admin</option>
+            <option value="STUDENT">Student</option>
+            <option value="TEACHER">Teacher</option>
+            <option value="INTERN">Admin</option>
             <!-- Add other roles as needed -->
         </select>
         <br>
@@ -54,7 +57,7 @@ permalink: account-make
             const username = document.getElementById('loginUsername').value;
             const password = document.getElementById('loginPassword').value;
 
-            fetch("http://localhost:8091/login", requestOptions, {
+            fetch("https://schaal.stu.nighthawkcodingsociety.com/authenticate", requestOptions, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -83,7 +86,7 @@ permalink: account-make
             const role = document.getElementById('signupRole').value;
             const subjects = document.getElementById('signupSubjects').value.split(',');
 
-            fetch("http://localhost:8091/signup", {
+            fetch("https://schaal.stu.nighthawkcodingsociety.com/post", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
