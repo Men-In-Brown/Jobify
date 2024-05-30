@@ -104,6 +104,9 @@
             <input id="PasswordLogin" type="password" class="input" placeholder="Password">
         </div>
         <div class="form-group">
+            <input id="PATLogin" type="text" class="input" placeholder="PAT - If you have one">
+        </div>
+        <div class="form-group">
             <button class="LoginB" onclick="person_login()">Login</button>
         </div>
         <div class="form-group">
@@ -189,11 +192,12 @@
 
         function person_login() {
             var myHeaders = new Headers();
+            console.log(document.getElementById("PATLogin").value);
             myHeaders.append("Content-Type", "application/json");
-
             var raw = JSON.stringify({
                 "email": document.getElementById("Emaillogin").value,
-                "password": document.getElementById("PasswordLogin").value
+                "password": document.getElementById("PasswordLogin").value,
+                "pat" : document.getElementById("PATLogin").value
             });
             console.log(raw);
 
