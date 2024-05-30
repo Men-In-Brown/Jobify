@@ -456,7 +456,6 @@ document.getElementById('sendButton').addEventListener('click', function() {
       })
       .then(response => {
           if (response.ok) {
-              alert("hello");
               messageInput.value = '';
           } else {
               console.error('Error sending message:', response.status);
