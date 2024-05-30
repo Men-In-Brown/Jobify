@@ -1,226 +1,239 @@
 ---
-layout: post
-title: Account Creation
-permalink: create-account
 ---
-<link rel="stylesheet" type="text/css" href="general.css">
 
-<div class="login-container">
-    <div class="card">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login and Sign-Up</title>
+    <link rel="stylesheet" type="text/css" href="general.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        h3 {
+            margin-top: 0;
+            text-align: center;
+        }
+
+        form, .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="password"], input[type="file"], select {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            width: calc(100% - 22px); /* Adjust for padding */
+        }
+
+        button {
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #5cb85c;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #4cae4c;
+        }
+
+        .login-container, .signup-container {
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto;
+            display: none;
+        }
+
+        .login-container.active, .signup-container.active {
+            display: block;
+        }
+
+        .dropdown span {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .dropdown-content {
+            margin-bottom: 15px;
+        }
+
+        .input {
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+    {% include header2.html %}
+    <div class="login-container container active" id="loginContainer">
         <h3>Login</h3>
-        <div class="Email">
-            <input id="Emaillogin" class="input" placeholder="Email">
+        <div class="form-group">
+            <input id="Emaillogin" type="text" class="input" placeholder="Email">
         </div>
-        <div class="Password">
-            <input id="PasswordLogin" class="input" placeholder="Password">
+        <div class="form-group">
+            <input id="PasswordLogin" type="password" class="input" placeholder="Password">
         </div>
-        <div class="Buttons">
+        <div class="form-group">
             <button class="LoginB" onclick="person_login()">Login</button>
         </div>
+        <div class="form-group">
+            <button class="toggleButton" onclick="toggleForms()">Sign Up</button>
+        </div>
     </div>
-</div>
 
-<br>
-
-<div class="login-container">
-    <div class="card2">
+    <div class="signup-container container" id="signupContainer">
         <h3>Sign-Up</h3>
-        <div class="dropdown">
-            <span>Role</span>
-            <div class="dropdown-content">
-                <select id="roleSelect">
-                    <option role="ROLE_STUDENT">Student</option>
-                    <option role="ROLE_TEACHER">Teacher</option>
-                    <option role="ROLE_INTERN">Intern</option>
-                    <option role="ROLE_ADMIN">Admin</option>
-                </select>
-            </div>
+        <div class="form-group">
+            <label for="roleSelect">Role</label>
+            <select id="roleSelect">
+                <option value="ROLE_STUDENT">Student</option>
+                <option value="ROLE_TEACHER">Teacher</option>
+                <option value="ROLE_INTERN">Intern</option>
+                <option value="ROLE_ADMIN">Admin</option>
+            </select>
         </div>
-        <div class="Name">
-            <input id="signUpNameInput" class="input" placeholder="Name">
+        <div class="form-group">
+            <input id="signUpNameInput" type="text" class="input" placeholder="Name">
         </div>
-        <div class="Email">
-            <input id="signUpEmailInput" class="input" placeholder="Email">
+        <div class="form-group">
+            <input id="signUpEmailInput" type="text" class="input" placeholder="Email">
         </div>
-        <div class="Password">
+        <div class="form-group">
             <input id="signUpPasswordInput" type="password" class="input" placeholder="Password">
         </div>
-        <div class="Dob">
-            <input id="signUpDobInput" class="input" placeholder="Date of birth (MM-DD-YYYY)">
+        <div class="form-group">
+            <input id="signUpDobInput" type="text" class="input" placeholder="Date of birth (MM-DD-YYYY)">
         </div>
-        <div class="Buttons">
+        <div class="form-group">
             <button class="signUpButton" onclick="person_signup()">Sign Up</button>
         </div>
+        <div class="form-group">
+            <button class="toggleButton" onclick="toggleForms()">Login</button>
+        </div>
     </div>
-</div>
 
+    <script>
+        function toggleForms() {
+            const loginContainer = document.getElementById('loginContainer');
+            const signupContainer = document.getElementById('signupContainer');
+            loginContainer.classList.toggle('active');
+            signupContainer.classList.toggle('active');
+        }
 
-<script>
+        function person_signup() {
+            var requestOptions = {
+                method: 'POST',
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'include',
+            };
 
-    function person_signup() {
-        
-        var requestOptions = {
-            method: 'POST',
-            mode: 'cors',
-            cache: 'no-cache',
-            credentials: 'include',
-        };
+            let fetchName = document.getElementById("signUpNameInput").value;
+            let fetchEmail = document.getElementById("signUpEmailInput").value;
+            let fetchPassword = document.getElementById("signUpPasswordInput").value;
+            let fetchDob = document.getElementById("signUpDobInput").value;
 
-        let fetchName = document.getElementById("signUpNameInput").value;
-        let fetchEmail = document.getElementById("signUpEmailInput").value;
-        let fetchPassword = document.getElementById("signUpPasswordInput").value;
-        let fetchDob = document.getElementById("signUpDobInput").value;
+            console.log("Email:", fetchEmail);
+            console.log("Password:", fetchPassword);
+            console.log("Name:", fetchName);
+            console.log("DOB:", fetchDob);
 
-        console.log("Email:", fetchEmail);
-        console.log("Password:", fetchPassword);
-        console.log("Name:", fetchName);
-        console.log("DOB:", fetchDob);
-        
+            let requestURL = `https://schaal.stu.nighthawkcodingsociety.comapi/person/post?email=${fetchEmail}&password=${fetchPassword}&name=${fetchName}&dob=${fetchDob}`;
+            console.log(requestURL);
 
-        let requestURL = `https://schaal.stu.nighthawkcodingsociety.comapi/person/post?email=${fetchEmail}&password=${fetchPassword}&name=${fetchName}&dob=${fetchDob}=`;
-        console.log(requestURL)
-
-        fetch(requestURL, requestOptions)
-        .then(response => {
+            fetch(requestURL, requestOptions)
+            .then(response => {
                 if (!response.ok) {
                     return response.text().then(errorMsg => {
                         alert('Error: ' + errorMsg);
-                        console.log(requestOptions)
+                        console.log(requestOptions);
                     });
                 }
-    
-                alert("Happy Dance You Are Signed Up");
+                alert("Happy Dance! You Are Signed Up");
                 location.reload();
-                
             })
             .catch(error => {
                 alert('An unexpected error occurred: ' + error.message);
             });
-    }
+        }
 
-    function person_login() {
-        var myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
+        function person_login() {
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
 
-        var raw = JSON.stringify({
-            "email": document.getElementById("Emaillogin").value,
-            "password": document.getElementById("PasswordLogin").value
+            var raw = JSON.stringify({
+                "email": document.getElementById("Emaillogin").value,
+                "password": document.getElementById("PasswordLogin").value
+            });
+            console.log(raw);
 
-            
-        });
-        console.log(raw);
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                credentials: 'include',
+                body: raw,
+                redirect: 'follow'
+            };
 
-        var requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            credentials: 'include',  // 
-            body: raw,
-            redirect: 'follow'
-        };
+            fetch("https://schaal.stu.nighthawkcodingsociety.com/authenticate", requestOptions)
+            .then(response => {
+                if (!response.ok) {
+                    const errorMsg = 'Login error: ' + response.status;
+                    console.log(errorMsg);
 
-        fetch("https://schaal.stu.nighthawkcodingsociety.com/authenticate", requestOptions)
-        .then(response => {
-            if (!response.ok) {
-                const errorMsg = 'Login error: ' + response.status;
-                console.log(errorMsg);
-
-                switch (response.status) {
-                    case 401:
-                        alert(" 401 error you have typed in wrong user or pass");
-                        break;
-                    case 403:
-                        alert("Sorry you cant do that ");
-                        break;
-                    case 404:
-                        alert("We cant Seem To Locate that in our system try again?");
-                        break;
-                    
-                    default:
-                        alert("Login failed. Please try again later.");
+                    switch (response.status) {
+                        case 401:
+                            alert("401 error: you have typed in the wrong user or password");
+                            break;
+                        case 403:
+                            alert("Sorry, you can't do that.");
+                            break;
+                        case 404:
+                            alert("We can't seem to locate that in our system. Try again?");
+                            break;
+                        default:
+                            alert("Login failed. Please try again later.");
+                    }
+                    return Promise.reject('Login failed');
                 }
-
-                return Promise.reject('Login failed');
-            }
-            return response.text()
-        })
-        .then(result => {
-            console.log(result);
-           // window.location.href = "http://127.0.0.1:4100/spark/account";
-        })
-        .catch(error => console.error('Error during login:', error));
-
-    }
-
-</script>
-<style>
-    input, button{
-        margin-left: auto;
-        margin-right: auto;
-        display: block;
-    }
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f0f0f0;
-    }
-
-    #login {
-        width: 300px;
-        padding: 16px;
-        background-color: #ffffff;
-        margin: 0 auto;
-        margin-top: 50px;
-        border-radius: 8px;
-        box-shadow: 0px 0px 10px 0px #00000033;
-    }
-
-    #login label {
-        font-weight: bold;
-        display: block;
-        margin-bottom: 5px;
-    }
-
-    #login input[type="text"],
-    #login input[type="password"] {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 10px;
-        border-radius: 4px;
-        border: 1px solid #ddd;
-    }
-
-    #login button {
-        width: 100%;
-        padding: 10px;
-        background-color: #007BFF;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-
-    #info {
-        width: 300px;
-        padding: 16px;
-        background-color: #ffffff;
-        margin: 0 auto;
-        margin-top: 50px;
-        border-radius: 8px;
-        box-shadow: 0px 0px 10px 0px #00000033;
-    }
-
-    #info h2 {
-        margin-top: 0;
-    }
-
-    #info button {
-        width: 100%;
-        padding: 10px;
-        background-color: #dc3545;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-</style>
+                return response.json();
+            })
+            .then(result => {
+                console.log(result);
+                window.location.href = "https://men-in-brown.github.io/Jobify/home.html";
+            })
+            .catch(error => console.error('Error during login:', error));
+        }
+    </script>
+</body>
+</html>
