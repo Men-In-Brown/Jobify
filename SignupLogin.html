@@ -1,0 +1,226 @@
+---
+layout: post
+title: Account Creation
+permalink: create-account
+---
+<link rel="stylesheet" type="text/css" href="general.css">
+
+<div class="login-container">
+    <div class="card">
+        <h3>Login</h3>
+        <div class="Email">
+            <input id="Emaillogin" class="input" placeholder="Email">
+        </div>
+        <div class="Password">
+            <input id="PasswordLogin" class="input" placeholder="Password">
+        </div>
+        <div class="Buttons">
+            <button class="LoginB" onclick="person_login()">Login</button>
+        </div>
+    </div>
+</div>
+
+<br>
+
+<div class="login-container">
+    <div class="card2">
+        <h3>Sign-Up</h3>
+        <div class="dropdown">
+            <span>Role</span>
+            <div class="dropdown-content">
+                <select id="roleSelect">
+                    <option role="ROLE_STUDENT">Student</option>
+                    <option role="ROLE_TEACHER">Teacher</option>
+                    <option role="ROLE_INTERN">Intern</option>
+                    <option role="ROLE_ADMIN">Admin</option>
+                </select>
+            </div>
+        </div>
+        <div class="Name">
+            <input id="signUpNameInput" class="input" placeholder="Name">
+        </div>
+        <div class="Email">
+            <input id="signUpEmailInput" class="input" placeholder="Email">
+        </div>
+        <div class="Password">
+            <input id="signUpPasswordInput" type="password" class="input" placeholder="Password">
+        </div>
+        <div class="Dob">
+            <input id="signUpDobInput" class="input" placeholder="Date of birth (MM-DD-YYYY)">
+        </div>
+        <div class="Buttons">
+            <button class="signUpButton" onclick="person_signup()">Sign Up</button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    function person_signup() {
+        
+        var requestOptions = {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            credentials: 'include',
+        };
+
+        let fetchName = document.getElementById("signUpNameInput").value;
+        let fetchEmail = document.getElementById("signUpEmailInput").value;
+        let fetchPassword = document.getElementById("signUpPasswordInput").value;
+        let fetchDob = document.getElementById("signUpDobInput").value;
+
+        console.log("Email:", fetchEmail);
+        console.log("Password:", fetchPassword);
+        console.log("Name:", fetchName);
+        console.log("DOB:", fetchDob);
+        
+
+        let requestURL = `http://localhost:8091/api/person/post?email=${fetchEmail}&password=${fetchPassword}&name=${fetchName}&dob=${fetchDob}=`;
+        console.log(requestURL)
+
+        fetch(requestURL, requestOptions)
+        .then(response => {
+                if (!response.ok) {
+                    return response.text().then(errorMsg => {
+                        alert('Error: ' + errorMsg);
+                        console.log(requestOptions)
+                    });
+                }
+    
+                alert("Happy Dance You Are Signed Up");
+                location.reload();
+                
+            })
+            .catch(error => {
+                alert('An unexpected error occurred: ' + error.message);
+            });
+    }
+
+    function person_login() {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+            "email": document.getElementById("Emaillogin").value,
+            "password": document.getElementById("PasswordLogin").value
+
+            
+        });
+        console.log(raw);
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            credentials: 'include',  // 
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch("https://schaal.stu.nighthawkcodingsociety.com/authenticate", requestOptions)
+        .then(response => {
+            if (!response.ok) {
+                const errorMsg = 'Login error: ' + response.status;
+                console.log(errorMsg);
+
+                switch (response.status) {
+                    case 401:
+                        alert(" 401 error you have typed in wrong user or pass");
+                        break;
+                    case 403:
+                        alert("Sorry you cant do that ");
+                        break;
+                    case 404:
+                        alert("We cant Seem To Locate that in our system try again?");
+                        break;
+                    
+                    default:
+                        alert("Login failed. Please try again later.");
+                }
+
+                return Promise.reject('Login failed');
+            }
+            return response.text()
+        })
+        .then(result => {
+            console.log(result);
+           // window.location.href = "http://127.0.0.1:4100/spark/account";
+        })
+        .catch(error => console.error('Error during login:', error));
+
+    }
+
+</script>
+<style>
+    input, button{
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    }
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0;
+    }
+
+    #login {
+        width: 300px;
+        padding: 16px;
+        background-color: #ffffff;
+        margin: 0 auto;
+        margin-top: 50px;
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px 0px #00000033;
+    }
+
+    #login label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    #login input[type="text"],
+    #login input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+    }
+
+    #login button {
+        width: 100%;
+        padding: 10px;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    #info {
+        width: 300px;
+        padding: 16px;
+        background-color: #ffffff;
+        margin: 0 auto;
+        margin-top: 50px;
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px 0px #00000033;
+    }
+
+    #info h2 {
+        margin-top: 0;
+    }
+
+    #info button {
+        width: 100%;
+        padding: 10px;
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+</style>
