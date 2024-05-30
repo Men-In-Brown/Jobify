@@ -27,7 +27,7 @@
             -webkit-backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
-
+        
         #topic-buttons {
             display: flex;
             flex-wrap: wrap;
@@ -52,7 +52,7 @@
         #flashcard-form {
             margin-top: 20px;
         }
-
+        
         #flashcard-form label {
             display: block;
             margin-top: 10px;
@@ -116,7 +116,7 @@
         
         .flashcard .answer {
             transform: rotateY(180deg);
-        }                
+        }                 
     </style>
 </head>
 <body>
@@ -189,18 +189,8 @@
                     <button data-flashcard-id="${flashcard.id}" class="edit-button">Edit</button>
                 `;
         
-                flashcardItem.addEventListener('click', function () {
+                flashcardItem.querySelector('.flashcard-inner').addEventListener('click', function () {
                     flashcardItem.querySelector('.flashcard-inner').classList.toggle('flipped');
-                });
-        
-                flashcardItem.querySelector('.delete-button').addEventListener('click', function (event) {
-                    event.stopPropagation();
-                    deleteFlashcard(flashcard.id);
-                });
-        
-                flashcardItem.querySelector('.edit-button').addEventListener('click', function (event) {
-                    event.stopPropagation();
-                    editFlashcard(flashcard.id);
                 });
         
                 return flashcardItem;
@@ -236,28 +226,14 @@
                     .then(data => {
                         flashcardList.innerHTML = '';
                         data.forEach(flashcard => {
-                            const listItem = document.createElement('li');
-                            listItem.innerHTML = `
-                                <strong>Topic:</strong> ${flashcard.topic}<br>
-                                <strong>Question:</strong>
-                                <div class="flashcard">
-                                    <div class="flashcard-inner">
-                                        <div class="question">${flashcard.question}</div>
-                                        <div class="answer">${flashcard.answer}</div>
-                                    </div>
-                                </div>
-                                <button data-flashcard-id="${flashcard.id}">Delete</button>
-                            `;
-                            listItem.querySelector('button').addEventListener('click', function () {
-                                deleteFlashcard(flashcard.id);
-                            });
-                            flashcardList.appendChild(listItem);
+                            const flashcardItem = createFlashcardElement(flashcard);
+                            flashcardList.appendChild(flashcardItem);
                         });
                     })
                     .catch(error => {
                         console.error('Error fetching flashcards:', error);
                     });
-            }            
+            }
         
             function deleteFlashcard(id) {
                 fetch(`https://schaal.stu.nighthawkcodingsociety.com/api/flashcards/delete/${id}`, {
