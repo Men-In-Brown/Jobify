@@ -62,7 +62,7 @@ permalink: account-make
 
             console.log("Login Request: ", { email: email, password: password });
 
-            fetch("http://localhost:8091/authenticate", {
+            fetch("https://schaal.stu.nighthawkcodingsociety.comauthenticate", {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
@@ -113,7 +113,7 @@ permalink: account-make
                 subjectsOfInterest: subjects.map(subject => subject.trim())
             });
 
-            fetch("http://localhost:8091/api/person/post", {
+            fetch("https://schaal.stu.nighthawkcodingsociety.comapi/person/post", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
