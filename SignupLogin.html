@@ -202,7 +202,6 @@
             var myHeaders = new Headers();
             console.log(document.getElementById("PATLogin").value);
             myHeaders.append("Content-Type", "application/json");
-            localStorage.setItem("username", fetchName);
             var raw = JSON.stringify({
                 "email": document.getElementById("Emaillogin").value,
                 "password": document.getElementById("PasswordLogin").value,
@@ -243,6 +242,8 @@
             })
             .then(result => {
                 console.log(result);
+                // email in local storage as "username" there yall happy
+                localStorage.setItem("username", document.getElementById("Emaillogin").value);
                 window.location.href = "https://men-in-brown.github.io/Jobify/home.html";
             })
             .catch(error => console.error('Error during login:', error));
