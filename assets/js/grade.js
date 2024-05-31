@@ -1,6 +1,6 @@
 async function sortGrades() {
     const sortProperty = document.getElementById('sortProperty').value;
-    const url = `https://schaal.stu.nighthawkcodingsociety.comapi/grade/${sortProperty}`;
+    const url = `https://schaal.stu.nighthawkcodingsociety.com/api/grade/sort/${sortProperty}`;
     
     try {
         const response = await fetch(url);

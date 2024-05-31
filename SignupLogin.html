@@ -171,7 +171,7 @@
             console.log("Name:", fetchName);
             console.log("DOB:", fetchDob);
 
-            let requestURL = `https://schaal.stu.nighthawkcodingsociety.comapi/person/post?email=${fetchEmail}&password=${fetchPassword}&name=${fetchName}&dob=${fetchDob}`;
+            let requestURL = `https://schaal.stu.nighthawkcodingsociety.com/api/person/post?email=${fetchEmail}&password=${fetchPassword}&name=${fetchName}&dob=${fetchDob}`;
             console.log(requestURL);
 
             fetch(requestURL, requestOptions)
