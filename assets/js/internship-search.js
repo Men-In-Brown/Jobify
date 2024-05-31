@@ -1,6 +1,6 @@
 async function searchInternships() {
     const searchQuery = document.getElementById('searchQuery').value;
-    const url = `https://schaal.stu.nighthawkcodingsociety.comapi/internships/search?query=${encodeURIComponent(searchQuery)}`;
+    const url = `https://schaal.stu.nighthawkcodingsociety.com/api/internships/search?query=${encodeURIComponent(searchQuery)}`;
     
     try {
         const response = await fetch(url);
