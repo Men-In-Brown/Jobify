@@ -1,190 +1,73 @@
----
-layout: post
-title: Account Creation
-permalink: account-make
----
-
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="general.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-        }
-
-        .container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            width: 100%;
-            margin: 20px 0;
-        }
-
-        h3 {
-            margin-top: 0;
-            text-align: center;
-        }
-
-        form, .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        label {
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        input[type="text"], input[type="password"], input[type="file"], select {
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-            width: calc(100% - 22px); /* Adjust for padding */
-        }
-
-        button {
-            padding: 10px;
-            border: none;
-            border-radius: 4px;
-            background-color: #5cb85c;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            width: 100%;
-        }
-
-        button:hover {
-            background-color: #4cae4c;
-        }
-
-        .login-container, .signup-container {
-            width: 100%;
-            max-width: 400px;
-            margin: 20px auto;
-        }
-
-        .dropdown span {
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        .dropdown-content {
-            margin-bottom: 15px;
-        }
-
-        .input {
-            display: block;
-            margin: 0 auto;
-        }
-    </style>
+    <title>Login and Signup</title>
 </head>
 <body>
-    {% include header2.html %}
-    <div class="login-container container">
-        <h3>Login</h3>
-        <form id="loginForm">
-            <div class="form-group">
-                <input id="loginEmail" type="text" class="input" name="email" placeholder="Email" required>
-            </div>
-            <div class="form-group">
-                <input id="loginPassword" type="password" class="input" name="password" placeholder="Password" required>
-            </div>
-            <div class="form-group">
-                <button type="submit">Login</button>
-            </div>
-        </form>
-    </div>
+    <h2>Login</h2>
+    <form id="loginForm">
+        <label for="loginUsername">Username:</label>
+        <input type="text" id="loginUsername" name="username" required>
+        <br>
+        <label for="loginPassword">Password:</label>
+        <input type="password" id="loginPassword" name="password" required>
+        <br>
+        <label for="patPassword">Pat - if you have one:</label>
+        <input type="password" id="patpass" name="patPassword" required>
+        <button type="submit">Login</button>
+    </form>
 
-    <div class="signup-container container">
-        <h3>Signup</h3>
-        <form id="signupForm">
-            <div class="form-group">
-                <label for="signupEmail">Email:</label>
-                <input id="signupEmail" type="email" class="input" name="email" required>
-            </div>
-            <div class="form-group">
-                <label for="signupUsername">Username:</label>
-                <input id="signupUsername" type="text" class="input" name="username" required>
-            </div>
-            <div class="form-group">
-                <label for="signupPassword">Password:</label>
-                <input id="signupPassword" type="password" class="input" name="password" required>
-            </div>
-            <div class="form-group">
-                <label for="signupName">Name:</label>
-                <input id="signupName" type="text" class="input" name="name" required>
-            </div>
-            <div class="form-group">
-                <label for="signupDob">Date of Birth:</label>
-                <input id="signupDob" type="date" class="input" name="dob" required>
-            </div>
-            <div class="form-group">
-                <label for="signupRole">Role:</label>
-                <select id="signupRole" name="role" required>
-                    <option value="USER">User</option>
-                    <option value="ADMIN">Admin</option>
-                    <option value="STUDENT">Student</option>
-                    <option value="TEACHER">Teacher</option>
-                    <option value="INTERN">Intern</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="signupSubjects">Subjects:</label>
-                <input id="signupSubjects" type="text" class="input" name="subjects" placeholder="Enter subjects separated by commas" required>
-            </div>
-            <div class="form-group">
-                <button type="submit">Signup</button>
-            </div>
-        </form>
-    </div>
+    <h2>Signup</h2>
+    <form id="signupForm">
+        <label for="signupEmail">Email:</label>
+        <input type="email" id="signupEmail" name="email" required>
+        <br>
+        <label for="signupUsername">Username:</label>
+        <input type="text" id="signupUsername" name="username" required>
+        <br>
+        <label for="signupPassword">Password:</label>
+        <input type="password" id="signupPassword" name="password" required>
+        <br>
+        <label for="signupName">Name:</label>
+        <input type="text" id="signupName" name="name" required>
+        <br>
+        <label for="signupRole">Role:</label>
+        <select id="signupRole" name="role" required>
+            <option value="USER">User</option>
+            <option value="ADMIN">Admin</option>
+            <!-- Add other roles as needed -->
+        </select>
+        <br>
+        <label for="signupSubjects">Subjects:</label>
+        <input type="text" id="signupSubjects" name="subjects" placeholder="Enter subjects separated by commas" required>
+        <br>
+        <button type="submit">Signup</button>
+    </form>
 
     <script>
         document.getElementById('loginForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
-            const email = document.getElementById('loginEmail').value;
+            const username = document.getElementById('loginUsername').value;
             const password = document.getElementById('loginPassword').value;
+            const pat = document.getElementById('patpass').value;
 
-            console.log("Login Request: ", { email: email, password: password });
-
-            fetch("https://schaal.stu.nighthawkcodingsociety.com/authenticate", {
+            fetch("https://schaal.stu.nighthawkcodingsociety.comlogin", requestOptions, {
                 method: 'POST',
-                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ email: email, password: password })
+                body: JSON.stringify({ usn: username, password: password, pat: pat})
             })
-            .then(response => {
-                console.log("Login Response Status: ", response.status);
-                if (!response.ok) {
-                    return response.json().then(error => { throw new Error(error.message || 'Login failed'); });
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
-                console.log("Login Response: ", data);
                 if (data.success) {
                     alert('Login successful!');
+                    // Redirect or handle successful login
                 } else {
-                    alert('Login failed: ' + data.message);
+                    alert('Login failed!');
                 }
             })
-            .catch(error => {
-                console.error('Error:', error);
-                window.location.href = "https://men-in-brown.github.io/Jobify/home.html";
-            });
+            .catch(error => console.error('Error:', error));
         });
 
         document.getElementById('signupForm').addEventListener('submit', function(event) {
@@ -194,21 +77,10 @@ permalink: account-make
             const username = document.getElementById('signupUsername').value;
             const password = document.getElementById('signupPassword').value;
             const name = document.getElementById('signupName').value;
-            const dob = document.getElementById('signupDob').value;
             const role = document.getElementById('signupRole').value;
             const subjects = document.getElementById('signupSubjects').value.split(',');
 
-            console.log("Signup Request: ", {
-                email: email,
-                usn: username,
-                password: password,
-                name: name,
-                dob: dob,
-                roles: [{ roleName: role }],
-                subjectsOfInterest: subjects.map(subject => subject.trim())
-            });
-
-            fetch("https://schaal.stu.nighthawkcodingsociety.com/api/person/post", {
+            fetch("https://schaal.stu.nighthawkcodingsociety.comsignup", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -218,29 +90,20 @@ permalink: account-make
                     usn: username,
                     password: password,
                     name: name,
-                    dob: dob,
                     roles: [{ roleName: role }],
                     subjectsOfInterest: subjects.map(subject => subject.trim())
                 })
             })
-            .then(response => {
-                console.log("Signup Response Status: ", response.status);
-                if (!response.ok) {
-                    return response.json().then(error => { throw new Error(error.message || 'Signup failed'); });
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
-                console.log("Signup Response: ", data);
                 if (data.success) {
                     alert('Signup successful!');
+                    // Redirect or handle successful signup
                 } else {
-                    alert('Signup failed: ' + data.message);
+                    alert('Signup failed!');
                 }
             })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+            .catch(error => console.error('Error:', error));
         });
     </script>
 </body>
