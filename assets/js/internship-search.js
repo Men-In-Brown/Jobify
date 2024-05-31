@@ -23,38 +23,46 @@ function displayInternships(internships) {
         
         const nameCell = document.createElement('td');
         nameCell.textContent = internship.name;
+        console.log(internship.name);
         row.appendChild(nameCell);
 
         const locationCell = document.createElement('td');
         locationCell.textContent = internship.location;
+        console.log(internship.location);
         row.appendChild(locationCell);
 
         const industryCell = document.createElement('td');
         industryCell.textContent = internship.industry;
+        console.log(internship.industry);
         row.appendChild(industryCell);
 
         const sizeCell = document.createElement('td');
         sizeCell.textContent = internship.size;
+        console.log(internship.size);
         row.appendChild(sizeCell);
 
         const descriptionCell = document.createElement('td');
         descriptionCell.textContent = internship.description;
+        console.log(internship.description);
         row.appendChild(descriptionCell);
 
         const websiteCell = document.createElement('td');
         const websiteLink = document.createElement('a');
         websiteLink.href = internship.website;
         websiteLink.textContent = internship.website;
+        console.log(internship.website);
         websiteLink.target = "_blank";
         websiteCell.appendChild(websiteLink);
         row.appendChild(websiteCell);
 
         const foundedYearCell = document.createElement('td');
         foundedYearCell.textContent = internship.foundedYear;
+        console.log(internship.foundedYear);
         row.appendChild(foundedYearCell);
 
         const ceoCell = document.createElement('td');
         ceoCell.textContent = internship.ceo;
+        console.log(internship.ceo);
         row.appendChild(ceoCell);
 
         list.appendChild(row);
