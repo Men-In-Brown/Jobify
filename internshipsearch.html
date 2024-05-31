@@ -7,16 +7,26 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <link rel="stylesheet" type="text/css" href="general.css">
     </head>
-
     <body>
-        <input type="text" id="searchQuery" placeholder="Enter search term...">
+        <input type="text" id="searchQuery" placeholder="Search for internships...">
         <button onclick="searchInternships()">Search</button>
-
-        <h2>Internship Results</h2>
-        <ul id="internshipList" class="internship-list">
-            <!-- Internship names will be inserted here -->
-        </ul>
-
+        <table id="internshipTable" border="1">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Location</th>
+                    <th>Industry</th>
+                    <th>Size</th>
+                    <th>Description</th>
+                    <th>Website</th>
+                    <th>Founded Year</th>
+                    <th>CEO</th>
+                </tr>
+            </thead>
+            <tbody id="internshipList">
+                <!-- Internship rows will be inserted here -->
+            </tbody>
+        </table>
         <script src="{{ site.baseurl }}/assets/js/internship-search.js"></script>
-    </body>
+    </body>        
 </html>

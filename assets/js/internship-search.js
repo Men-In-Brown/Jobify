@@ -19,8 +19,44 @@ function displayInternships(internships) {
     list.innerHTML = ''; // Clear existing items
 
     internships.forEach(internship => {
-        const listItem = document.createElement('li');
-        listItem.textContent = internship.name;
-        list.appendChild(listItem);
+        const row = document.createElement('tr');
+        
+        const nameCell = document.createElement('td');
+        nameCell.textContent = internship.name;
+        row.appendChild(nameCell);
+
+        const locationCell = document.createElement('td');
+        locationCell.textContent = internship.location;
+        row.appendChild(locationCell);
+
+        const industryCell = document.createElement('td');
+        industryCell.textContent = internship.industry;
+        row.appendChild(industryCell);
+
+        const sizeCell = document.createElement('td');
+        sizeCell.textContent = internship.size;
+        row.appendChild(sizeCell);
+
+        const descriptionCell = document.createElement('td');
+        descriptionCell.textContent = internship.description;
+        row.appendChild(descriptionCell);
+
+        const websiteCell = document.createElement('td');
+        const websiteLink = document.createElement('a');
+        websiteLink.href = internship.website;
+        websiteLink.textContent = internship.website;
+        websiteLink.target = "_blank";
+        websiteCell.appendChild(websiteLink);
+        row.appendChild(websiteCell);
+
+        const foundedYearCell = document.createElement('td');
+        foundedYearCell.textContent = internship.foundedYear;
+        row.appendChild(foundedYearCell);
+
+        const ceoCell = document.createElement('td');
+        ceoCell.textContent = internship.ceo;
+        row.appendChild(ceoCell);
+
+        list.appendChild(row);
     });
 }
