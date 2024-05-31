@@ -81,7 +81,6 @@
         <div id="totalGrade"></div>
     </main>
     <script>
-        // JavaScript code remains unchanged
         const url = "https://schaal.stu.nighthawkcodingsociety.com/";
 
         document.addEventListener('DOMContentLoaded', function () {
@@ -231,7 +230,7 @@
                                 score: student.score
                             })
                         };
-                        fetch(url + `api/grade/update/${student.id}?newEmail=${student.email}&newAssignment=${student.assignment}&newScore=${student.score}`, requestOptions)
+                        fetch(url + `api/grade/update?email=${student.email}&newEmail=${student.email}&newAssignment=${student.assignment}&newScore=${student.score}`, requestOptions)
                             .then(response => {
                                 if (!response.ok) {
                                     const errorMsg = 'Invalid Input - Database Update error: ' + response.status;
@@ -333,13 +332,13 @@
                                 'Authorization': 'Bearer my-token',
                             },
                             body: JSON.stringify({
-                                email: username,
+                                email: submission.contributors,
                                 assignment: data.title,
                                 maxPoints: data.maxPoints,
                                 score: submission.score
                             })
                         };
-                        fetch(url + `api/grade/update/${data.id}?newEmail=${submission.contributors}&newAssignment=${data.title}&newScore=${submission.score}`, requestOptions)
+                        fetch(url + `api/grade/update?email=${submission.contributors}&newEmail=${submission.contributors}&newAssignment=${data.title}&newScore=${submission.score}`, requestOptions)
                             .then(response => {
                                 if (!response.ok) {
                                     const errorMsg = 'Invalid Input - Database Update error: ' + response.status;
