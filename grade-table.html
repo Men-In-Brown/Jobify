@@ -1,0 +1,36 @@
+---
+---
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Join an Idea</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <link rel="stylesheet" type="text/css" href="general.css">
+    </head>
+    <body>
+        <label for="sortProperty">Sort by:</label>
+        <select id="sortProperty">
+            <option value="email">Email</option>
+            <option value="name">Name</option>
+            <option value="assignment">Assignment</option>
+            <option value="maxPoints">Max Points</option>
+            <option value="score">Score</option>
+        </select>
+        <button onclick="sortGrades()">Sort</button>
+
+        <h2>Sorted Grades</h2>
+        <table id="gradesTable">
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Name</th>
+                    <th>Assignment</th>
+                    <th>Max Points</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <script src="{{ site.baseurl }}/assets/js/grades.js"></script>
+    </body>
+</html>

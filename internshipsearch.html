@@ -1,0 +1,22 @@
+---
+---
+
+<html>
+    <head>
+        <title>Advanced Internship Search</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <link rel="stylesheet" type="text/css" href="general.css">
+    </head>
+
+    <body>
+        <input type="text" id="searchQuery" placeholder="Enter search term...">
+        <button onclick="searchInternships()">Search</button>
+
+        <h2>Internship Results</h2>
+        <ul id="internshipList" class="internship-list">
+            <!-- Internship names will be inserted here -->
+        </ul>
+
+        <script src="{{ site.baseurl }}/assets/js/internship-search.js"></script>
+    </body>
+</html>
