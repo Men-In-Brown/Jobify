@@ -1,4 +1,4 @@
-const apiBaseUrl = 'https://schaal.stu.nighthawkcodingsociety.comapi/internships'; // Base URL for the REST API
+const apiBaseUrl = 'https://schaal.stu.nighthawkcodingsociety.com/api/internships'; // Base URL for the REST API
 
 // Function to fetch the selected internship
 async function fetchSelectedInternship(internshipID) {
