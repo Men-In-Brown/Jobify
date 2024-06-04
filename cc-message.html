@@ -420,7 +420,7 @@ document.getElementById('channelSelect').addEventListener('change', function() {
   const messagesDiv = document.getElementById('messages');
   messagesDiv.innerHTML = '';
 
-  fetch(`localhost:8019/message?recipient=${recipient}`)
+  fetch(`http://localhost:8019/message?recipient=${recipient}`)
   .then(response => response.json())
   .then(messages => {
       const messagesDiv = document.getElementById('messages');
@@ -444,7 +444,7 @@ document.getElementById('sendButton').addEventListener('click', function() {
   const writer = localStorage.getItem('username');
 
   if (text) {
-      fetch('http://localhost8091/message', {
+      fetch('http://localhost:8091/message', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'
