@@ -319,7 +319,7 @@
       
         <script>
 
-          fetch('localhost:8091/message')
+          fetch('http://localhost:8091/message')
         .then(response => response.json())
         .then(messages => {
             const messagesDiv = document.getElementById('messages');
@@ -369,7 +369,7 @@
         let lastMessages = [];
 
         setInterval(() => {
-            fetch('localhost:8091/message')
+            fetch('http://localhost:8091/message')
             .then(response => response.json())
             .then(messages => {
               if (!isEqual(messages, lastMessages)) {
@@ -400,7 +400,7 @@ function isEqual(arr1, arr2) {
   return true;
 }
 
-fetch('localhost:8091/channel')
+fetch('http://localhost:8091/channel')
 .then(response => response.json())
 .then(data => {
     const channelSelect = document.getElementById('channelSelect');
@@ -444,7 +444,7 @@ document.getElementById('sendButton').addEventListener('click', function() {
   const writer = localStorage.getItem('username');
 
   if (text) {
-      fetch('localhost8091/message', {
+      fetch('http://localhost8091/message', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'
@@ -474,7 +474,7 @@ document.getElementById('send-message').addEventListener('click', function() {
     const message = document.getElementById('message').value;
     if (username && message) {
       // Send the message to the server
-      fetch('localhost:8091/message', {
+      fetch('http://localhost:8091/message', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
