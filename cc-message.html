@@ -250,7 +250,7 @@
         {% include header2.html %}
         <div id="sidebar">
             <a href="home.html">Calendar (TBA) </a>
-            <a href="home.html">Notes (BETA) </a>
+            <a href="home.html">Notes (TBA) </a>
         </div>
         <div id="settings-menu" style="display: none; position: absolute; top: 65px; right: 30px; background-color: #f0f0f0; padding: 10px; border: 1px solid #ccc;">
             <h2>Settings</h2>
@@ -319,7 +319,7 @@
       
         <script>
 
-          fetch('https://schaal.stu.nighthawkcodingsociety.com/message')
+          fetch('localhost:8091/message')
         .then(response => response.json())
         .then(messages => {
             const messagesDiv = document.getElementById('messages');
@@ -342,7 +342,7 @@
             const time = new Date().toISOString();
 
             if (text) {
-                fetch('https://schaal.stu.nighthawkcodingsociety.com/message', {
+                fetch('localhost8091/message', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -369,7 +369,7 @@
         let lastMessages = [];
 
         setInterval(() => {
-            fetch('https://schaal.stu.nighthawkcodingsociety.com/message')
+            fetch('localhost:8091/message')
             .then(response => response.json())
             .then(messages => {
               if (!isEqual(messages, lastMessages)) {
@@ -400,7 +400,7 @@ function isEqual(arr1, arr2) {
   return true;
 }
 
-fetch('https://schaal.stu.nighthawkcodingsociety.com/channel')
+fetch('localhost:8091/channel')
 .then(response => response.json())
 .then(data => {
     const channelSelect = document.getElementById('channelSelect');
@@ -420,7 +420,7 @@ document.getElementById('channelSelect').addEventListener('change', function() {
   const messagesDiv = document.getElementById('messages');
   messagesDiv.innerHTML = '';
 
-  fetch(`https://schaal.stu.nighthawkcodingsociety.com/message?recipient=${recipient}`)
+  fetch(`localhost:8019/message?recipient=${recipient}`)
   .then(response => response.json())
   .then(messages => {
       const messagesDiv = document.getElementById('messages');
@@ -444,7 +444,7 @@ document.getElementById('sendButton').addEventListener('click', function() {
   const writer = localStorage.getItem('username');
 
   if (text) {
-      fetch('https://schaal.stu.nighthawkcodingsociety.com/message', {
+      fetch('localhost8091/message', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'
@@ -474,7 +474,7 @@ document.getElementById('send-message').addEventListener('click', function() {
     const message = document.getElementById('message').value;
     if (username && message) {
       // Send the message to the server
-      fetch('https://schaal.stu.nighthawkcodingsociety.com/message', {
+      fetch('localhost:8091/message', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
