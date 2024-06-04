@@ -601,6 +601,44 @@ document.getElementById('save-settings').addEventListener('click', function() {
         document.getElementById('fontFamily').value = savedFontFamily;
       }
   };
+
+  const socket = new WebSocket('http://localhost:8091/message/live');
+
+  socket.onopen = () => {
+    console.log('Connected to the WebSocket!');
+  };
+  
+  socket.onmessage = (event) => {
+    const message = JSON.parse(event.data);
+    console.log(`Received message: ${message.text}`);
+    // upd message list with the new message
+    const messageElement = document.createElement('p');
+    messageElement.textContent = `${message.time} - ${message.writer}: ${message.text}`;
+    document.getElementById('messages').appendChild(messageElement);
+  };
+  
+  socket.onerror = (event) => {
+    console.error('Error occurred:', event);
+  };
+  
+  socket.onclose = () => {
+    console.log('WebSocket connection closed.');
+  };
+  
+  // Send a message when the send button is clicked
+  document.getElementById('sendButton').addEventListener('click', () => {
+    const messageInput = document.getElementById('messageInput');
+    const text = messageInput.value;
+    if (text) {
+      socket.send(JSON.stringify({
+        text: text,
+        writer: 'Anonymous', // Replace with actual writer
+        time: new Date().toISOString(),
+      }));
+      messageInput.value = '';
+    }
+  });
+  
 </script>
 </body>
 </html>
